@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0" stdsetdef="1">
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>FormSplitItemBase</class>
+  <widget class="QDialog" name="FormSplitItemBase">
+    <property name="geometry">
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>522</width>
+        <height>296</height>
+      </rect>
+    </property>
+    <property name="windowTitle">
+      <string>Split Item Offset</string>
+    </property>
+    <layout class="QVBoxLayout">
+      <item>
+        <layout class="QHBoxLayout">
+          <item>
+            <widget class="QLabel" name="textLabel1">
+              <property name="text">
+                <string>Split Offset :</string>
+              </property>
+              <property name="wordWrap">
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QSpinBox" name="spinRowOffset">
+              <property name="value">
+                <number>1</number>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <spacer name="spacer4">
+              <property name="sizeHint">
+                <size>
+                  <width>181</width>
+                  <height>21</height>
+                </size>
+              </property>
+              <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+        </layout>
+      </item>
+      <item>
+        <widget class="QGroupBox" name="groupData">
+          <property name="title">
+            <string>First Row</string>
+          </property>
+          <layout class="QVBoxLayout">
+            <item>
+              <widget class="QLineEdit" name="lineEditDataFirstRow">
+                <property name="enabled">
+                  <bool>false</bool>
+                </property>
+                <property name="font">
+                  <font>
+                    <family>Courier New</family>
+                  </font>
+                </property>
+                <property name="text">
+                  <string>00</string>
+                </property>
+                <property name="maxLength">
+                  <number>256</number>
+                </property>
+                <property name="alignment">
+                  <set>Qt::AlignRight</set>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <widget class="QLabel" name="textLabelDataLengthFirstRow">
+                <property name="font">
+                  <font>
+                    <family>Courier New</family>
+                  </font>
+                </property>
+                <property name="text">
+                  <string>Length: 2 (0x02)</string>
+                </property>
+                <property name="alignment">
+                  <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                </property>
+                <property name="wordWrap">
+                  <bool>false</bool>
+                </property>
+              </widget>
+            </item>
+          </layout>
+        </widget>
+      </item>
+      <item>
+        <widget class="QGroupBox" name="groupData_2">
+          <property name="title">
+            <string>Second Row</string>
+          </property>
+          <layout class="QVBoxLayout">
+            <item>
+              <widget class="QLineEdit" name="lineEditDataSecondRow">
+                <property name="enabled">
+                  <bool>false</bool>
+                </property>
+                <property name="font">
+                  <font>
+                    <family>Courier New</family>
+                  </font>
+                </property>
+                <property name="text">
+                  <string>00</string>
+                </property>
+                <property name="maxLength">
+                  <number>256</number>
+                </property>
+                <property name="alignment">
+                  <set>Qt::AlignRight</set>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <widget class="QLabel" name="textLabelDataLengthSecondRow">
+                <property name="font">
+                  <font>
+                    <family>Courier New</family>
+                  </font>
+                </property>
+                <property name="text">
+                  <string>Length: 2 (0x02)</string>
+                </property>
+                <property name="alignment">
+                  <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                </property>
+                <property name="wordWrap">
+                  <bool>false</bool>
+                </property>
+              </widget>
+            </item>
+          </layout>
+        </widget>
+      </item>
+      <item>
+        <spacer name="spacer5">
+          <property name="sizeHint">
+            <size>
+              <width>31</width>
+              <height>41</height>
+            </size>
+          </property>
+          <property name="sizeType">
+            <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="orientation">
+            <enum>Qt::Vertical</enum>
+          </property>
+        </spacer>
+      </item>
+      <item>
+        <layout class="QHBoxLayout">
+          <item>
+            <spacer name="spacer1">
+              <property name="sizeHint">
+                <size>
+                  <width>61</width>
+                  <height>21</height>
+                </size>
+              </property>
+              <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="pushButtonOK">
+              <property name="text">
+                <string>Ok</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <spacer name="spacer1_2">
+              <property name="sizeHint">
+                <size>
+                  <width>61</width>
+                  <height>21</height>
+                </size>
+              </property>
+              <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="pushButtonCancel">
+              <property name="text">
+                <string>Cancel</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <spacer name="spacer2">
+              <property name="sizeHint">
+                <size>
+                  <width>91</width>
+                  <height>31</height>
+                </size>
+              </property>
+              <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11"/>
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <connections>
+    <connection>
+      <sender>spinRowOffset</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>FormSplitItemBase</receiver>
+      <slot>slotNewRowOffset(int)</slot>
+    </connection>
+    <connection>
+      <sender>pushButtonOK</sender>
+      <signal>clicked()</signal>
+      <receiver>FormSplitItemBase</receiver>
+      <slot>accept()</slot>
+    </connection>
+    <connection>
+      <sender>pushButtonCancel</sender>
+      <signal>clicked()</signal>
+      <receiver>FormSplitItemBase</receiver>
+      <slot>reject()</slot>
+    </connection>
+  </connections>
+</ui>

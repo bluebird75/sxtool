@@ -1,0 +1,30 @@
+
+
+- packager en .exe
+- Add function to recalculate checksum on line or on the whole file
+- Add function to verify checksum on the file
+- S0 contains an address !
+- Edit Data should also work on first line
+- start address is editable
+- start address is zero but may contain data
+- should be able to edit address
+- Bug: Menu entry Edit / select all does not work, but CTRL+A works...
+
+
+Done:
+=====
+* Save should have the default shortcut C-S
+* pasting S0 lines crashes
+* tester toutes les fonctionnalites
+* display the modified flag in the title
+* saveAs should change the window title and the default filename
+* supprimer le close()
+* do not allow line specfic functions on start/end rows
+* insert row, intermediate dialog is not working correctly and generates exceptions
+* verify all type of insert row, calculation of start/end address is fishy
+* insert row crashes
+* check before calling a function that some lines are selected
+* refaires les headers des fichiers
+* mettre un header avec reference a BSD licnese
+* fix menuHisoty and dirHistory
+* enlever les references a inkit et sxtools generiques

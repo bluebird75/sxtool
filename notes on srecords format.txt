@@ -1,0 +1,73 @@
+S + number  + length of remaining data (including address and checksum) + address + data + 1 byte checksum
+
+Shown below is a typical S−record format file.
+
+S00600004844521B
+S1130000285F245F2212226A000424290008237C2A
+S11300100002000800082629001853812341001813
+S113002041E900084E42234300182342000824A952
+S107003000144ED492
+S5030004F8
+S9030000FC
+
+The file consists of one S0 record, four S1 records, one S5 record and an S9 record.
+
+The S0 record is comprised as follows:
+
+• S0 S−record type S0, indicating it is a header record.
+    • 06 Hexadecimal 06 (decimal 6), indicating that six character pairs (or ASCII bytes) follow.
+    • 00 00 Four character 2−byte address field, zeroes in this example.
+    • 48 44 52 ASCII H, D, and R − "HDR".
+    • 1B The checksum.
+
+The first S1 record is comprised as follows:
+    • S1 S−record type S1, indicating it is a data record to be loaded at a 2−byte address.
+    • 13 Hexadecimal 13 (decimal 19), indicating that nineteen character pairs, representing a 2 byte address, 16 bytes of binary data, and a 1 byte checksum, follow.
+    • 00 00 Four character 2−byte address field; hexidecimal address 0x0000, where the data which follows is to be loaded.
+    • 28 5F 24 5F 22 12 22 6A 00 04 24 29 00 08 23 7C Sixteen character pairs representing the actual binary data.
+    • 2A The checksum.
+
+The second and third S1 records each contain 0x13 (19) character pairs and are ended with checksums of 13 and 52, respectively. The fourth S1 record contains 07 character pairs and has a checksum of 92.
+
+The S5 record is comprised as follows:
+    • S5 S−record type S5, indicating it is a count record indicating the number of S1 records
+    • 03 Hexadecimal 03 (decimal 3), indicating that three character pairs follow.
+    • 00 04 Hexadecimal 0004 (decimal 4), indicating that there are four data records previous to this record.
+    • F8 The checksum.
+
+The S9 record is comprised as follows:
+    • S9 S−record type S9, indicating it is a termination record.
+    • 03 Hexadecimal 03 (decimal 3), indicating that three character pairs follow.
+    • 00 00 The address field, hexadecimal 0 (decimal 0) indicating the starting execution address.
+    • FC The checksum.
+
+
+S0 — The header record for each block of S-records. The code/data field may contain
+any descriptive information identifying the following block of S-records.
+Under VERSAdos, the resident linkerOs IDENT command can be used to designate
+module name, version number, revision number, and description information
+that will make up the header record. The address field is normally zeros.
+
+S1 — A record containing code/data and the 2-byte address at which the code/data
+is to reside.
+
+S2 — A record containing code/data and the 3-byte address at which the code/data
+is to reside.
+
+S3 — A record containing code/data and the 4-byte address at which the code/data
+is to reside.
+
+S5 — A record containing the number of S1, S2, and S3 records transmitted in a particular
+block. This count appears in the address field. There is no code/data
+field.
+
+S7 — A termination record for a block of S3 records. The address field may optionally
+contain the 4-byte address of the instruction to which control is to be passed.
+There is no code/data field.
+
+S8 — A termination record for a block of S2 records. The address field may optionally
+contain the 3-byte address of the instruction to which control is to be passed.
+There is no code/data field.
+
+S9 — A termination record for a block of S1 records. The address field may optionally
+contain the 2-byte address of the instruction to which control is to be passed.

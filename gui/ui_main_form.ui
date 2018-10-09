@@ -1,0 +1,931 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>Nico.</author>
+ <class>MainForm</class>
+ <widget class="QMainWindow" name="MainForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>686</width>
+    <height>572</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string comment="Manipulate very easily and quickly your S-Record files !"/>
+  </property>
+  <property name="usesTextLabel" stdset="0">
+   <bool>true</bool>
+  </property>
+  <property name="opaqueMoving" stdset="0">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="widget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>686</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="fileMenu">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuOpenRecent">
+     <property name="title">
+      <string>Open Recent</string>
+     </property>
+    </widget>
+    <addaction name="openAction"/>
+    <addaction name="menuOpenRecent"/>
+    <addaction name="insertAction"/>
+    <addaction name="saveAction"/>
+    <addaction name="saveasAction"/>
+    <addaction name="separator"/>
+    <addaction name="quitAction"/>
+   </widget>
+   <widget class="QMenu" name="editMenu">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="copyAction"/>
+    <addaction name="cutAction"/>
+    <addaction name="pasteAction"/>
+    <addaction name="deleteAction"/>
+    <addaction name="separator"/>
+    <addaction name="selectallAction"/>
+   </widget>
+   <widget class="QMenu" name="linesMenu">
+    <property name="title">
+     <string>Lines</string>
+    </property>
+    <addaction name="convertToS19Action"/>
+    <addaction name="convertToS28Action"/>
+    <addaction name="convertToS37Action"/>
+    <addaction name="insertRowAction"/>
+    <addaction name="deleteRowAction"/>
+    <addaction name="editDataAction"/>
+    <addaction name="applyOffsetAction"/>
+    <addaction name="verifyChecksumAction"/>
+    <addaction name="recalculateChecksumAction"/>
+    <addaction name="splitRowAction"/>
+    <addaction name="mergeRowsAction"/>
+    <addaction name="setRowSizeAction"/>
+    <addaction name="xorRowAction"/>
+    <addaction name="flipBitsAction"/>
+   </widget>
+   <widget class="QMenu" name="helpMenu">
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="helpAboutAction"/>
+   </widget>
+   <addaction name="fileMenu"/>
+   <addaction name="editMenu"/>
+   <addaction name="linesMenu"/>
+   <addaction name="helpMenu"/>
+  </widget>
+  <action name="openAction">
+   <property name="text">
+    <string>Open</string>
+   </property>
+   <property name="iconText">
+    <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>openAction</cstring>
+   </property>
+  </action>
+  <action name="insertAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Insert</string>
+   </property>
+   <property name="iconText">
+    <string>Insert</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>insertAction</cstring>
+   </property>
+  </action>
+  <action name="saveAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="iconText">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>saveAction</cstring>
+   </property>
+  </action>
+  <action name="saveasAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save As</string>
+   </property>
+   <property name="iconText">
+    <string>Save As</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>saveasAction</cstring>
+   </property>
+  </action>
+  <action name="closeAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="iconText">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>closeAction</cstring>
+   </property>
+  </action>
+  <action name="quitAction">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="iconText">
+    <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>quitAction</cstring>
+   </property>
+  </action>
+  <action name="copyAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="iconText">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>copyAction</cstring>
+   </property>
+  </action>
+  <action name="cutAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="iconText">
+    <string>Cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>cutAction</cstring>
+   </property>
+  </action>
+  <action name="pasteAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="iconText">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>pasteAction</cstring>
+   </property>
+  </action>
+  <action name="deleteAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="iconText">
+    <string>Delete</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>deleteAction</cstring>
+   </property>
+  </action>
+  <action name="selectallAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Select All</string>
+   </property>
+   <property name="iconText">
+    <string>Select All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>selectallAction</cstring>
+   </property>
+  </action>
+  <action name="convertToAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Convert to ...</string>
+   </property>
+   <property name="iconText">
+    <string>Convert to ...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>convertToAction</cstring>
+   </property>
+  </action>
+  <action name="insertRowAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Insert row</string>
+   </property>
+   <property name="iconText">
+    <string>Insert row</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>insertRowAction</cstring>
+   </property>
+  </action>
+  <action name="deleteRowAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Delete Row</string>
+   </property>
+   <property name="iconText">
+    <string>Delete Row</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>deleteRowAction</cstring>
+   </property>
+  </action>
+  <action name="editDataAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Edit data</string>
+   </property>
+   <property name="iconText">
+    <string>Edit data</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>editDataAction</cstring>
+   </property>
+  </action>
+  <action name="convertToS19Action">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="iconText">
+    <string>convert to S19</string>
+   </property>
+   <property name="toolTip">
+    <string>Convert selected lines to format S19</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>convertToS19Action</cstring>
+   </property>
+  </action>
+  <action name="convertToS28Action">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="iconText">
+    <string>convert to S28</string>
+   </property>
+   <property name="toolTip">
+    <string>Convert selected lines to format S28</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+2</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>convertToS28Action</cstring>
+   </property>
+  </action>
+  <action name="convertToS37Action">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="iconText">
+    <string>convert to S37</string>
+   </property>
+   <property name="toolTip">
+    <string>Convert selected lines to format S37</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>convertToS37Action</cstring>
+   </property>
+  </action>
+  <action name="applyOffsetAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="iconText">
+    <string>Apply offset on addresses</string>
+   </property>
+   <property name="toolTip">
+    <string>Apply offset on addresses of lines selected</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>applyOffsetAction</cstring>
+   </property>
+  </action>
+  <action name="helpAboutAction">
+   <property name="iconText">
+    <string>About</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>helpAboutAction</cstring>
+   </property>
+  </action>
+  <action name="splitRowAction">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="iconText">
+    <string>Split Row</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>splitRowAction</cstring>
+   </property>
+  </action>
+  <action name="mergeRowsAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="iconText">
+    <string>Merge Rows</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>mergeRowsAction</cstring>
+   </property>
+  </action>
+  <action name="setRowSizeAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="iconText">
+    <string>Set Row Size</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>setRowSizeAction</cstring>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="xorRowAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>XOR Row(s)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="flipBitsAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Flip Bits</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="recalculateChecksumAction">
+   <property name="text">
+    <string>Recalculate Checksum</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
+   </property>
+  </action>
+  <action name="verifyChecksumAction">
+   <property name="text">
+    <string>Verify Checksum</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+V</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>openAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotOpen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>insertAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotInsert()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saveAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotSave()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saveasAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotSaveAs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>quitAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotQuit()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>copyAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotCopy()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cutAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotCut()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pasteAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotPaste()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deleteAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotDelete()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>selectallAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotSelectAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deleteRowAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotDeleteRow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>editDataAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotEditData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>applyOffsetAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotApplyOffset()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>convertToS19Action</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotConvertToS19()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>convertToS28Action</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotConvertToS28()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>convertToS37Action</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotConvertToS37()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>insertRowAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotInsertRow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>helpAboutAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotAbout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>setRowSizeAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotSetRowSize()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>splitRowAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotSplitRow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mergeRowsAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotMergeRows()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>xorRowAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotXorRow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>342</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>flipBitsAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotFlipBits()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>342</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verifyChecksumAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotVerifyChecksum()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>342</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>recalculateChecksumAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainForm</receiver>
+   <slot>slotRecalculateChecksum()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>342</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>slotXorRow()</slot>
+  <slot>slotFlipBits()</slot>
+  <slot>slotVerifyChecksum()</slot>
+  <slot>slotRecalculateChecksum()</slot>
+ </slots>
+</ui>
