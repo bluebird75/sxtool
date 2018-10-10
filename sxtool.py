@@ -5,12 +5,13 @@
 
 import sys, traceback
 from optparse import OptionParser
-from typing import List, Any, Callable, Optional
+from typing import List
 
-from PyQt5.QtWidgets import QApplication, QMessageBox
+from PyQt5.QtWidgets import QApplication
 
 from gui.main_form import MainForm
 from sx_item import SxFile
+from const import ABOUT_INFO
 
 def main() -> None:
     if len(sys.argv) == 1 : 
@@ -29,10 +30,16 @@ def main() -> None:
     parser.add_option("-o", "--offset", 
                   dest="offset", 
                   help="Apply an integer offset on all adresses of the records")
+    parser.add_option("--version", action="store_true",
+                  dest="version", 
+                  help="Show tool version")
     parser.add_option("-m", "--mask", 
                   dest="xorData", 
                   help="Apply a XOR hexadecimal mask on all data fields of the records")
     (options, args) = parser.parse_args() # type: Any, List[str]
+    if options.version:
+        print( ABOUT_INFO )
+        sys.exit(0)
     if options.flipBits :
         apply(args, 'flipBits', verbose=options.verbose)
     if options.offset :

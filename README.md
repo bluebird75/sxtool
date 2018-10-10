@@ -29,6 +29,6 @@ to phil.fremy at free.fr .
 Release History:
 ================
 
-2018-10-09: Verison 1.0
+2018-10-09: Version 1.1
 -----------------------
 - first release as Open Source software

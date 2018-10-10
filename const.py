@@ -3,7 +3,7 @@
 
 VERSION = "1.1" # type: str
 ABOUT_INFO = '''SxFiles manipulator v%s
-by Philippe Fremy, Gael Pouger and Anthony Portier
+by Philippe Fremy, Nicolas Chesne, Gael Pouger and Anthony Portier
 
 Developed with Python, PyQt and Qt
 Released under BSD license

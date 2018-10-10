@@ -355,7 +355,7 @@ class MainForm(Ui_MainForm, QMainWindow):
     def slotSplitRow(self) -> None:
         dialog = FormSplitItem( self )
         allRowList = self.dataTable.rowSelectedList()  # type: List[int]
-        rowList = [ r for r in allRowList if r > 0 and r < 1+len(self.dataTable.sxfile.sxItems) ]
+        rowList = [ r for r in allRowList if 0 < r < 1+len(self.dataTable.sxfile.sxItems) ]
         if len(allRowList) > len(rowList) and len(rowList) == 0:
             QMessageBox.warning( self, "Split not applicable",
                                   "You can not split first and last row",
@@ -405,7 +405,7 @@ class MainForm(Ui_MainForm, QMainWindow):
     def slotFlipBits(self) -> None:
         self.dataTable.flipRows()
 
-    def setProgramTitle(self, fname:str , modified:bool) -> None:
+    def setProgramTitle(self, fname:Optional[str], modified:bool) -> None:
         s = "SX Files Manipulator - v%s" % VERSION  # type: str
         if fname:
             s += ' - %s' % fname

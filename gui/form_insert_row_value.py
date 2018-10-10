@@ -1,14 +1,12 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
-from PyQt5.QtWidgets import QDialog, QMessageBox
-from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtCore import QRegExp
-
-from typing import Any
+from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtWidgets import QDialog
 
 from gui.ui_form_insert_row_value import Ui_FormInsertRowValue
-from sx_item import str2hexi
+
 
 def formatToAddressLength(format:str) -> int:
     """Return the length -in characters- that an address must have,
