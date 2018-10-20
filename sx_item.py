@@ -6,7 +6,7 @@ from typing import Optional, List, Dict, Union, TextIO
 def str2hex( s:Optional[str] ) -> List[int]:
     '''Convert a string containing hexadecimal values, with possible space and newlines, into a list of corresponding bytes
     Ex: str2hex("1234 5678") -> [ 0x12, 0x34, 0x56, 0x78 ]'''
-    if s == None: return []
+    if s is None: return []
     norm_s = s.replace(' ', '').replace('\n', '').replace('\t','')  # type: str
     if len(norm_s) % 2 != 0:
         raise ValueError('String contains an odd number of characters, can not convert to hex: "%s"' % norm_s)
@@ -32,7 +32,7 @@ def xor( v:str, mask:str ) -> str:
     returns the xored hex string'''
     norm_v = v.replace(' ', '') # type: str
     norm_mask = mask.replace(' ', '')   # type: str
-    norm_mask = (norm_mask + '0' * len(norm_v))[:len(norm_v)]   # type: str
+    norm_mask = (norm_mask + '0' * len(norm_v))[:len(norm_v)]
     if len(norm_v) % 2:
         raise ValueError('Value has odd number of char: %s' % norm_v)
 
@@ -75,9 +75,9 @@ def toHexLen(number:Union[int,str], length:int) -> str:
     if type(number) == type(0.0):
         r = hex(int(number))
     elif type(number) == type(0):
-        r = hex(number)
+        r = hex(number) # type: ignore
     elif type(number) == type(''):
-        r = number
+        r = number      # type: ignore
     else: # Bad format
         return ""
     # Delete the prefix "0x"
@@ -167,8 +167,8 @@ class SxItem:
         checksum = str2hexi( self.data_quantity )       # type: int
         nb_digits = SxItem.format_corresp[self.format]  # type: int
         for i in range(0, nb_digits*2, 2):              # type: int
-            checksum += str2hexi( self.address[i:i+2] ) # type: int
-        for i in range(0, (str2hexi( self.data_quantity ) - 1 - nb_digits)*2, 2):   # type: int
+            checksum += str2hexi( self.address[i:i+2] )
+        for i in range(0, (str2hexi( self.data_quantity ) - 1 - nb_digits)*2, 2):
             checksum += str2hexi( self.data[i:i+2] )
         checksum = (~checksum % 256)
         return toHexLen(checksum, 2)      
@@ -262,10 +262,10 @@ class SxItem:
         self.data = hex2str(newBytes)
         self.updateChecksum()
         
-    def applyOffset(self, offset:str) -> None:
-        offset = int(offset)    # type: int
+    def applyOffset(self, offset: Union[str,int]) -> None:
+        ioffset = int(offset)
         new_address = str2hexi( self.address )
-        new_address += offset
+        new_address += ioffset
         self.updateAddress(hex(new_address)[2:])
  
     
@@ -287,8 +287,8 @@ class SxItemFirst(SxItem):
 class SxFile:
     # noinspection PyMissingTypeHints
     def __init__(self):
-        self.sxItemFirst = None     # type: Optional[SxItemFirst]
-        self.sxItemLast = None      # type: Optional[SxItemLast]
+        self.sxItemFirst = SxItemFirst('','','')
+        self.sxItemLast  = SxItemLast('','','')
         self.sxItems = []           # type: List[SxItem]
        
     def __repr__(self) -> str:
@@ -317,7 +317,7 @@ class SxFile:
                 raise SxItemMissingData( "S0 line: data is announced as %d bytes but is actually %d bytes!" % (data_qt, len(line[4:]) // 2) )
             self.sxItemFirst = SxItemFirst(line[2:4], line[4:-2], line[-2:])
 
-            line = fileStream.readline()[:-1]   # type: str
+            line = fileStream.readline()[:-1]
             lineNb += 1
 
         # Read every line starting with S{1,2,3}. Last line starts with S{9,8,7}
@@ -325,7 +325,7 @@ class SxFile:
             format = line[1] + str(10 - int(line[1]))   # type: str
             if not (format in SxItem.format_corresp):
                 raise SxItemBadFileFormat( "%s: eroneous file or bad format !" % fname )
-            data_qt = str2hexi( line[2:4] ) # type: int
+            data_qt = str2hexi( line[2:4] )
             if len(line[4:]) != data_qt * 2:
                 raise SxItemMissingData( "line %d: data is announced as %d bytes but is actually %d bytes!" % (lineNb, data_qt, len(line[4:]) // 2) )
             address = line[4:4+SxItem.format_corresp[format]*2] # type: str
@@ -336,12 +336,12 @@ class SxFile:
             line = fileStream.readline()[:-1]
             lineNb += 1
 
-        format = str(10 - int(line[1])) + line[1]   # type: str
-        data_qt = line[2:4] # type: str
-        address = line[4:4+SxItem.format_corresp[format]*2] # type: str
-        data = line[4+SxItem.format_corresp[format]*2:-2]   # type: str
-        checksum = line[-2:]    # type: str
-        self.sxItemLast = SxItemLast(format, data_qt, address, data, checksum)
+        format = str(10 - int(line[1])) + line[1]
+        sdata_qt = line[2:4]
+        address = line[4:4+SxItem.format_corresp[format]*2]
+        data = line[4+SxItem.format_corresp[format]*2:-2]
+        checksum = line[-2:]
+        self.sxItemLast = SxItemLast(format, sdata_qt, address, data, checksum)
 
     def toFile(self, file_out:str) -> None:
         """ Pretty print every item into file_out"""

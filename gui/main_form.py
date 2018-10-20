@@ -45,7 +45,7 @@ class MainForm(Ui_MainForm, QMainWindow):
         self.setupUi(self)
         self.setObjectName(name)
         self.setProgramTitle(None, False)
-        self.dataTable = None
+        self.dataTable = DataTable( self, "EmptyDataTable")  # type: DataTable
         self.lastDir = []   # type: List[str]
         self.menuHistory = ItemHistoryMenu(fileName="open_recent_history.xml", maxSize=10, 
                                 menu=self.menuOpenRecent, callbackMethod=self.loadFile)
@@ -53,7 +53,7 @@ class MainForm(Ui_MainForm, QMainWindow):
         if not self.lastDir :
             self.dirHistory.addItemToHistory('.')
             self.dirHistory.save()
-        self.actionList = [ # type: List[Any]
+        self.actionList = [
             self.insertAction,
             self.saveAction,
             self.saveasAction,
@@ -77,7 +77,7 @@ class MainForm(Ui_MainForm, QMainWindow):
             self.setRowSizeAction,
             self.xorRowAction,
             self.flipBitsAction
-        ]
+        ]# type: List[Any]
         
         if file: 
             self.loadFile( file )
@@ -290,8 +290,8 @@ class MainForm(Ui_MainForm, QMainWindow):
             text = self.dataTable.text(min(self.dataTable.rowSelectedList()), 3)
         val = QInputDialog.getText( self,
             "Enter new data for row(s)", "Enter new data:", QLineEdit.Normal,
-            text) # type: Tuple[int,bool]
-        text = val[0]   # type: text
+            text) # type: Tuple[str,bool]
+        text = val[0]
         ok   = val[1]   # type: bool
         if len(text) % 2 != 0:
             QMessageBox.critical(None, "Problem !", "Length of data must be even !")
@@ -311,7 +311,7 @@ class MainForm(Ui_MainForm, QMainWindow):
         item = self.dataTable.item(row, 3)
         val = QInputDialog.getText(
             self, "Enter new data for row(s)", "Enter new data:", QLineEdit.Normal,
-            item.text())    # type: Tuple[text,bool]
+            item.text())    # type: Tuple[str,bool]
         text = val[0]
         if not val[1]:
             return

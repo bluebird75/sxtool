@@ -46,7 +46,7 @@ class ItemHistory(object) :
         pass
        
     def addItemToHistory(self,item : str) -> None:
-        item = item.strip(" \n\t")            # type: str
+        item = item.strip(" \n\t")
         itemNode= dom.Element("item")
         text = self.tree.createTextNode(item)   # type: str
         itemNode.appendChild(text)              # type: List[str
