@@ -3,9 +3,8 @@ SxTool
 
 SxTool is a very simple tool to work with dump files in ascii
 format, like S19, S28 and S37 formats.
-You can find specifications of those format at the following addresses:
-http://www.xs4all.nl/~sbp/knowledge/fileformats/motorola.htm
-http://www.obeng.co.uk/reference/srecord.htm
+You can find specifications of those format at the following address:
+https://www.sbprojects.net/knowledge/fileformats/motorola.php
 
 The tool let you perform advanced operation on the file, while 
 maintaining checksum, address and data consistency:
