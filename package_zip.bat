@@ -1,7 +1,7 @@
 set VERSION=1.1
 set ZIP7="C:\Program Files\7-Zip\7z.exe"
 rmdir /s /q dist/sxtool
-pyinstaller -y -w sxtool.py
+pyinstaller -y -w sxtool.py || exit /b 1
 copy /y example*.s?? dist\sxtool
 cd dist\sxtool
 del /q Qt5dbus.dll Qt5Network.dll Qt5Qml.dll Qt5Quick.dll Qt5Svg.dll Qt5WebSockets.dll
