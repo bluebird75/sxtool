@@ -61,7 +61,7 @@ setup(
         'gui' : [ '*.ui' ],
     },
 
-    install_requires=['pyqt'],
+    install_requires=['pyqt5'],
     python_requires='>=3.5',
 
     entry_points={
