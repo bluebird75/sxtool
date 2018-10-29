@@ -42,3 +42,10 @@ For other OS and alternatively for Windows, SxTool is distributed in pypi and
 may be installed simply with:
 
     pip install sxtool
+
+Screenshots
+===========
+![Screenshot1](screenshots/sxtool-screenshot1.png)
+![Screenshot2](screenshots/sxtool-screenshot2.png)
+![Screenshot3](screenshots/sxtool-screenshot3.png)
+
