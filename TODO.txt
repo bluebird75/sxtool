@@ -2,7 +2,6 @@
 - add installation description to README
 - add screenshots to the README
 - which PyQt is needed
-- packager en .exe
 - Add function to recalculate checksum on line or on the whole file
 - Add function to verify checksum on the file
 - S0 contains an address !
@@ -17,6 +16,8 @@
 
 Done:
 =====
+* some internal renaming of files for more consistency
+* packager en .exe
 * Save should have the default shortcut C-S
 * pasting S0 lines crashes
 * tester toutes les fonctionnalites
