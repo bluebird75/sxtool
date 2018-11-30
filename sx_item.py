@@ -288,7 +288,7 @@ class SxFile:
     # noinspection PyMissingTypeHints
     def __init__(self):
         self.sxItemFirst = SxItemFirst('','','')
-        self.sxItemLast  = SxItemLast('','','')
+        self.sxItemLast  = SxItemLast('','','','','')
         self.sxItems = []           # type: List[SxItem]
        
     def __repr__(self) -> str:
