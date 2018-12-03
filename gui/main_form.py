@@ -46,6 +46,10 @@ class MainForm(Ui_MainForm, QMainWindow):
         self.setObjectName(name)
         self.setProgramTitle(None, False)
         self.dataTable = DataTable( self, "EmptyDataTable")  # type: DataTable
+        self.layoutWidget = QWidget(self)
+        self.layoutWidget.gridLayout = QGridLayout(self.layoutWidget)
+        self.layoutWidget.gridLayout.addWidget(self.dataTable, 0, 0)
+        self.setCentralWidget(self.layoutWidget)
         self.lastDir = []   # type: List[str]
         self.menuHistory = ItemHistoryMenu(fileName="open_recent_history.xml", maxSize=10, 
                                 menu=self.menuOpenRecent, callbackMethod=self.loadFile)
@@ -101,11 +105,9 @@ class MainForm(Ui_MainForm, QMainWindow):
 
     def loadFile(self, fname : str) -> bool:
         self.setProgramTitle(None, False)
+        self.layoutWidget.gridLayout.delWidget(self.dataTable)
         self.dataTable = DataTable( self, "DataTable")
-        self.layoutWidget = QWidget(self)
-        self.layoutWidget.gridLayout = QGridLayout(self.layoutWidget)
         self.layoutWidget.gridLayout.addWidget(self.dataTable, 0, 0)
-        self.setCentralWidget(self.layoutWidget)
         res = self.dataTable.loadFile( fname )
         if not res :
             self.statusBar().showMessage("File %s could not be opened" % fname)
