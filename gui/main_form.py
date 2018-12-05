@@ -417,7 +417,6 @@ class MainForm(Ui_MainForm, QMainWindow):
     def slotFileModifiedChanged(self, modified:bool):
         self.setProgramTitle( self.dataTable.file, modified)
 
-
     @ensureAnyLinesAreSelected
     def slotVerifyChecksum(self) -> None:
         rows = self.dataTable.rowSelectedList()
@@ -425,7 +424,7 @@ class MainForm(Ui_MainForm, QMainWindow):
         if len(invalidChecksumRows):
             msgList = []
             # show only the 10 first messages
-            for rowNb, address, validChecksum, wrongChecksum in invalidChecksumRows[:10]:
+            for rowNb, address, validChecksum, wrongChecksum in invalidChecksumRows:
                 msgList.append( 'Invalid checksum for address %s (line %d): got %s instead of %s' % (address, rowNb+1, wrongChecksum, validChecksum) )
             if len(invalidChecksumRows) > 10:
                 msgList.append('...')
@@ -439,5 +438,9 @@ class MainForm(Ui_MainForm, QMainWindow):
 
     @ensureAnyLinesAreSelected
     def slotRecalculateChecksum(self):
-        self.dataTable.updateSelectedChecksum()
+        nbInvalidChecksums = self.dataTable.updateSelectedChecksum()
+        if nbInvalidChecksums > 0:
+            QMessageBox.information(self, "Checksum recalculation", "%d checksums adjusted." % nbInvalidChecksums )
+        else:
+            QMessageBox.information(self, "Checksum recalculation", "All checksums were already valid")
 

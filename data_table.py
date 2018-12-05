@@ -414,3 +414,12 @@ class DataTable(QTableWidget):
                 ret.append( (r, item.address, item.calcChecksum(), item.checksum) )
         return ret
 
+    def updateSelectedChecksum(self) -> int:
+        invalidChecksumRows = self.verifyChecksum( self.rowSelectedList() )
+        for rowNb, address, validChecksum, wrongChecksum in invalidChecksumRows:
+            self.sxfile.sxItems[rowNb-1].updateChecksum()
+            self.updateRow(rowNb-1)
+        return len(invalidChecksumRows)
+
+
+
