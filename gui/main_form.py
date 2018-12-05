@@ -105,7 +105,6 @@ class MainForm(Ui_MainForm, QMainWindow):
 
     def loadFile(self, fname : str) -> bool:
         self.setProgramTitle(None, False)
-        self.layoutWidget.gridLayout.delWidget(self.dataTable)
         self.dataTable = DataTable( self, "DataTable")
         self.layoutWidget.gridLayout.addWidget(self.dataTable, 0, 0)
         res = self.dataTable.loadFile( fname )
