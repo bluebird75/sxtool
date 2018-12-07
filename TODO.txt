@@ -1,6 +1,4 @@
 
-- add installation description to README
-- add screenshots to the README
 - which PyQt is needed
 - packager en .exe
 - Add function to recalculate checksum on line or on the whole file
@@ -17,6 +15,8 @@
 
 Done:
 =====
+* add installation description to README
+* add screenshots to the README
 * Save should have the default shortcut C-S
 * pasting S0 lines crashes
 * tester toutes les fonctionnalites
