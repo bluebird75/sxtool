@@ -1,7 +1,12 @@
 
-- which PyQt is needed
-- packager en .exe
-- Add function to recalculate checksum on line or on the whole file
+Immediate release:
+- remove help button in dialog (windows 10)
+- ensure that dialog are properly sized
+- update version information
+
+Future:
+- make the whole project pass with mypy --strict
+- Add function to recalculate checksum on the whole file
 - Add function to verify checksum on the file
 - S0 contains an address !
 - Edit Data should also work on first line
@@ -9,14 +14,16 @@
 - start address is zero but may contain data
 - should be able to edit address
 - Bug: Menu entry Edit / select all does not work, but CTRL+A works...
-- remove help button in dialog (windows 10)
-- ensure that dialog are properly sized
 
 
 Done:
 =====
+* which PyQt is needed and which Python
 * add installation description to README
 * add screenshots to the README
+* Add function to recalculate checksum on line 
+* some internal renaming of files for more consistency
+* packager en .exe
 * Save should have the default shortcut C-S
 * pasting S0 lines crashes
 * tester toutes les fonctionnalites

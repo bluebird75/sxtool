@@ -1,7 +1,7 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
-from typing import Optional, List, Any, Tuple
+from typing import Optional, List, Any, Tuple, Union
 
 from PyQt5.QtWidgets import QTableWidgetItem, QTableWidget, QAbstractItemView, QHeaderView, QMessageBox
 from PyQt5.QtCore import Qt, pyqtSignal
@@ -332,7 +332,7 @@ class DataTable(QTableWidget):
             self.updateRow(i)
             addr_start += dataLen
 
-    def applyOffsetOnAddresses(self, offset:str) -> None:
+    def applyOffsetOnAddresses(self, offset:Union[str,int]) -> None:
         """Apply an offset on address of every selected row"""
         rows = self.rowSelectedListWithoutFirstAndLast()    # type: List[int]
         for i in rows:
@@ -413,4 +413,13 @@ class DataTable(QTableWidget):
             if item.calcChecksum() != item.checksum:
                 ret.append( (r, item.address, item.calcChecksum(), item.checksum) )
         return ret
+
+    def updateSelectedChecksum(self) -> int:
+        invalidChecksumRows = self.verifyChecksum( self.rowSelectedList() )
+        for rowNb, address, validChecksum, wrongChecksum in invalidChecksumRows:
+            self.sxfile.sxItems[rowNb-1].updateChecksum()
+            self.updateRow(rowNb-1)
+        return len(invalidChecksumRows)
+
+
 

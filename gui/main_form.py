@@ -45,7 +45,11 @@ class MainForm(Ui_MainForm, QMainWindow):
         self.setupUi(self)
         self.setObjectName(name)
         self.setProgramTitle(None, False)
-        self.dataTable = None
+        self.dataTable = DataTable( self, "EmptyDataTable")  # type: DataTable
+        self.layoutWidget = QWidget(self)
+        self.layoutWidget.gridLayout = QGridLayout(self.layoutWidget)
+        self.layoutWidget.gridLayout.addWidget(self.dataTable, 0, 0)
+        self.setCentralWidget(self.layoutWidget)
         self.lastDir = []   # type: List[str]
         self.menuHistory = ItemHistoryMenu(fileName="open_recent_history.xml", maxSize=10, 
                                 menu=self.menuOpenRecent, callbackMethod=self.loadFile)
@@ -53,7 +57,7 @@ class MainForm(Ui_MainForm, QMainWindow):
         if not self.lastDir :
             self.dirHistory.addItemToHistory('.')
             self.dirHistory.save()
-        self.actionList = [ # type: List[Any]
+        self.actionList = [
             self.insertAction,
             self.saveAction,
             self.saveasAction,
@@ -77,7 +81,7 @@ class MainForm(Ui_MainForm, QMainWindow):
             self.setRowSizeAction,
             self.xorRowAction,
             self.flipBitsAction
-        ]
+        ]# type: List[Any]
         
         if file: 
             self.loadFile( file )
@@ -102,10 +106,7 @@ class MainForm(Ui_MainForm, QMainWindow):
     def loadFile(self, fname : str) -> bool:
         self.setProgramTitle(None, False)
         self.dataTable = DataTable( self, "DataTable")
-        self.layoutWidget = QWidget(self)
-        self.layoutWidget.gridLayout = QGridLayout(self.layoutWidget)
         self.layoutWidget.gridLayout.addWidget(self.dataTable, 0, 0)
-        self.setCentralWidget(self.layoutWidget)
         res = self.dataTable.loadFile( fname )
         if not res :
             self.statusBar().showMessage("File %s could not be opened" % fname)
@@ -290,8 +291,8 @@ class MainForm(Ui_MainForm, QMainWindow):
             text = self.dataTable.text(min(self.dataTable.rowSelectedList()), 3)
         val = QInputDialog.getText( self,
             "Enter new data for row(s)", "Enter new data:", QLineEdit.Normal,
-            text) # type: Tuple[int,bool]
-        text = val[0]   # type: text
+            text) # type: Tuple[str,bool]
+        text = val[0]
         ok   = val[1]   # type: bool
         if len(text) % 2 != 0:
             QMessageBox.critical(None, "Problem !", "Length of data must be even !")
@@ -311,7 +312,7 @@ class MainForm(Ui_MainForm, QMainWindow):
         item = self.dataTable.item(row, 3)
         val = QInputDialog.getText(
             self, "Enter new data for row(s)", "Enter new data:", QLineEdit.Normal,
-            item.text())    # type: Tuple[text,bool]
+            item.text())    # type: Tuple[str,bool]
         text = val[0]
         if not val[1]:
             return
@@ -416,7 +417,6 @@ class MainForm(Ui_MainForm, QMainWindow):
     def slotFileModifiedChanged(self, modified:bool):
         self.setProgramTitle( self.dataTable.file, modified)
 
-
     @ensureAnyLinesAreSelected
     def slotVerifyChecksum(self) -> None:
         rows = self.dataTable.rowSelectedList()
@@ -424,7 +424,7 @@ class MainForm(Ui_MainForm, QMainWindow):
         if len(invalidChecksumRows):
             msgList = []
             # show only the 10 first messages
-            for rowNb, address, validChecksum, wrongChecksum in invalidChecksumRows[:10]:
+            for rowNb, address, validChecksum, wrongChecksum in invalidChecksumRows:
                 msgList.append( 'Invalid checksum for address %s (line %d): got %s instead of %s' % (address, rowNb+1, wrongChecksum, validChecksum) )
             if len(invalidChecksumRows) > 10:
                 msgList.append('...')
@@ -438,5 +438,9 @@ class MainForm(Ui_MainForm, QMainWindow):
 
     @ensureAnyLinesAreSelected
     def slotRecalculateChecksum(self):
-        self.dataTable.updateSelectedChecksum()
+        nbInvalidChecksums = self.dataTable.updateSelectedChecksum()
+        if nbInvalidChecksums > 0:
+            QMessageBox.information(self, "Checksum recalculation", "%d checksums adjusted." % nbInvalidChecksums )
+        else:
+            QMessageBox.information(self, "Checksum recalculation", "All checksums were already valid")
 

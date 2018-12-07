@@ -5,7 +5,7 @@
 
 import sys, traceback
 from optparse import OptionParser
-from typing import List
+from typing import List, Any, Callable, Optional, Union
 
 from PyQt5.QtWidgets import QApplication
 
@@ -64,7 +64,7 @@ def apply(files : List[str], operation : str, args=None, verbose : bool=False) -
             continue
         if verbose : print( "Applying operation \"" + operation + "\" on file:")
         for item in sxfile.sxItems :
-            method = getattr(item, operation, None) # type: Callable[ [Any, Any], None]
+            method = getattr(item, operation, None) # type: Optional[Callable[..., None ]]
             if method :
                 if verbose : print( str(item) )
                 if args :
@@ -80,7 +80,7 @@ def apply(files : List[str], operation : str, args=None, verbose : bool=False) -
             print( "Error: couldn't save file: " + file )
 
 # mandatory to avoid Python crashing on exceptions raised inside slots
-app = None
+app = None # type: Optional[ QApplication ]
 
 # by default Qt abort on Python exceptions so we need to provide
 # our own hook that does the job
@@ -93,7 +93,7 @@ def startWinMode(files: List[str] ) -> None:
     file = None # type: Optional[str]
     if files :
         file = files[0]
-    app = QApplication([])    # type: QApplication
+    app = QApplication([])
     w = MainForm(file=file)
     w.show()
 
