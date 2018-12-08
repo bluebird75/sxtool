@@ -1,10 +1,10 @@
 
 Immediate release:
-- remove help button in dialog (windows 10)
-- ensure that dialog are properly sized
 - update version information
 
 Future:
+- rewrite the dialog apply offset: add a spacer, the field is too large
+- rewrite the dialog for edit data, to avoid the help button and have proper dialog size
 - make the whole project pass with mypy --strict
 - Add function to recalculate checksum on the whole file
 - Add function to verify checksum on the file
@@ -18,6 +18,8 @@ Future:
 
 Done:
 =====
+* remove help button in dialog (windows 10)
+* ensure that dialog are properly sized
 * which PyQt is needed and which Python
 * add installation description to README
 * add screenshots to the README

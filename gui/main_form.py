@@ -5,6 +5,7 @@ from typing import List, Optional, TextIO, Any, Tuple
 from functools import wraps
 
 from PyQt5.QtWidgets import QDialog, QMainWindow, QMessageBox, qApp, QFileDialog, QWidget, QGridLayout, QInputDialog, QLineEdit
+from PyQt5.QtCore import Qt
 
 from gui.ui_main_form import Ui_MainForm
 from data_table import DataTable
@@ -132,6 +133,7 @@ class MainForm(Ui_MainForm, QMainWindow):
             sxtmp = SxFile()
             sxtmp.fromFile(fname)
             dialog = InsertDialog(self)
+            dialog.setWindowFlags(dialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)
             pos = 0 # type: int
             if dialog.exec_() == QDialog.Accepted:
                 if dialog.radioStart.isChecked():
@@ -209,6 +211,7 @@ class MainForm(Ui_MainForm, QMainWindow):
 
     def slotPaste(self) -> None:
         dialog = PasteDialog(self)
+        dialog.setWindowFlags(dialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         ok = dialog.exec_() # type: bool
         if not ok:
             self.statusBar().showMessage("Paste aborted")
@@ -273,6 +276,7 @@ class MainForm(Ui_MainForm, QMainWindow):
         default_format = str(self.dataTable.text(self.dataTable.rowCount() - 1, 0))
         default_format = default_format[0] + str(10 - int(default_format[1])) + default_format[1]
         dialog = FormInsertRowValue(default_format)
+        dialog.setWindowFlags(dialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         if not dialog.exec_():
             self.statusBar().showMessage("Insert aborted")
             return
@@ -312,7 +316,9 @@ class MainForm(Ui_MainForm, QMainWindow):
         item = self.dataTable.item(row, 3)
         val = QInputDialog.getText(
             self, "Enter new data for row(s)", "Enter new data:", QLineEdit.Normal,
-            item.text())    # type: Tuple[str,bool]
+            item.text(), flags=Qt.WindowTitleHint | Qt.WindowCloseButtonHint)    # type: Tuple[str,bool]
+            # note: flags are ignored... dunno why but this triggers the help
+            # title button to show up on Windows 10
         text = val[0]
         if not val[1]:
             return
@@ -331,7 +337,8 @@ class MainForm(Ui_MainForm, QMainWindow):
     @ensureDataLinesAreSelected
     def slotApplyOffset(self) -> None:
         self.statusBar().showMessage("Applying offset...")
-        val = QInputDialog.getInt(self, "Which Offset ?", "Which offset do you want to apply to addresses ?", 1)    # type: Tuple[int,bool]
+        val = QInputDialog.getInt(self, "Which Offset ?", "Which offset do you want to apply to addresses ?", 1,
+                flags=Qt.WindowTitleHint | Qt.WindowCloseButtonHint)    # type: Tuple[int,bool]
         if not val[1] or not val[0]:
             self.statusBar().showMessage("Apply offset aborted")
             return
@@ -347,6 +354,7 @@ class MainForm(Ui_MainForm, QMainWindow):
             return
         rowList = self.dataTable.rowSelectedList()  # type: List[int]
         dialog = FormSetRowSize( self )
+        dialog.setWindowFlags(dialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         dialog.setInitialData( self.dataTable.sxfile.sxItems[rowList[0]-1].data )
         if not dialog.exec_(): return
         newRowSize = dialog.spinRowSize.value()     # type: int
@@ -355,6 +363,7 @@ class MainForm(Ui_MainForm, QMainWindow):
     @ensureDataLinesAreSelected
     def slotSplitRow(self) -> None:
         dialog = FormSplitItem( self )
+        dialog.setWindowFlags(dialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         allRowList = self.dataTable.rowSelectedList()  # type: List[int]
         rowList = [ r for r in allRowList if 0 < r < 1+len(self.dataTable.sxfile.sxItems) ]
         if len(allRowList) > len(rowList) and len(rowList) == 0:
@@ -396,6 +405,7 @@ class MainForm(Ui_MainForm, QMainWindow):
         elif len(rows) > 1 :
             dialog = XorDialog(self, modal=True, multiLines=True, maxLen=maxLen )
         else : return
+        dialog.setWindowFlags(dialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         if not dialog.exec_(): return
         mask = dialog.maskLineEdit.text()  # type: str
         for x in rows:
