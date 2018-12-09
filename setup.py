@@ -3,6 +3,7 @@
 from setuptools import setup, find_packages
 import sys, os, glob
 
+from const import VERSION
 here = os.path.abspath(os.path.dirname(__file__))
 # Get the long description from the README file
 with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
@@ -17,7 +18,7 @@ data_ui = glob.glob('gui/*.ui')
 
 setup(
     name='SxTool',
-    version='1.1-rc1',
+    version=VERSION,
     description='Tool to manipulate SX files (S-records) such as s19 s28 and s37 files',
     long_description=long_description, 
     long_description_content_type='text/markdown',
