@@ -1,7 +1,7 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
-VERSION = "1.1-rc2" # type: str
+VERSION = "1.1" # type: str
 ABOUT_INFO = '''SxFiles manipulator v%s
 by Philippe Fremy, Nicolas Chesne, Gael Pouger and Anthony Portier
 
