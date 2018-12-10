@@ -15,9 +15,6 @@ maintaining checksum, address and data consistency:
 
 It is released under GPL license.
 
-It was developed internally in a now defunct company. I am
-making it available to the public after a bit of clean-up and upgrade.
-
 SxTool was initially developed by Anthony Portier, Nicolas Chesné,
 Philippe Fremy and Gaël Pouger.
 
@@ -28,7 +25,7 @@ to phil.fremy at free.fr .
 Release History:
 ================
 
-2018-10-09: Version 1.1
+2018-12-09: Version 1.1
 -----------------------
 - first release as Open Source software
 
