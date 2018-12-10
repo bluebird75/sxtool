@@ -84,7 +84,7 @@ def toHexLen(number:Union[int,str], length:int) -> str:
     if r[0:2] == "0x":
         r = r[2:]
     # and the suffix "L" if there is one (long int)
-    if r[-1] == 'L':
+    if len(r) and r[-1] == 'L':
         r = r[:-1]
     # Delete the prefix '0'
     tmp = r # type: str
@@ -103,7 +103,7 @@ class SxItem:
     format, in an hexadecimal form.
     """
     # Map format to length of address in bytes.
-    format_corresp = {'19' : 2, '28' : 3, '37' : 4}     # type: Dict[str,int]
+    format_corresp = {'19' : 2, '28' : 3, '37' : 4, '55':0}     # type: Dict[str,int]
     
     def __init__(self, format:str, data_qty:str, address:str, data:str, checksum:str):
         self.format = format            # type: str
@@ -321,7 +321,7 @@ class SxFile:
             lineNb += 1
 
         # Read every line starting with S{1,2,3}. Last line starts with S{9,8,7}
-        while line[1] in ['1','2','3']:
+        while line[1] in ['1','2','3', '5']:
             format = line[1] + str(10 - int(line[1]))   # type: str
             if not (format in SxItem.format_corresp):
                 raise SxItemBadFileFormat( "%s: eroneous file or bad format !" % fname )
