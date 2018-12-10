@@ -32,7 +32,7 @@ Release History:
 
 Installation
 ============
-On Windows, the simplest is to download the zip files from the release page. It
+On Windows, the simplest is to download the zip files from [the release page](releases). It
 contains all the binaries needed to use SxTool.
 
 For other OS and alternatively for Windows, SxTool is distributed in pypi and
