@@ -1,6 +1,6 @@
 
 # Always prefer setuptools over distutils
-from setuptools import setup, find_packages
+from setuptools import setup
 import sys, os, glob
 
 from const import VERSION

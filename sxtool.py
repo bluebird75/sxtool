@@ -5,11 +5,11 @@
 
 import sys, traceback
 from optparse import OptionParser
-from typing import List, Any, Callable, Optional, Union
+from typing import List, Any, Callable, Optional
 
 from PyQt5.QtWidgets import QApplication
 
-from src.gui.main_form import MainForm
+from src.main_form import MainForm
 from src.sx_item import SxFile
 from src.const import ABOUT_INFO
 
