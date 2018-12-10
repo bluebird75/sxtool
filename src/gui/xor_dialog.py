@@ -6,7 +6,7 @@ from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtCore import QRegExp
 
 from gui.ui_xor_dialog import Ui_XorDialog
-from sx_item import xor
+from src.sx_item import xor
 
 class XorDialog(Ui_XorDialog, QDialog):
     

@@ -10,8 +10,8 @@ from typing import List, Any, Callable, Optional, Union
 from PyQt5.QtWidgets import QApplication
 
 from gui.main_form import MainForm
-from sx_item import SxFile
-from const import ABOUT_INFO
+from src.sx_item import SxFile
+from src.const import ABOUT_INFO
 
 def main() -> None:
     if len(sys.argv) == 1 : 
