@@ -286,7 +286,7 @@ class SxItemFirst(SxItem):
 
 class SxFile:
     # noinspection PyMissingTypeHints
-    def __init__(self):
+    def __init__(self) -> None:
         self.sxItemFirst = SxItemFirst('','','')
         self.sxItemLast  = SxItemLast('','','','','')
         self.sxItems = []           # type: List[SxItem]
@@ -302,7 +302,9 @@ class SxFile:
         return s
  
     def fromFile(self, fname: str) -> None:
-        self.sxItemFirst = None
+        self.sxItemFirst = SxItemFirst('','','')
+        self.sxItemLast  = SxItemLast('','','','','')
+        self.sxItems = []           # type: List[SxItem]
         f = open(fname, 'r')    # type: TextIO
         self.fromFileStream(f, fname)
         f.close()

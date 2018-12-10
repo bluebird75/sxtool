@@ -4,7 +4,7 @@ import os
 import xml.sax as sax
 import xml.dom.minidom as dom
 
-from PyQt5.QtWidgets import QActionGroup
+from PyQt5.QtWidgets import QActionGroup, QAction
 
 from typing import List, Any
 
@@ -45,7 +45,7 @@ class ItemHistory(object) :
     def _insertItem(self, index:int, item:Any) -> None:
         pass
        
-    def addItemToHistory(self,item : str) -> None:
+    def addItemToHistory(self, item:str) -> None:
         item = item.strip(" \n\t")
         itemNode= dom.Element("item")
         text = self.tree.createTextNode(item)   # type: str
@@ -109,7 +109,7 @@ class ItemHistoryMenu(ItemHistory):
             self.menu.removeAction(a)
             self.actionGroup.removeAction(a)
     
-    def _insertItem(self, index:int, item) -> None:
+    def _insertItem(self, index:int, item:str) -> None:
         actionList = self.actionGroup.actions()
         actions = []    # type: List[str]
         for a in actionList :
@@ -122,6 +122,6 @@ class ItemHistoryMenu(ItemHistory):
             self.actionGroup.addAction(a)    
         self.actionGroup.triggered.connect( self.actionTriggered )
 
-    def actionTriggered(self, action) -> None:
+    def actionTriggered(self, action: QAction) -> None:
         self.callbackMethod(action.text())
     

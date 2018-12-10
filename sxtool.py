@@ -3,9 +3,11 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
-import sys, traceback
+import sys
+import traceback as tb_module
 from optparse import OptionParser
-from typing import List, Any, Callable, Optional
+from typing import List, Any, Callable, Optional, Type
+from types import TracebackType
 
 from PyQt5.QtWidgets import QApplication
 
@@ -51,7 +53,7 @@ def main() -> None:
         startWinMode(args)
         return
 
-def apply(files : List[str], operation : str, args=None, verbose : bool=False) -> None:
+def apply(files: List[str], operation: str, args: Optional[List[str]] = None, verbose : bool=False) -> None:
     '''Apply the given operation on all files.'''
     if not operation : return
     for file in files : # type: str
@@ -84,8 +86,8 @@ app = None # type: Optional[ QApplication ]
 
 # by default Qt abort on Python exceptions so we need to provide
 # our own hook that does the job
-def myExceptHook(exc_type, exc_value, exc_tb):
-    traceback.print_exception(exc_type, exc_value, exc_tb)
+def myExceptHook(type_: Type[BaseException], value: BaseException, traceback: TracebackType) -> None:
+    tb_module.print_exception(type_, value, traceback)
     sys.exit(0)
 
 def startWinMode(files: List[str] ) -> None:
