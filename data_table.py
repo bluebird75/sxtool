@@ -60,7 +60,7 @@ class DataTable(QTableWidget):
         try:
             self.sxfile.fromFile(self.file)
         except Exception as e:
-            QMessageBox.critical(None, "Error", "Could not open file %s\n%s" % (self.file, str(e)))
+            QMessageBox.critical(None, "Error", "Could not open file %s\n%s" % (self.file, repr(e)))
             return False
         self.redisplayTable()
         self.sigDataModifiedChanged.emit(False)
