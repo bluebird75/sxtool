@@ -3,7 +3,7 @@
 
 from PyQt5.QtWidgets import QDialog
 
-from gui.ui_insert_dialog import Ui_InsertDialog
+from src.gui.ui_insert_dialog import Ui_InsertDialog
 
 class InsertDialog(Ui_InsertDialog, QDialog):
     def __init__(self,parent = None,name = "InsertDialog" ,modal = 0,fl = 0):

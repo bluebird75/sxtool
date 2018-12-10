@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont
 
 from src.sx_item import SxFile, SxItem, str2hexi
-from gui.form_insert_row_value import FormInsertRowValue
+from src.gui.form_insert_row_value import FormInsertRowValue
 
 class DataItem(QTableWidgetItem):
     def __init__(self, table, text:str, data:bool):

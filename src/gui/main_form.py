@@ -7,14 +7,14 @@ from functools import wraps
 from PyQt5.QtWidgets import QDialog, QMainWindow, QMessageBox, qApp, QFileDialog, QWidget, QGridLayout, QInputDialog, QLineEdit
 from PyQt5.QtCore import Qt
 
-from gui.ui_main_form import Ui_MainForm
+from src.gui.ui_main_form import Ui_MainForm
 from src.data_table import DataTable
-from gui.insert_dialog import InsertDialog
-from gui.paste_dialog import PasteDialog
-from gui.form_insert_row_value import FormInsertRowValue
-from gui.form_set_row_size import FormSetRowSize
-from gui.form_split_item import FormSplitItem
-from gui.xor_dialog import XorDialog
+from src.gui.insert_dialog import InsertDialog
+from src.gui.paste_dialog import PasteDialog
+from src.gui.form_insert_row_value import FormInsertRowValue
+from src.gui.form_set_row_size import FormSetRowSize
+from src.gui.form_split_item import FormSplitItem
+from src.gui.xor_dialog import XorDialog
 from src.sx_item import SxFile
 from src.utils import ItemHistoryMenu, ItemHistoryStringList
 

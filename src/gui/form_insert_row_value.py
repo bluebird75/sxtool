@@ -5,7 +5,7 @@ from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QDialog
 
-from gui.ui_form_insert_row_value import Ui_FormInsertRowValue
+from src.gui.ui_form_insert_row_value import Ui_FormInsertRowValue
 
 
 def formatToAddressLength(format:str) -> int:

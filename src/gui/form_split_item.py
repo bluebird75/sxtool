@@ -3,7 +3,7 @@
 
 from PyQt5.QtWidgets import QDialog
 
-from gui.ui_form_split_item import Ui_FormSplitItemBase
+from src.gui.ui_form_split_item import Ui_FormSplitItemBase
 
 class FormSplitItem( Ui_FormSplitItemBase, QDialog ):
     def __init__(self,parent = None,name = "FormSplitItem",modal = 0,fl = 0):

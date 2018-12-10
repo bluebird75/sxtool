@@ -3,7 +3,7 @@
 
 from PyQt5.QtWidgets import QDialog
 
-from gui.ui_form_set_row_size import Ui_FormSetRowSizeBase
+from src.gui.ui_form_set_row_size import Ui_FormSetRowSizeBase
 
 class FormSetRowSize( Ui_FormSetRowSizeBase, QDialog ):
     def __init__(self,parent = None,name = "FormSetRowSize", modal = 0,fl = 0):

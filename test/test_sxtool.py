@@ -6,7 +6,7 @@
 import unittest, io
 
 from src.sx_item import *
-from gui.form_insert_row_value import FormInsertRowValue
+from src.gui.form_insert_row_value import FormInsertRowValue
 
 s = 'S1130000285F245F2212226A000424290008237C2A'
 

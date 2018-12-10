@@ -9,7 +9,7 @@ from typing import List, Any, Callable, Optional, Union
 
 from PyQt5.QtWidgets import QApplication
 
-from gui.main_form import MainForm
+from src.gui.main_form import MainForm
 from src.sx_item import SxFile
 from src.const import ABOUT_INFO
 

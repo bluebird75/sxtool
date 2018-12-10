@@ -3,7 +3,7 @@
 
 from PyQt5.QtWidgets import QDialog
 
-from gui.ui_paste_dialog import Ui_PasteDialog
+from src.gui.ui_paste_dialog import Ui_PasteDialog
 
 class PasteDialog(Ui_PasteDialog, QDialog):
     def __init__(self,parent = None,name = 'PasteDialog',modal = 0,fl = 0):
