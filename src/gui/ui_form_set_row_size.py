@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'gui/ui_form_set_row_size.ui'
+# Form implementation generated from reading ui file 'src/gui/ui_form_set_row_size.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -17,7 +17,6 @@ class Ui_FormSetRowSizeBase(object):
         self.vboxlayout.setSpacing(6)
         self.vboxlayout.setObjectName("vboxlayout")
         self.hboxlayout = QtWidgets.QHBoxLayout()
-        self.hboxlayout.setContentsMargins(11, 11, 11, 11)
         self.hboxlayout.setSpacing(6)
         self.hboxlayout.setObjectName("hboxlayout")
         self.textLabel1 = QtWidgets.QLabel(FormSetRowSizeBase)
@@ -58,7 +57,6 @@ class Ui_FormSetRowSizeBase(object):
         spacerItem1 = QtWidgets.QSpacerItem(31, 41, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.vboxlayout.addItem(spacerItem1)
         self.hboxlayout1 = QtWidgets.QHBoxLayout()
-        self.hboxlayout1.setContentsMargins(11, 11, 11, 11)
         self.hboxlayout1.setSpacing(6)
         self.hboxlayout1.setObjectName("hboxlayout1")
         spacerItem2 = QtWidgets.QSpacerItem(61, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
