@@ -9,12 +9,12 @@ from PyQt5.QtCore import Qt
 
 from src.gui.ui_main_form import Ui_MainForm
 from src.data_table import DataTable
-from src.gui.insert_dialog import InsertDialog
-from src.gui.paste_dialog import PasteDialog
-from src.gui.form_insert_row_value import FormInsertRowValue
-from src.gui.form_set_row_size import FormSetRowSize
-from src.gui.form_split_item import FormSplitItem
-from src.gui.xor_dialog import XorDialog
+from src.insert_dialog import InsertDialog
+from src.paste_dialog import PasteDialog
+from src.form_insert_row_value import FormInsertRowValue
+from src.form_set_row_size import FormSetRowSize
+from src.form_split_item import FormSplitItem
+from src.xor_dialog import XorDialog
 from src.sx_item import SxFile
 from src.utils import ItemHistoryMenu, ItemHistoryStringList
 
