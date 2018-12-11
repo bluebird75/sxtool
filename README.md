@@ -32,7 +32,7 @@ Release History:
 
 Installation
 ============
-On Windows, the simplest is to download the zip files from [the release page](releases). It
+On Windows, the simplest is to download the zip files from [the release page](https://github.com/bluebird75/sxtool/releases). It
 contains all the binaries needed to use SxTool.
 
 For other OS and alternatively for Windows, SxTool is distributed in pypi and
