@@ -8,5 +8,5 @@ install:
 
 # command to run tests
 script: 
-- python test\test_sxtool.py
+# - python test\test_sxtool.py
 - mypy --strict sxtool.py
