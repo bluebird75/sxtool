@@ -3,8 +3,9 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
-import unittest, io
+import unittest, io, sys, os
 
+sys.path.append( os.path.join( os.path.dirname(__file__), '..' ) )
 from src.sx_item import *
 from src.form_insert_row_value import FormInsertRowValue
 
@@ -175,44 +176,6 @@ class TestSxItem( unittest.TestCase ) :
         self.assertEqual( sx.address, '0123' )
         self.assertEqual( sx.data,    '112233445566' )
         self.assertEqual( sx.data_quantity, '09' )
-
-    def testIsValid(self):
-        sdata = 'S1090123112233445566FF'
-        sx = SxItem( '19', '', '', '', '' )
-        self.assertEqual( sx.isValid(), False )
-
-        sx.setContent( sdata )
-        self.assertEqual( sx.isValid(), False )
-
-        sx.updateChecksum()
-        self.assertEqual( sx.isValid(), True )
-
-        sx.data_quantity = '08'
-        self.assertEqual( sx.isValid(), False )
-        sx.updateChecksum()
-        self.assertEqual( sx.isValid(), False )
-        sx.data_quantity = '09'
-        self.assertEqual( sx.isValid(), False )
-        sx.updateChecksum()
-        self.assertEqual( sx.isValid(), True )
-
-        sx.address = '001122'
-        self.assertEqual( sx.isValid(), False )
-        sx.updateChecksum()
-        self.assertEqual( sx.isValid(), False )
-        sx.format = '28'
-        sx.updateDataQuantity()
-        sx.updateChecksum()
-        self.assertEqual( sx.isValid(), True )
-
-        sx.address = '00112233'
-        self.assertEqual( sx.isValid(), False )
-        sx.updateChecksum()
-        self.assertEqual( sx.isValid(), False )
-        sx.format = '37'
-        sx.updateDataQuantity()
-        sx.updateChecksum()
-        self.assertEqual( sx.isValid(), True )
 
     def testApplyNewRowSize( self ):
         sxfile = SxFile()

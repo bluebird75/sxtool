@@ -138,23 +138,6 @@ class SxItem:
         """
         return len(self.data)//2
 
-    def isValid(self) -> bool:
-        """Return true of the content makes sense:
-        - address length matches the format
-        - data length matches quantity
-        - checksum is correct
-        """
-        try:
-            if str2hexi(  self.data_quantity ) != len(self.address+self.data+self.checksum)//2 : return False
-
-            if self.calcChecksum() != self.checksum: return False
-            
-            if len(self.address) != 2*SxItem.format_corresp[self.format]: return False 
-
-        except (ValueError, IndexError):
-            return False
-        return True
-
     def addressValue(self) -> int:
         '''Integer value of the data address'''
         return str2hexi( self.address )
