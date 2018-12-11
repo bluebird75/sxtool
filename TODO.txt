@@ -1,7 +1,4 @@
 
-Immediate release:
-- update version information
-
 Future:
 - rewrite the dialog apply offset: add a spacer, the field is too large
 - rewrite the dialog for edit data, to avoid the help button and have proper dialog size
