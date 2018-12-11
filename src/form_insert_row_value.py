@@ -1,9 +1,11 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
+from typing import Optional
+
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QDialog, QWidget
 
 from src.gui.ui_form_insert_row_value import Ui_FormInsertRowValue
 
@@ -20,10 +22,15 @@ def formatToAddressLength(format:str) -> int:
     else:
         raise ValueError("Invalid parameter in method formatToAddressLength: %s" % format)
 
-class FormInsertRowValue(Ui_FormInsertRowValue, QDialog):
-    def __init__(self, default_format:str, parent=None, name="FormInsertRowValue", modal=0, fl=0):
+class FormInsertRowValue(Ui_FormInsertRowValue, QDialog):  # type: ignore # PyQt and Mypy don't mix very well
+    def __init__(self,
+                default_format:str,
+                parent: Optional[QWidget] = None,
+                name:str = "FormInsertRowValue", 
+                modal:int = 0,
+                fl:int = 0):
         QDialog.__init__(self, parent)
-        self.setupUi(self)
+        self.setupUi(self)      # type: ignore # PyQt and Mypy don't mix very well
         self.setModal(modal)
         self.setObjectName(name)
         self.nlines = 1
@@ -65,7 +72,7 @@ class FormInsertRowValue(Ui_FormInsertRowValue, QDialog):
             self.comboBoxFormat.setCurrentIndex(index)
             self.slotUpdateAddressesLength(self.comboBoxFormat.currentText())
 
-    def slotUpdateDataLength(self, newLength:int):
+    def slotUpdateDataLength(self, newLength:int) -> None:
         '''Update the datacontent field according to the new length specified'''
         if newLength <= 0:
             self.lineEditData.setText(00)

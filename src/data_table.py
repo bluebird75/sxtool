@@ -3,24 +3,24 @@
 
 from typing import Optional, List, Any, Tuple, Union
 
-from PyQt5.QtWidgets import QTableWidgetItem, QTableWidget, QAbstractItemView, QHeaderView, QMessageBox
+from PyQt5.QtWidgets import QTableWidgetItem, QTableWidget, QAbstractItemView, QHeaderView, QMessageBox, QWidget
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont
 
 from src.sx_item import SxFile, SxItem, str2hexi
 from src.form_insert_row_value import FormInsertRowValue
 
-class DataItem(QTableWidgetItem):
-    def __init__(self, table, text:str, data:bool):
+class DataItem(QTableWidgetItem): # type: ignore # PyQt and Mypy don't mix very well
+    def __init__(self, table: 'DataTable', text:str, data:bool) -> None:
         QTableWidgetItem.__init__(self, text)
         self.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-        self.data = data    # type:bool
+        self.data = data
         if self.data:
             self.setTextAlignment(Qt.AlignLeft)
         else:
             self.setTextAlignment(Qt.AlignHCenter)
 
-class DataTable(QTableWidget):
+class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very well
     ISTART = 0                  # type: int
     IBEFORESEL = 1              # type: int
     IAFTERSEL = 2               # type: int
@@ -35,7 +35,7 @@ class DataTable(QTableWidget):
 
     sigDataModifiedChanged = pyqtSignal(bool)
 
-    def __init__(self, parent=None, name : Optional[str]=None ):
+    def __init__(self, parent: Optional[QWidget] = None, name: Optional[str] = None) -> None:
         QTableWidget.__init__(self, 0, 0, parent)
         self.setObjectName(name)
         self.sxfile = SxFile()  # type: SxFile

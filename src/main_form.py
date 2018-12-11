@@ -1,7 +1,7 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 import os
-from typing import List, Optional, TextIO, Any, Tuple
+from typing import List, Optional, TextIO, Any, Tuple, Callable
 from functools import wraps
 
 from PyQt5.QtWidgets import QDialog, QMainWindow, QMessageBox, qApp, QFileDialog, QWidget, QGridLayout, QInputDialog, QLineEdit
@@ -20,18 +20,18 @@ from src.utils import ItemHistoryMenu, ItemHistoryStringList
 
 from src.const import VERSION, ABOUT_INFO
 
-def ensureAnyLinesAreSelected(f):
+def ensureAnyLinesAreSelected(f: Callable[['MainForm'], None]) -> Callable[['MainForm'], None]:
     @wraps(f)
-    def wrapper(self):
+    def wrapper(self: 'MainForm') -> None:
         if self.dataTable.numRowsSelected() == 0:
             QMessageBox.warning(self, "No selection", "You must select lines before applying this operation, aborting." )
             return
         return f(self)
     return wrapper
 
-def ensureDataLinesAreSelected(f):
+def ensureDataLinesAreSelected(f: Callable[['MainForm'], None]) -> Callable[['MainForm'], None]:
     @wraps(f)
-    def wrapper(self):
+    def wrapper(self: 'MainForm') -> None:
         selRows = [ v.row() for v in self.dataTable.selectionModel().selectedRows() ]
         if 0 in selRows or self.dataTable.rowCount()-1 in selRows:
             QMessageBox.warning(self, "First or last line selected", "This operation does not work on first or last lines, aborting." )
@@ -39,11 +39,11 @@ def ensureDataLinesAreSelected(f):
         return f(self)
     return wrapper
 
-class MainForm(Ui_MainForm, QMainWindow):
-    def __init__(self,parent = None,name : str= "SX Tool",fl: int= 0, file: Optional[str]=None) -> None:
+class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't mix very well
+    def __init__(self,parent: Optional[QWidget] = None, name:str = "SX Tool", fl: int = 0, file: Optional[str] = None) -> None:
         QMainWindow.__init__(self)
         Ui_MainForm.__init__(self)
-        self.setupUi(self)
+        self.setupUi(self) # type: ignore # PyQt and Mypy don't mix very well
         self.setObjectName(name)
         self.setProgramTitle(None, False)
         self.dataTable = DataTable( self, "EmptyDataTable")  # type: DataTable
@@ -424,7 +424,7 @@ class MainForm(Ui_MainForm, QMainWindow):
             s += ' *'
         self.setWindowTitle(s)
 
-    def slotFileModifiedChanged(self, modified:bool):
+    def slotFileModifiedChanged(self, modified: bool) -> None:
         self.setProgramTitle( self.dataTable.file, modified)
 
     @ensureAnyLinesAreSelected
@@ -447,7 +447,7 @@ class MainForm(Ui_MainForm, QMainWindow):
             QMessageBox.information(self, "Checksum verification success", msg )
 
     @ensureAnyLinesAreSelected
-    def slotRecalculateChecksum(self):
+    def slotRecalculateChecksum(self) -> None:
         nbInvalidChecksums = self.dataTable.updateSelectedChecksum()
         if nbInvalidChecksums > 0:
             QMessageBox.information(self, "Checksum recalculation", "%d checksums adjusted." % nbInvalidChecksums )
