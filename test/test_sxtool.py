@@ -90,7 +90,21 @@ class TestSxItem( unittest.TestCase ) :
         self.assertEqual( sx.data_quantity, '13' )
         self.assertEqual( sx.checksum, '2A' )
 
-    def testConvert( self ):
+    def testRepr( self ):
+        sx = SxItem( '19', '05', '4321', '1122', '33' )
+        self.assertEqual( str(sx) , 'S1054321112233' )
+
+        sx = SxItem( '28', '06', '654321', '1122', '33' )
+        self.assertEqual( str(sx) , 'S206654321112233' )
+
+        sx = SxItem( '37', '07', '87654321', '1122', '33' )
+        self.assertEqual( str(sx) , 'S30787654321112233' )
+
+        sx = SxItem( '55', '03', '4321', '', '33' )
+        self.assertEqual( str(sx) , 'S503432133' )
+
+
+    def testConvertAndRepr( self ):
         ref_s19 = 'S1130000285F245F2212226A000424290008237C2A'
         ref_s28 = 'S214000000285F245F2212226A000424290008237C29'
         ref_s37 = 'S31500000000285F245F2212226A000424290008237C28'

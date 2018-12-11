@@ -103,14 +103,17 @@ class SxItem:
     format, in an hexadecimal form.
     """
     # Map format to length of address in bytes.
-    format_corresp = {'19' : 2, '28' : 3, '37' : 4, '55':0}     # type: Dict[str,int]
+    format_corresp = { '':0, '9':2, '19' : 2, '28' : 3, '37' : 4, '55':0}     # type: Dict[str,int]
     
     def __init__(self, format:str, data_qty:str, address:str, data:str, checksum:str):
+        '''Format is either: 19, 28, 37 or 55'''
         self.format = format            # type: str
         self.data_quantity = data_qty   # type: str
         self.address = address          # type: str
         self.data = data                # type: str
         self.checksum = checksum        # type: str
+        self.addr_sz = self.format_corresp[self.format] # type: int
+        # addr_sz is the length in bytes of the address
 
     @staticmethod
     def formatAddress( address:int, format:str) -> str:
@@ -124,10 +127,12 @@ class SxItem:
             'S1': '19',
             'S2': '28',
             'S3': '37',
+            'S5': '55',
         }
         self.format = s2format[ content[0:2] ]
+        self.addr_sz = self.format_corresp[self.format]
         self.data_quantity = content[2:4]
-        address_length = SxItem.format_corresp[self.format] * 2 # type: int
+        address_length = self.addr_sz*2
         self.address = content[4:4+address_length]
         self.data = content[4+address_length:-2]
         self.checksum = content[-2:]
@@ -148,7 +153,7 @@ class SxItem:
 
     def calcChecksum(self) -> str:
         checksum = str2hexi( self.data_quantity )       # type: int
-        nb_digits = SxItem.format_corresp[self.format]  # type: int
+        nb_digits = self.addr_sz                        # type: int
         for i in range(0, nb_digits*2, 2):              # type: int
             checksum += str2hexi( self.address[i:i+2] )
         for i in range(0, (str2hexi( self.data_quantity ) - 1 - nb_digits)*2, 2):
@@ -164,7 +169,7 @@ class SxItem:
 
     def updateDataQuantity(self) -> None:
         """Data quantity is len(data) + len(address) + len(checksum)"""
-        new_data_quantity = SxItem.format_corresp[self.format] + len(self.data) // 2 + 1 # type: int
+        new_data_quantity = self.addr_sz + len(self.data) // 2 + 1 # type: int
         self.data_quantity = toHexLen(new_data_quantity, 2)
 
     def updateData(self, new_data:str) -> None:
@@ -174,9 +179,9 @@ class SxItem:
         
     def updateAddress(self, new_address:str) -> None:
         """new_address must be a valid hexadecimal string"""
-        if len(new_address) / 2 > SxItem.format_corresp[self.format]:
+        if len(new_address) / 2 > self.addr_sz:
             raise SxItemBadNewAddress( "Invalid address. Too int for format." )
-        self.address = toHexLen(new_address, SxItem.format_corresp[self.format]*2)
+        self.address = toHexLen(new_address, self.addr_sz*2)
         self.updateChecksum()
         
     def convert(self, to_format:str) -> None:
@@ -189,8 +194,9 @@ class SxItem:
         if to_format == self.format:
             return
         # Updating new address.
-        self.address = toHexLen(self.address, SxItem.format_corresp[to_format]*2)
         self.format = to_format
+        self.addr_sz = self.format_corresp[self.format]
+        self.address = toHexLen(self.address, self.addr_sz*2)
         self.updateDataQuantity()
         self.updateChecksum()
 
@@ -202,8 +208,8 @@ class SxItem:
             raise SxItemBadOffset( "Splitting is not possible at offset %d" % offset )
         sx2 = SxItem('','','','','')        
         sx2.format = self.format
-        sx2.address = toHexLen( self.addressValue() + offset, 
-            SxItem.format_corresp[self.format]*2 )
+        sx2.addr_sz = self.format_corresp[self.format]
+        sx2.address = toHexLen( self.addressValue() + offset, self.addr_sz*2 )
         sx2.updateData( self.data[offset*2:] )
         self.updateData( self.data[:offset*2] )
         return sx2
@@ -254,6 +260,9 @@ class SxItem:
     
 # First and last lines of a Sx file are special.
 class SxItemLast(SxItem):
+    def __init__(self, format:str, data_qty:str, address:str, data:str, checksum:str):
+        super().__init__(format or '9', data_qty, address, data, checksum)
+
     def __repr__(self) -> str:
         return 'S9' + self.data_quantity + self.address + self.data + self.checksum
 
@@ -262,6 +271,7 @@ class SxItemFirst(SxItem):
         self.data_quantity = data_quantity  # type: str
         self.data = data  # type: str
         self.checksum = checksum  # type: str
+        self.format = '0'
         
     def __repr__(self) -> str:
         return 'S0' + self.data_quantity + self.data + self.checksum
@@ -308,23 +318,25 @@ class SxFile:
         # Read every line starting with S{1,2,3}. Last line starts with S{9,8,7}
         while line[1] in ['1','2','3', '5']:
             format = line[1] + str(10 - int(line[1]))   # type: str
+            addr_sz = SxItem.format_corresp[format]
             if not (format in SxItem.format_corresp):
                 raise SxItemBadFileFormat( "%s: eroneous file or bad format !" % fname )
             data_qt = str2hexi( line[2:4] )
             if len(line[4:]) != data_qt * 2:
                 raise SxItemMissingData( "line %d: data is announced as %d bytes but is actually %d bytes!" % (lineNb, data_qt, len(line[4:]) // 2) )
-            address = line[4:4+SxItem.format_corresp[format]*2] # type: str
-            data = line[4+SxItem.format_corresp[format]*2:-2]   # type: str
-            checksum = line[-2:] # type: str
+            address = line[4:4+addr_sz*2] # type: str
+            data = line[4+addr_sz*2:-2]   # type: str
+            checksum = line[-2:]
             self.sxItems.append(SxItem(format, toHexLen(data_qt, 2), address, data, checksum))
 
             line = fileStream.readline()[:-1]
             lineNb += 1
 
         format = str(10 - int(line[1])) + line[1]
+        addr_sz = SxItem.format_corresp[format]
         sdata_qt = line[2:4]
-        address = line[4:4+SxItem.format_corresp[format]*2]
-        data = line[4+SxItem.format_corresp[format]*2:-2]
+        address = line[4:4+addr_sz*2]
+        data = line[4+addr_sz*2:-2]
         checksum = line[-2:]
         self.sxItemLast = SxItemLast(format, sdata_qt, address, data, checksum)
 
