@@ -1,9 +1,9 @@
 
 # Always prefer setuptools over distutils
 from setuptools import setup
-import sys, os, glob
+import os, glob
 
-from const import VERSION
+from src.const import VERSION
 here = os.path.abspath(os.path.dirname(__file__))
 # Get the long description from the README file
 with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
@@ -12,7 +12,6 @@ with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 src_files = glob.glob('*.py')
 src_gui_files = glob.glob('gui/*.py')
 data_examples = glob.glob('example*.*') 
-print( data_examples )
 data_ui = glob.glob('gui/*.ui')
 
 
