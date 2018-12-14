@@ -69,54 +69,142 @@ class TestSxItem( unittest.TestCase ) :
 
 
     def testChecksum( self ):
-        sx = SxItem( '19', '13', '0000', '285F245F2212226A000424290008237C', 'FF' )
+        sx = SxItem( 'S1', '13', '0000', '285F245F2212226A000424290008237C', 'FF' )
         sx.updateChecksum()
         self.assertEqual( sx.checksum, '2A' )
 
     def testDataQuantity( self ):
-        sx = SxItem( '19', 'FF', '0000', '285F245F2212226A000424290008237C', '2A' )
+        sx = SxItem( 'S1', 'FF', '0000', '285F245F2212226A000424290008237C', '2A' )
         sx.updateDataQuantity()
         self.assertEqual( sx.data_quantity, '13' )
 
     def testData( self ):
-        sx = SxItem( '19', 'FF', '0000', '285F245F2212226A00042429000823', '2A' )
+        sx = SxItem( 'S1', 'FF', '0000', '285F245F2212226A00042429000823', '2A' )
         sx.updateData( '285F245F2212226A000424290008237C' )
         self.assertEqual( sx.data_quantity, '13' )
         self.assertEqual( sx.checksum, '2A' )
 
     def testAddress( self ):
-        sx = SxItem( '19', '13', 'FFFF', '285F245F2212226A000424290008237C', 'FF' )
+        sx = SxItem( 'S1', '13', 'FFFF', '285F245F2212226A000424290008237C', 'FF' )
         sx.updateAddress( '0000' )
         self.assertEqual( sx.data_quantity, '13' )
         self.assertEqual( sx.checksum, '2A' )
 
     def testRepr( self ):
-        sx = SxItem( '19', '05', '4321', '1122', '33' )
+        sx = SxItem( 'S1', '05', '4321', '1122', '33' )
         self.assertEqual( str(sx) , 'S1054321112233' )
 
-        sx = SxItem( '28', '06', '654321', '1122', '33' )
+        sx = SxItem( 'S2', '06', '654321', '1122', '33' )
         self.assertEqual( str(sx) , 'S206654321112233' )
 
-        sx = SxItem( '37', '07', '87654321', '1122', '33' )
+        sx = SxItem( 'S3', '07', '87654321', '1122', '33' )
         self.assertEqual( str(sx) , 'S30787654321112233' )
 
-        sx = SxItem( '55', '03', '4321', '', '33' )
+        sx = SxItem( 'S5', '03', '4321', '', '33' )
         self.assertEqual( str(sx) , 'S503432133' )
+
+        sx = SxItem( 'S0', '03', '4321', '', '33' )
+        self.assertEqual( str(sx) , 'S003432133' )
 
 
     def testConvertAndRepr( self ):
         ref_s19 = 'S1130000285F245F2212226A000424290008237C2A'
         ref_s28 = 'S214000000285F245F2212226A000424290008237C29'
         ref_s37 = 'S31500000000285F245F2212226A000424290008237C28'
-        sx = SxItem( '19', '13', '0000', '285F245F2212226A000424290008237C', '2A' )
+        ref_s91 = 'S9031122C9'
+        ref_s82 = 'S804001122C8'
+        ref_s73 = 'S70500001122C7'
+        ref_s55 = 'S5031122FF'
+        ref_s00 = 'S004000088FF'
 
+        # S1 to S1, S2, S3
+        sx = SxItem( 'S1', '13', '0000', '285F245F2212226A000424290008237C', '2A' )
+        sx.convert('S19')
         self.assertEqual( str(sx) , ref_s19 )
-        sx.convert('28')
+        sx.convert('S28')
         self.assertEqual( str(sx), ref_s28 )
-        sx.convert('37')
+        sx.convert('S37')
         self.assertEqual( str(sx), ref_s37 )
-        sx.convert('19')
+        sx.convert('S19')
         self.assertEqual( str(sx) , ref_s19 )
+
+        # S2 to S1, S2, S3
+        sx.setContent( ref_s28 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s19 )
+        sx.convert('S28')
+        self.assertEqual( str(sx), ref_s28 )
+        sx.convert('S37')
+        self.assertEqual( str(sx), ref_s37 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s19 )
+
+        # S3 to S1, S2, S3
+        sx.setContent( ref_s37 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s19 )
+        sx.convert('S28')
+        self.assertEqual( str(sx), ref_s28 )
+        sx.convert('S37')
+        self.assertEqual( str(sx), ref_s37 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s19 )
+
+        # S7 to S7, S8, S9
+        sx.setContent( ref_s73 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s91 )
+        sx.convert('S28')
+        self.assertEqual( str(sx), ref_s82 )
+        sx.convert('S37')
+        self.assertEqual( str(sx), ref_s73 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s91 )
+
+        # S8 to S7, S8, S9
+        sx.setContent( ref_s82 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s91 )
+        sx.convert('S28')
+        self.assertEqual( str(sx), ref_s82 )
+        sx.convert('S37')
+        self.assertEqual( str(sx), ref_s73 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s91 )
+
+        # S9 to S7, S8, S9
+        sx.setContent( ref_s91 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s91 )
+        sx.convert('S28')
+        self.assertEqual( str(sx), ref_s82 )
+        sx.convert('S37')
+        self.assertEqual( str(sx), ref_s73 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s91 )
+
+        # S5 remains S5
+        sx.setContent( ref_s55 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s55 )
+        sx.convert('S28')
+        self.assertEqual( str(sx) , ref_s55 )
+        sx.convert('S37')
+        self.assertEqual( str(sx) , ref_s55 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s55 )
+
+        # S0 remains S0
+        sx.setContent( ref_s00 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s00 )
+        sx.convert('S28')
+        self.assertEqual( str(sx) , ref_s00 )
+        sx.convert('S37')
+        self.assertEqual( str(sx) , ref_s00 )
+        sx.convert('S19')
+        self.assertEqual( str(sx) , ref_s00 )
+
 
     def testSetContent(self):
         ref_s19 = 'S1130000285F245F2212226A000424290008237C2A'
@@ -124,21 +212,21 @@ class TestSxItem( unittest.TestCase ) :
         sx.setContent( ref_s19 )
         # print sx.toOneString()
         sx.updateChecksum()
-        self.assertEqual( sx.format, '19' )
+        self.assertEqual( sx.format, 'S1' )
         self.assertEqual( sx.data_quantity, '13' )
         self.assertEqual( sx.checksum, '2A' )
 
         ref_s28 = 'S214000000285F245F2212226A000424290008237C29'
         sx.setContent( ref_s28 )
         sx.updateChecksum()
-        self.assertEqual( sx.format, '28' )
+        self.assertEqual( sx.format, 'S2' )
         self.assertEqual( sx.data_quantity, '14' )
         self.assertEqual( sx.checksum, '29' )
 
         ref_s37 = 'S31500000000285F245F2212226A000424290008237C28'
         sx.setContent( ref_s37 )
         sx.updateChecksum()
-        self.assertEqual( sx.format, '37' )
+        self.assertEqual( sx.format, 'S3' )
         self.assertEqual( sx.data_quantity, '15' )
         self.assertEqual( sx.checksum, '28' )
 
@@ -194,11 +282,11 @@ class TestSxItem( unittest.TestCase ) :
     def testApplyNewRowSize( self ):
         sxfile = SxFile()
         sxfile.sxItems = [ 
-            SxItem( '19', '03', '0123', '010203', 'FF' ),
-            SxItem( '19', '03', '0123', '111213', 'FF' ),
-            SxItem( '19', '03', '0126', '212223', 'FF' ),
-            SxItem( '19', '03', '0129', '313233', 'FF' ),
-            SxItem( '19', '03', '012C', '414243', 'FF' ),
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0123', '111213', 'FF' ),
+            SxItem( 'S1', '03', '0126', '212223', 'FF' ),
+            SxItem( 'S1', '03', '0129', '313233', 'FF' ),
+            SxItem( 'S1', '03', '012C', '414243', 'FF' ),
         ]
 
         sxfile.applyNewRowSize( 2, 1 ,3 )
@@ -214,9 +302,9 @@ class TestSxItem( unittest.TestCase ) :
     def testSxfileSplitItem(self):
         sxfile = SxFile()
         sxfile.sxItems = [ 
-            SxItem( '19', '03', '0123', '010203', 'FF' ),
-            SxItem( '19', '03', '0123', '111213', 'FF' ),
-            SxItem( '19', '03', '012C', '212223', 'FF' ),
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0123', '111213', 'FF' ),
+            SxItem( 'S1', '03', '012C', '212223', 'FF' ),
         ]
 
         sxfile.splitItem( 1, 2 )
@@ -230,11 +318,11 @@ class TestSxItem( unittest.TestCase ) :
     def testSxfileMergeItem(self):
         sxfile = SxFile()
         sxfile.sxItems = [ 
-            SxItem( '19', '03', '0123', '010203', 'FF' ),
-            SxItem( '19', '03', '0126', '111213', 'FF' ),
-            SxItem( '19', '03', '0129', '212223', 'FF' ),
-            SxItem( '19', '03', '012C', '313233', 'FF' ),
-            SxItem( '19', '03', '012F', '414243', 'FF' ),
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0126', '111213', 'FF' ),
+            SxItem( 'S1', '03', '0129', '212223', 'FF' ),
+            SxItem( 'S1', '03', '012C', '313233', 'FF' ),
+            SxItem( 'S1', '03', '012F', '414243', 'FF' ),
         ]
 
         sxfile.mergeItem( 1, 3 )
@@ -244,11 +332,11 @@ class TestSxItem( unittest.TestCase ) :
         self.assertEqual( sxfile.sxItems[2].data, '414243' )
 
         sxfile.sxItems = [ 
-            SxItem( '19', '03', '0123', '010203', 'FF' ),
-            SxItem( '19', '03', '0126', '111213', 'FF' ),
-            SxItem( '19', '03', '0123', '212223', 'FF' ),
-            SxItem( '19', '03', '0126', '313233', 'FF' ),
-            SxItem( '19', '03', '0129', '414243', 'FF' ),
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0126', '111213', 'FF' ),
+            SxItem( 'S1', '03', '0123', '212223', 'FF' ),
+            SxItem( 'S1', '03', '0126', '313233', 'FF' ),
+            SxItem( 'S1', '03', '0129', '414243', 'FF' ),
         ]
 
         sxfile.mergeItem( 1, 3 )
@@ -261,11 +349,11 @@ class TestSxItem( unittest.TestCase ) :
     def testFlipBits(self):
         sxfile = SxFile()
         sxfile.sxItems = [ 
-            SxItem( '19', '03', '0123', '010203', 'FF' ),
-            SxItem( '19', '03', '0123', '111213', 'FF' ),
-            SxItem( '19', '03', '0126', '212223', 'FF' ),
-            SxItem( '19', '03', '0129', '313233', 'FF' ),
-            SxItem( '19', '03', '012C', '414243', 'FF' ),
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0123', '111213', 'FF' ),
+            SxItem( 'S1', '03', '0126', '212223', 'FF' ),
+            SxItem( 'S1', '03', '0129', '313233', 'FF' ),
+            SxItem( 'S1', '03', '012C', '414243', 'FF' ),
         ]
         for item in sxfile.sxItems :
             item.flipBits()
@@ -278,11 +366,11 @@ class TestSxItem( unittest.TestCase ) :
     def testApplyOffset(self):
         sxfile = SxFile()
         sxfile.sxItems = [ 
-            SxItem( '19', '03', '0123', '010203', 'FF' ),
-            SxItem( '19', '03', '0123', '111213', 'FF' ),
-            SxItem( '19', '03', '0126', '212223', 'FF' ),
-            SxItem( '19', '03', '0129', '313233', 'FF' ),
-            SxItem( '19', '03', '012C', '414243', 'FF' ),
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0123', '111213', 'FF' ),
+            SxItem( 'S1', '03', '0126', '212223', 'FF' ),
+            SxItem( 'S1', '03', '0129', '313233', 'FF' ),
+            SxItem( 'S1', '03', '012C', '414243', 'FF' ),
         ]
         i = 1
         for item in sxfile.sxItems :
@@ -297,11 +385,11 @@ class TestSxItem( unittest.TestCase ) :
     def testXorData(self):
         sxfile = SxFile()
         sxfile.sxItems = [ 
-            SxItem( '19', '03', '0123', '010203', 'FF' ),
-            SxItem( '19', '03', '0123', '111213', 'FF' ),
-            SxItem( '19', '03', '0126', '212223', 'FF' ),
-            SxItem( '19', '03', '0129', '313233', 'FF' ),
-            SxItem( '19', '03', '012C', '414243', 'FF' ),
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0123', '111213', 'FF' ),
+            SxItem( 'S1', '03', '0126', '212223', 'FF' ),
+            SxItem( 'S1', '03', '0129', '313233', 'FF' ),
+            SxItem( 'S1', '03', '012C', '414243', 'FF' ),
         ]
         for item in sxfile.sxItems :
             item.xorData('15AF')

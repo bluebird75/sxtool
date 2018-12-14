@@ -77,19 +77,19 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.setColumnCount(5)
 
         if self.sxfile.sxItemFirst:
-            self.setText(0, 0, "S0")
+            self.setText(0, 0, self.sxfile.sxItemFirst.format)
             self.setText(0, 1, self.sxfile.sxItemFirst.data_quantity)
             self.setText(0, 3, self.sxfile.sxItemFirst.data)
             self.setText(0, 4, self.sxfile.sxItemFirst.checksum)
         x = 1   # type: int
         for l in self.sxfile.sxItems:
-            self.setText(x, 0, "S" + l.format[0])
+            self.setText(x, 0, l.format)
             self.setText(x, 1, l.data_quantity)
             self.setText(x, 2, l.address)
             self.setText(x, 3, l.data)
             self.setText(x, 4, l.checksum)
             x += 1
-        self.setText(x, 0, "S" + self.sxfile.sxItemLast.format[1])
+        self.setText(x, 0, self.sxfile.sxItemLast.format)
         self.setText(x, 1, self.sxfile.sxItemLast.data_quantity)
         self.setText(x, 2, self.sxfile.sxItemLast.address)
         self.setText(x, 3, self.sxfile.sxItemLast.data)
@@ -140,19 +140,19 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         if row < 0 or row > self.rowCount():
             return
         if row == 0 and self.sxfile.sxItemFirst:
-            self.setText(0, 0, "S0")
+            self.setText(0, 0, self.sxfile.sxItemFirst.format)
             self.setText(0, 1, self.sxfile.sxItemFirst.data_quantity)
             self.setText(0, 2, "")
             self.setText(0, 3, self.sxfile.sxItemFirst.data)
             self.setText(0, 4, self.sxfile.sxItemFirst.checksum)
         elif row == self.rowCount() - 1:
-            self.setText(row, 0, "S" + self.sxfile.sxItemLast.format[1])
+            self.setText(row, 0, self.sxfile.sxItemLast.format)
             self.setText(row, 1, self.sxfile.sxItemLast.data_quantity)
             self.setText(row, 2, self.sxfile.sxItemLast.address)
             self.setText(row, 3, self.sxfile.sxItemLast.data)
             self.setText(row, 4, self.sxfile.sxItemLast.checksum)
         else:
-            self.setText(row, 0, "S" + self.sxfile.sxItems[row - 1].format[0])
+            self.setText(row, 0, self.sxfile.sxItems[row - 1].format)
             self.setText(row, 1, self.sxfile.sxItems[row - 1].data_quantity)
             self.setText(row, 2, self.sxfile.sxItems[row - 1].address)
             self.setText(row, 3, self.sxfile.sxItems[row - 1].data)
@@ -208,7 +208,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         return res
 
     def convertTo(self, format: str) -> int:
-        """Convert selected rows to a given format"""
+        """Convert selected rows to a given format: S19, S28 or S37"""
         res = 0 # type: int
         for x in range(1, self.rowCount() - 1): # type: int
             if self.isRowSelected(x):
@@ -305,7 +305,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         if start == 0:
             start = 1
         self.insertRows(start, dialog.spinNbLines.value())
-        format = str(dialog.comboBoxFormat.currentText())   # type: str
+        format = str(dialog.comboBoxFormat.currentText())[:2]   # type: str
         dataLen = dialog.spinRowSize.value()
         data = ('00' * dataLen + dialog.lineEditData.text().upper())[-dataLen*2:]      # type: str
         if dialog.radioPrevContinuity.isChecked():
@@ -326,7 +326,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
             raise ValueError('No address strategy selected')
 
         for i in range(start, start + dialog.spinNbLines.value(), 1):
-            sx = SxItem(format[1:], "00", SxItem.formatAddress(addr_start, format), "00", "00")   # type: SxItem
+            sx = SxItem(format, "00", SxItem.formatAddress(addr_start, format), "00", "00")   # type: SxItem
             sx.updateData(data)
             self.sxfile.sxItems.insert(i - 1, sx)
             self.updateRow(i)

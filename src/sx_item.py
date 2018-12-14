@@ -103,10 +103,21 @@ class SxItem:
     format, in an hexadecimal form.
     """
     # Map format to length of address in bytes.
-    format_corresp = { '':0, '9':2, '19' : 2, '28' : 3, '37' : 4, '55':0}     # type: Dict[str,int]
+    format_corresp = {    '': 0, 
+                        'S0' : 2, 
+                        'S1' : 2, 
+                        'S9' : 2, 
+                        'S2' : 3, 
+                        'S8' : 3, 
+                        'S3' : 4, 
+                        'S7' : 4, 
+                        'S5' : 0, 
+    }     # type: Dict[str,int]
     
     def __init__(self, format:str, data_qty:str, address:str, data:str, checksum:str):
-        '''Format is either: 19, 28, 37 or 55'''
+        '''Format is either: S0, S1, S2, S3, S5, S7, S8, S9'''
+        if format not in self.format_corresp:
+            raise ValueError('No such format: %s' % format)
         self.format = format            # type: str
         self.data_quantity = data_qty   # type: str
         self.address = address          # type: str
@@ -117,19 +128,14 @@ class SxItem:
 
     @staticmethod
     def formatAddress( address:int, format:str) -> str:
-        '''Format an address integer according to the format S19, S28 or S37'''
-        addrFormat = '%dX' % (SxItem.format_corresp[format[1:]]*2)
+        '''Format an address integer according to the format S19, S28, S37.
+        Format should be either: S0, S1, S2, S3, S5, S7, S8, S9'''
+        addrFormat = '%dX' % (SxItem.format_corresp[format]*2)
         return ('%0' + addrFormat) % address
 
     def setContent(self, content:str ) -> None:
         """Assign the item content with a line of sx file"""
-        s2format = {
-            'S1': '19',
-            'S2': '28',
-            'S3': '37',
-            'S5': '55',
-        }
-        self.format = s2format[ content[0:2] ]
+        self.format = content[0:2]
         self.addr_sz = self.format_corresp[self.format]
         self.data_quantity = content[2:4]
         address_length = self.addr_sz*2
@@ -183,14 +189,53 @@ class SxItem:
             raise SxItemBadNewAddress( "Invalid address. Too int for format." )
         self.address = toHexLen(new_address, self.addr_sz*2)
         self.updateChecksum()
-        
-    def convert(self, to_format:str) -> None:
+       
+    convertMap = { 
+    'S19' : {
+        '' :  '',
+        'S0' :  'S0',
+        'S1' :  'S1',
+        'S2' :  'S1',
+        'S3' :  'S1',
+        'S5' :  'S5',
+        'S7' :  'S9',
+        'S8' :  'S9',
+        'S9' :  'S9',
+        },
+    'S28' : {
+        '' :  '',
+        'S0' :  'S0',
+        'S1' :  'S2',
+        'S2' :  'S2',
+        'S3' :  'S2',
+        'S5' :  'S5',
+        'S7' :  'S8',
+        'S8' :  'S8',
+        'S9' :  'S8',
+        },
+    'S37' : {
+        '' :  '',
+        'S0' :  'S0',
+        'S1' :  'S3',
+        'S2' :  'S3',
+        'S3' :  'S3',
+        'S5' :  'S5',
+        'S7' :  'S7',
+        'S8' :  'S7',
+        'S9' :  'S7',
+        },
+    }
+
+    def convert(self, sx_format:str) -> None:
         """Convert an SxItem to another format.
-        to_format must be a string among: '19', '28' or '37'.
+        sx_format must be a string among: 'S19', 'S28' or 'S37'.
         If not, an SxItemBadOutFormat is raised.
         """
-        if not (to_format in SxItem.format_corresp):
-            raise SxItemBadOutFormat( 'Bad out format: %s' % to_format )
+
+        if not (sx_format in ['S19', 'S28', 'S37']):
+            raise SxItemBadOutFormat( 'Bad out format: %s' % sx_format )
+
+        to_format = self.convertMap[sx_format][self.format]
         if to_format == self.format:
             return
         # Updating new address.
@@ -206,15 +251,13 @@ class SxItem:
         the current Item is returned."""
         if offset >= self.dataLen() or offset <= 0:
             raise SxItemBadOffset( "Splitting is not possible at offset %d" % offset )
-        sx2 = SxItem('','','','','')        
-        sx2.format = self.format
-        sx2.addr_sz = self.format_corresp[self.format]
+        sx2 = SxItem(self.format,'','','','')        
         sx2.address = toHexLen( self.addressValue() + offset, self.addr_sz*2 )
         sx2.updateData( self.data[offset*2:] )
         self.updateData( self.data[:offset*2] )
         return sx2
 
-    def mergePossible( self, other:'SxItem' ) -> bool:
+    def mergePossible( self, other: 'SxItem' ) -> bool:
         """Return true if merging sx with other is possible. The merge 
         is possible of sx.address + len(sx.data) == other.address
         """
@@ -232,7 +275,7 @@ class SxItem:
         self.updateChecksum()
         
     def __repr__(self) -> str:
-        return 'S' + self.format[0] + self.data_quantity + self.address + self.data + self.checksum
+        return self.format + self.data_quantity + self.address + self.data + self.checksum
 
     def toOneString(self) -> str:
         s = "%s %s %s %s %s" % (
@@ -261,17 +304,11 @@ class SxItem:
 # First and last lines of a Sx file are special.
 class SxItemLast(SxItem):
     def __init__(self, format:str, data_qty:str, address:str, data:str, checksum:str):
-        super().__init__(format or '9', data_qty, address, data, checksum)
-
-    def __repr__(self) -> str:
-        return 'S9' + self.data_quantity + self.address + self.data + self.checksum
+        super().__init__(format or 'S9', data_qty, address, data, checksum)
 
 class SxItemFirst(SxItem):
     def __init__(self, data_quantity:str, data:str, checksum:str):
-        self.data_quantity = data_quantity  # type: str
-        self.data = data  # type: str
-        self.checksum = checksum  # type: str
-        self.format = '0'
+        super().__init__('S0', data_quantity, '', data, checksum)
         
     def __repr__(self) -> str:
         return 'S0' + self.data_quantity + self.data + self.checksum
@@ -305,7 +342,7 @@ class SxFile:
     def fromFileStream(self, fileStream: TextIO, fname:str) -> None:
         line = fileStream.readline()[:-1]   # type: str
         lineNb = 1
-        if line[1] == '0':
+        if line[:2] == 'S0':
             # optional S0 record
             data_qt = str2hexi( line[2:4] ) # type: int
             if len(line[4:]) != data_qt * 2:
@@ -316,8 +353,8 @@ class SxFile:
             lineNb += 1
 
         # Read every line starting with S{1,2,3}. Last line starts with S{9,8,7}
-        while line[1] in ['1','2','3', '5']:
-            format = line[1] + str(10 - int(line[1]))   # type: str
+        format = line[:2]
+        while format in ['S1','S2','S3', 'S5']:
             addr_sz = SxItem.format_corresp[format]
             if not (format in SxItem.format_corresp):
                 raise SxItemBadFileFormat( "%s: eroneous file or bad format !" % fname )
@@ -330,9 +367,9 @@ class SxFile:
             self.sxItems.append(SxItem(format, toHexLen(data_qt, 2), address, data, checksum))
 
             line = fileStream.readline()[:-1]
+            format = line[:2]
             lineNb += 1
 
-        format = str(10 - int(line[1])) + line[1]
         addr_sz = SxItem.format_corresp[format]
         sdata_qt = line[2:4]
         address = line[4:4+addr_sz*2]

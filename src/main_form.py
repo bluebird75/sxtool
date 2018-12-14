@@ -258,17 +258,17 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
 
     @ensureDataLinesAreSelected
     def slotConvertToS19(self) -> None:
-        i = self.dataTable.convertTo('19')
+        i = self.dataTable.convertTo('S19')
         self.statusBar().showMessage("Converted %d lines to format S19" % i)
 
     @ensureDataLinesAreSelected
     def slotConvertToS28(self) -> None:
-        i = self.dataTable.convertTo('28')
+        i = self.dataTable.convertTo('S28')
         self.statusBar().showMessage("Converted %d lines to format S28" % i)
 
     @ensureDataLinesAreSelected
     def slotConvertToS37(self) -> None:
-        i = self.dataTable.convertTo('37')
+        i = self.dataTable.convertTo('S37')
         self.statusBar().showMessage("Converted %d lines to format S37" % i)
 
     @ensureAnyLinesAreSelected
