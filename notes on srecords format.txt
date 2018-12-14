@@ -44,9 +44,7 @@ The S9 record is comprised as follows:
 
 S0 — The header record for each block of S-records. The code/data field may contain
 any descriptive information identifying the following block of S-records.
-Under VERSAdos, the resident linkerOs IDENT command can be used to designate
-module name, version number, revision number, and description information
-that will make up the header record. The address field is normally zeros.
+The address field is normally zeros.
 
 S1 — A record containing code/data and the 2-byte address at which the code/data
 is to reside.
@@ -58,7 +56,7 @@ S3 — A record containing code/data and the 4-byte address at which the code/da
 is to reside.
 
 S5 — A record containing the number of S1, S2, and S3 records transmitted in a particular
-block. This count appears in the address field. There is no code/data
+block. This count appears in the 2-bytes address field. There is no code/data
 field.
 
 S7 — A termination record for a block of S3 records. The address field may optionally
@@ -71,3 +69,4 @@ There is no code/data field.
 
 S9 — A termination record for a block of S1 records. The address field may optionally
 contain the 2-byte address of the instruction to which control is to be passed.
+There is no code/data field.

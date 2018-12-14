@@ -1,5 +1,6 @@
 
 Future:
+- save recent files in a proper format and location
 - rewrite the dialog apply offset: add a spacer, the field is too large
 - rewrite the dialog for edit data, to avoid the help button and have proper dialog size
 - make the whole project pass with mypy --strict
