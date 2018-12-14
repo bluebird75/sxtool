@@ -133,15 +133,20 @@ class SxItem:
         addrFormat = '%dX' % (SxItem.format_corresp[format]*2)
         return ('%0' + addrFormat) % address
 
-    def setContent(self, content:str ) -> None:
+    def setContent(self, content:str, lineNb:int = -1 ) -> None:
         """Assign the item content with a line of sx file"""
         self.format = content[0:2]
+        if not (self.format in SxItem.format_corresp):
+            raise SxItemBadFileFormat( "%s: eroneous file or bad format !" % self.format )
         self.addr_sz = self.format_corresp[self.format]
         self.data_quantity = content[2:4]
         address_length = self.addr_sz*2
         self.address = content[4:4+address_length]
         self.data = content[4+address_length:-2]
         self.checksum = content[-2:]
+        if len(content[4:]) != str2hexi(self.data_quantity) * 2:
+            raise SxItemMissingData( "%sAddress %s, data is announced as %d bytes but is actually %d bytes!" 
+                % (('' if lineNb == -1 else "Line %d," % lineNb), self.address, str2hexi(self.data_quantity), len(content[4:]) // 2) )
 
     def dataLen(self) -> int:
         """Return the number of hexadecimal bytes in data:
@@ -301,24 +306,14 @@ class SxItem:
         self.updateAddress(hex(new_address)[2:])
  
     
-# First and last lines of a Sx file are special.
-class SxItemLast(SxItem):
-    def __init__(self, format:str, data_qty:str, address:str, data:str, checksum:str):
-        super().__init__(format or 'S9', data_qty, address, data, checksum)
-
-class SxItemFirst(SxItem):
-    def __init__(self, data_quantity:str, data:str, checksum:str):
-        super().__init__('S0', data_quantity, '', data, checksum)
-        
-    def __repr__(self) -> str:
-        return 'S0' + self.data_quantity + self.data + self.checksum
-
-
 class SxFile:
     # noinspection PyMissingTypeHints
     def __init__(self) -> None:
-        self.sxItemFirst = SxItemFirst('','','')
-        self.sxItemLast  = SxItemLast('','','','','')
+        self.clear()
+
+    def clear(self) -> None:
+        self.sxItemFirst = SxItem('','','','','')
+        self.sxItemLast  = SxItem('','','','','')
         self.sxItems = []           # type: List[SxItem]
        
     def __repr__(self) -> str:
@@ -332,50 +327,24 @@ class SxFile:
         return s
  
     def fromFile(self, fname: str) -> None:
-        self.sxItemFirst = SxItemFirst('','','')
-        self.sxItemLast  = SxItemLast('','','','','')
-        self.sxItems = []           # type: List[SxItem]
+        self.clear()
         f = open(fname, 'r')    # type: TextIO
         self.fromFileStream(f, fname)
         f.close()
 
     def fromFileStream(self, fileStream: TextIO, fname:str) -> None:
-        line = fileStream.readline()[:-1]   # type: str
         lineNb = 1
-        if line[:2] == 'S0':
-            # optional S0 record
-            data_qt = str2hexi( line[2:4] ) # type: int
-            if len(line[4:]) != data_qt * 2:
-                raise SxItemMissingData( "S0 line: data is announced as %d bytes but is actually %d bytes!" % (data_qt, len(line[4:]) // 2) )
-            self.sxItemFirst = SxItemFirst(line[2:4], line[4:-2], line[-2:])
-
-            line = fileStream.readline()[:-1]
+        line = fileStream.readline().strip()
+        while len(line):
+            sxItem = SxItem('', '', '', '', '')
+            sxItem.setContent( line, lineNb )
+            self.sxItems.append(sxItem)
+            line = fileStream.readline().strip()
             lineNb += 1
 
-        # Read every line starting with S{1,2,3}. Last line starts with S{9,8,7}
-        format = line[:2]
-        while format in ['S1','S2','S3', 'S5']:
-            addr_sz = SxItem.format_corresp[format]
-            if not (format in SxItem.format_corresp):
-                raise SxItemBadFileFormat( "%s: eroneous file or bad format !" % fname )
-            data_qt = str2hexi( line[2:4] )
-            if len(line[4:]) != data_qt * 2:
-                raise SxItemMissingData( "line %d: data is announced as %d bytes but is actually %d bytes!" % (lineNb, data_qt, len(line[4:]) // 2) )
-            address = line[4:4+addr_sz*2] # type: str
-            data = line[4+addr_sz*2:-2]   # type: str
-            checksum = line[-2:]
-            self.sxItems.append(SxItem(format, toHexLen(data_qt, 2), address, data, checksum))
+        self.sxItemFirst = self.sxItems.pop(0)
+        self.sxItemLast = self.sxItems.pop()
 
-            line = fileStream.readline()[:-1]
-            format = line[:2]
-            lineNb += 1
-
-        addr_sz = SxItem.format_corresp[format]
-        sdata_qt = line[2:4]
-        address = line[4:4+addr_sz*2]
-        data = line[4+addr_sz*2:-2]
-        checksum = line[-2:]
-        self.sxItemLast = SxItemLast(format, sdata_qt, address, data, checksum)
 
     def toFile(self, file_out:str) -> None:
         """ Pretty print every item into file_out"""
