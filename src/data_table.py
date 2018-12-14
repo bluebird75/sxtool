@@ -79,6 +79,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         if self.sxfile.sxItemFirst:
             self.setText(0, 0, self.sxfile.sxItemFirst.format)
             self.setText(0, 1, self.sxfile.sxItemFirst.data_quantity)
+            self.setText(0, 2, self.sxfile.sxItemFirst.address)
             self.setText(0, 3, self.sxfile.sxItemFirst.data)
             self.setText(0, 4, self.sxfile.sxItemFirst.checksum)
         x = 1   # type: int
@@ -142,7 +143,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         if row == 0 and self.sxfile.sxItemFirst:
             self.setText(0, 0, self.sxfile.sxItemFirst.format)
             self.setText(0, 1, self.sxfile.sxItemFirst.data_quantity)
-            self.setText(0, 2, "")
+            self.setText(0, 2, self.sxfile.sxItemFirst.address)
             self.setText(0, 3, self.sxfile.sxItemFirst.data)
             self.setText(0, 4, self.sxfile.sxItemFirst.checksum)
         elif row == self.rowCount() - 1:
