@@ -316,6 +316,11 @@ class SxFile:
         self.sxItemLast  = SxItem('','','','','')
         self.sxItems = []           # type: List[SxItem]
         self.sxItemsEx = []           # type: List[SxItem]
+
+    def syncEx(self):
+        self.sxItemsEx = [ self.sxItemFirst ]
+        self.sxItemsEx.extend( self.sxItems )
+        self.sxItemsEx.append( self.sxItemLast )
        
     def __repr__(self) -> str:
         s = ""  # type: str
@@ -355,25 +360,25 @@ class SxFile:
 
     def toFileStream(self, fileStreamOut: TextIO) -> None:
         """ Pretty print every item into file_out"""
-        if self.sxItemFirst:
-            print(self.sxItemFirst, file=fileStreamOut)
-        for item in self.sxItems:
+        for item in self.sxItemsEx:
             print(item, file=fileStreamOut)
-        print(self.sxItemLast, file=fileStreamOut)
 
     def updateDataRange(self, new_data:str, range:List[int]) -> None:
         '''Apply a data update on items at the index givein in range'''
         for item in self.sxItems[range[0]:range[1]]:
             item.updateData(new_data)
+        self.syncEx()
 
     def convertRange(self, new_format:str, range:List[int]) -> None:
         '''Applye a convert on items at the index givein in range'''
         for item in self.sxItems[range[0]:range[1]]:
             item.convert(new_format)
+        self.syncEx()
 
     def splitItem( self, itemIdx:int, offset:int ) -> None:
         newItem = self.sxItems[itemIdx].split( offset ) # type: SxItem
         self.sxItems.insert( itemIdx+1, newItem )
+        self.syncEx()
 
     def mergeItem( self, itemStart:int, itemEnd:int ) -> None:
         idxOffset = 0   # type: int
@@ -384,6 +389,7 @@ class SxFile:
                 idxOffset -= 1
             except SxItemBadNewAddress:
                 continue
+        self.syncEx()
 
     def applyNewRowSize( self, newRowSize:int, itemStart:int, itemEnd:int ) -> None:
         idx = itemStart # type: int
@@ -403,4 +409,5 @@ class SxFile:
                 itemEnd += 1
 
             idx += 1
+        self.syncEx()
 

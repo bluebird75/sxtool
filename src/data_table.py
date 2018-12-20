@@ -73,29 +73,17 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
     def redisplayTable(self) -> None:
         self.clear()
         self.clearSelection()
-        self.setRowCount(2 + len(self.sxfile.sxItems))
+        self.setRowCount(len(self.sxfile.sxItemsEx))
         self.setColumnCount(5)
 
-        if self.sxfile.sxItemFirst:
-            self.setText(0, 0, self.sxfile.sxItemFirst.format)
-            self.setText(0, 1, self.sxfile.sxItemFirst.data_quantity)
-            self.setText(0, 2, self.sxfile.sxItemFirst.address)
-            self.setText(0, 3, self.sxfile.sxItemFirst.data)
-            self.setText(0, 4, self.sxfile.sxItemFirst.checksum)
-        x = 1   # type: int
-        for l in self.sxfile.sxItems:
+        x = 0
+        for l in self.sxfile.sxItemsEx:
             self.setText(x, 0, l.format)
             self.setText(x, 1, l.data_quantity)
             self.setText(x, 2, l.address)
             self.setText(x, 3, l.data)
             self.setText(x, 4, l.checksum)
             x += 1
-        self.setText(x, 0, self.sxfile.sxItemLast.format)
-        self.setText(x, 1, self.sxfile.sxItemLast.data_quantity)
-        self.setText(x, 2, self.sxfile.sxItemLast.address)
-        self.setText(x, 3, self.sxfile.sxItemLast.data)
-        self.setText(x, 4, self.sxfile.sxItemLast.checksum)
-
         self.initTable()
         self.show()
 
@@ -136,31 +124,18 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         """Return the number of selected rows"""
         return len(self.selectionModel().selectedRows())
 
-    def updateRow(self, row:int) -> None:
+    def updateRow(self, row: int) -> None:
         '''Refresh the display for the given row, reading the data again from object sxfile'''
         if row < 0 or row > self.rowCount():
             return
-        if row == 0 and self.sxfile.sxItemFirst:
-            self.setText(0, 0, self.sxfile.sxItemFirst.format)
-            self.setText(0, 1, self.sxfile.sxItemFirst.data_quantity)
-            self.setText(0, 2, self.sxfile.sxItemFirst.address)
-            self.setText(0, 3, self.sxfile.sxItemFirst.data)
-            self.setText(0, 4, self.sxfile.sxItemFirst.checksum)
-        elif row == self.rowCount() - 1:
-            self.setText(row, 0, self.sxfile.sxItemLast.format)
-            self.setText(row, 1, self.sxfile.sxItemLast.data_quantity)
-            self.setText(row, 2, self.sxfile.sxItemLast.address)
-            self.setText(row, 3, self.sxfile.sxItemLast.data)
-            self.setText(row, 4, self.sxfile.sxItemLast.checksum)
-        else:
-            self.setText(row, 0, self.sxfile.sxItems[row - 1].format)
-            self.setText(row, 1, self.sxfile.sxItems[row - 1].data_quantity)
-            self.setText(row, 2, self.sxfile.sxItems[row - 1].address)
-            self.setText(row, 3, self.sxfile.sxItems[row - 1].data)
-            self.setText(row, 4, self.sxfile.sxItems[row - 1].checksum)
+        self.setText(row, 0, self.sxfile.sxItemsEx[row].format)
+        self.setText(row, 1, self.sxfile.sxItemsEx[row].data_quantity)
+        self.setText(row, 2, self.sxfile.sxItemsEx[row].address)
+        self.setText(row, 3, self.sxfile.sxItemsEx[row].data)
+        self.setText(row, 4, self.sxfile.sxItemsEx[row].checksum)
         self.sigDataModifiedChanged.emit(True)
 
-    def insertItems(self, pos: int, items : Any) -> None:
+    def insertItems(self, pos: int, items: Any) -> None:
         """ Insert a list of /items/ in the table"""
         insert_start = 0    # type: int
         if pos == DataTable.ISTART:
@@ -186,6 +161,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         for i in range(insert_start + 1,
                        insert_start + len(items) + 1, 1):
             self.updateRow(i)
+        self.sxfile.syncEx()
 
     def copyLines(self) -> int:
         """Copy the items corresponding to selection in a copy_list"""
@@ -219,6 +195,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
             res += 1
             self.sxfile.sxItemLast.convert(format)
             self.updateRow(self.rowCount() - 1)
+        self.sxfile.syncEx()
         return res
 
     def editRow(self, row:int, data:str) -> None:
@@ -228,6 +205,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         else:
             self.sxfile.sxItems[row - 1].updateData(data.upper())
         self.updateRow(row)
+        self.sxfile.syncEx()
 
     def editSelection(self, data:str) -> None:
         """Edit every row selected with data"""
@@ -238,6 +216,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         if self.isRowSelected(self.rowCount() - 1):
             self.sxfile.sxItemLast.updateData(data.upper())
             self.updateRow(self.rowCount() - 1)
+        self.sxfile.syncEx()
 
     def deleteSelection(self) -> int:
         """Deleted the selected rows excluding first and last rows"""
@@ -255,6 +234,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         #       del self.sxfile.sxItemLast
         for x in l: # type: int
             del self.sxfile.sxItems[x - 1]
+        self.sxfile.syncEx()
         return len(l)
 
     def pasteLines(self, pasting_mode:int, precise_mode:int) -> int:
@@ -266,6 +246,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
             else:
                 pos = DataTable.IAFTERSEL
             self.insertItems(pos, self.copy_list)
+            self.sxfile.syncEx()
             return len(self.copy_list)
         else:
             x = 0   # type: int
@@ -278,6 +259,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
                     x += 1
                     self.updateRow(i)
                     last = i
+            self.sxfile.syncEx()
             if x < len(self.copy_list):
                 if not self.isRowSelected(0):
                     last += 1
@@ -290,12 +272,15 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
                         self.sxfile.sxItems[i - 1] = self.copy_list[x]
                         self.updateRow(i)
                         x += 1
+                    self.sxfile.syncEx()
                     return (x + 1)
                 else:
                     self.clearSelection()
                     self.selectRow(last)
                     self.insertItems(DataTable.IAFTERSEL, self.copy_list[x:])
+                    self.sxfile.syncEx()
                     return len(self.copy_list)
+            self.sxfile.syncEx()
             return x
 
     def insertRowsWithData(self, dialog:FormInsertRowValue) -> None:
@@ -331,6 +316,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
             self.sxfile.sxItems.insert(i - 1, sx)
             self.updateRow(i)
             addr_start += dataLen
+        self.sxfile.syncEx()
 
     def applyOffsetOnAddresses(self, offset:Union[str,int]) -> None:
         """Apply an offset on address of every selected row"""
@@ -338,11 +324,13 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         for i in rows:
             self.sxfile.sxItems[i - 1].applyOffset(offset)
             self.updateRow(i)
+        self.sxfile.syncEx()
 
     def applyNewRowSize(self, newRowSize:int, selectedRowStart:int, selectedRowEnd:int) -> None:
         """Adjust the size of the rows is the range (selectedRowStart,
         selectedRowEnd) with selectedRowEnd included"""
         self.sxfile.applyNewRowSize(newRowSize, selectedRowStart - 1, selectedRowEnd - 1)
+        self.sxfile.syncEx()
         self.redisplayTable()
         self.sigDataModifiedChanged.emit(True)
 
@@ -359,6 +347,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
             if self.sxfile.sxItems[row+rowOffset-1].dataLen() > offset:
                 self.sxfile.splitItem(row + rowOffset - 1, offset)
                 rowOffset += 1
+        self.sxfile.syncEx()
         self.redisplayTable()
         self.sigDataModifiedChanged.emit(True)
 
@@ -366,6 +355,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         """Merge the rows of the range (rowStart, rowEnd) (end included)
         together."""
         self.sxfile.mergeItem(rowStart - 1, rowEnd - 1)
+        self.sxfile.syncEx()
         self.redisplayTable()
         self.sigDataModifiedChanged.emit(True)
 
@@ -383,6 +373,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
     def insertRows(self, pos:int, length:int) -> None:
         for i in range(pos, pos + length):
             self.insertRow(i)
+        self.sxfile.syncEx()
         self.sigDataModifiedChanged.emit(True)
 
 
@@ -391,12 +382,14 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         for row in rows:
             self.removeRow(row - i)
             i += 1
+        self.sxfile.syncEx()
         self.sigDataModifiedChanged.emit(True)
 
     def flipRows(self) -> None:
         rows = self.rowSelectedListWithoutFirstAndLast()    # type: List[int]
         for x in rows:
             self.sxfile.sxItems[x - 1].flipBits()
+        self.sxfile.syncEx()
         self.redisplayTable()
         self.sigDataModifiedChanged.emit(True)
 
@@ -419,6 +412,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         for rowNb, address, validChecksum, wrongChecksum in invalidChecksumRows:
             self.sxfile.sxItems[rowNb-1].updateChecksum()
             self.updateRow(rowNb-1)
+        self.sxfile.syncEx()
         return len(invalidChecksumRows)
 
 
