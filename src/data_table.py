@@ -121,7 +121,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         return rows
 
     def isSelectionContinuus(self) -> bool:
-        """Return true if the selection is continuus, false
+        """Return True if the selection is continuus, False
         if there is no selection or if there are holes in the
         selection"""
         nbSwitch = 0    # type: int
@@ -137,7 +137,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         return len(self.selectionModel().selectedRows())
 
     def updateRow(self, row:int) -> None:
-        '''Refresh the display for the given row, reading the data again from sxfile'''
+        '''Refresh the display for the given row, reading the data again from object sxfile'''
         if row < 0 or row > self.rowCount():
             return
         if row == 0 and self.sxfile.sxItemFirst:
@@ -179,7 +179,6 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
             QMessageBox.critical(None, "Error !", "Bad argument ! Operation aborted.")
             self.statusBar().showMessage("Insertion aborted")
             return
-        old_len = len(self.sxfile.sxItems) # type: int
         items.reverse()
         for i in items:
             self.sxfile.sxItems.insert(insert_start, i)
@@ -223,7 +222,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         return res
 
     def editRow(self, row:int, data:str) -> None:
-        """ Update the contain of an item corresponding to 'row' with given data"""
+        """ Update the content of an item corresponding to 'row' with given data"""
         if (row == self.rowCount() - 1):
             self.sxfile.sxItemLast.updateData(data.upper())
         else:

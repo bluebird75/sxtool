@@ -357,10 +357,12 @@ class SxFile:
         f.close()
 
     def updateDataRange(self, new_data:str, range:List[int]) -> None:
+        '''Apply a data update on items at the index givein in range'''
         for item in self.sxItems[range[0]:range[1]]:
             item.updateData(new_data)
 
     def convertRange(self, new_format:str, range:List[int]) -> None:
+        '''Applye a convert on items at the index givein in range'''
         for item in self.sxItems[range[0]:range[1]]:
             item.convert(new_format)
 
@@ -370,7 +372,7 @@ class SxFile:
 
     def mergeItem( self, itemStart:int, itemEnd:int ) -> None:
         idxOffset = 0   # type: int
-        for idx in range(itemStart, itemEnd ):
+        for idx in range(itemStart, itemEnd):
             try:
                 self.sxItems[idx+idxOffset].merge( self.sxItems[idx+idxOffset+1] )
                 del self.sxItems[idx+idxOffset+1]
