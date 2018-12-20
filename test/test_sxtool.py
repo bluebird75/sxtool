@@ -299,53 +299,6 @@ class TestSxItem( unittest.TestCase ) :
         self.assertEqual( sxfile.sxItems[5].data, '33' )
 
 
-    def testSxfileSplitItem(self):
-        sxfile = SxFile()
-        sxfile.sxItems = [ 
-            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
-            SxItem( 'S1', '03', '0123', '111213', 'FF' ),
-            SxItem( 'S1', '03', '012C', '212223', 'FF' ),
-        ]
-
-        sxfile.splitItem( 1, 2 )
-
-        self.assertEqual( sxfile.sxItems[0].data, '010203' )
-        self.assertEqual( sxfile.sxItems[1].data, '1112' )
-        self.assertEqual( sxfile.sxItems[2].data, '13' )
-        self.assertEqual( sxfile.sxItems[3].data, '212223' )
-
-        
-    def testSxfileMergeItem(self):
-        sxfile = SxFile()
-        sxfile.sxItems = [ 
-            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
-            SxItem( 'S1', '03', '0126', '111213', 'FF' ),
-            SxItem( 'S1', '03', '0129', '212223', 'FF' ),
-            SxItem( 'S1', '03', '012C', '313233', 'FF' ),
-            SxItem( 'S1', '03', '012F', '414243', 'FF' ),
-        ]
-
-        sxfile.mergeItem( 1, 3 )
-
-        self.assertEqual( sxfile.sxItems[0].data, '010203' )
-        self.assertEqual( sxfile.sxItems[1].data, '111213212223313233' )
-        self.assertEqual( sxfile.sxItems[2].data, '414243' )
-
-        sxfile.sxItems = [ 
-            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
-            SxItem( 'S1', '03', '0126', '111213', 'FF' ),
-            SxItem( 'S1', '03', '0123', '212223', 'FF' ),
-            SxItem( 'S1', '03', '0126', '313233', 'FF' ),
-            SxItem( 'S1', '03', '0129', '414243', 'FF' ),
-        ]
-
-        sxfile.mergeItem( 1, 3 )
-
-        self.assertEqual( sxfile.sxItems[0].data, '010203' )
-        self.assertEqual( sxfile.sxItems[1].data, '111213' )
-        self.assertEqual( sxfile.sxItems[2].data, '212223313233' )
-        self.assertEqual( sxfile.sxItems[3].data, '414243' )
-
     def testFlipBits(self):
         sxfile = SxFile()
         sxfile.sxItems = [ 
@@ -401,11 +354,11 @@ class TestSxItem( unittest.TestCase ) :
 
 class TestSxFile(unittest.TestCase):
 
-    def test1(self):
+    def testDeleteEmptySxFile(self):
         sxf = SxFile()
         del sxf
 
-    def test2(self):
+    def testDeleteFullSxFile(self):
         mys = '''S00A11223344556677889900
 S10B00000001020304050607FF
 S10B000808090A0B0C0D0E0FFF
@@ -415,6 +368,67 @@ S90300000F
         fstream = io.StringIO(mys)  # type: TextIO
         sxf.fromFileStream( fstream, 'stream')
         del sxf
+
+    def testSxFileSplitItem(self):
+        sxfile = SxFile()
+        sxfile.sxItems = [ 
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0123', '111213', 'FF' ),
+            SxItem( 'S1', '03', '012C', '212223', 'FF' ),
+        ]
+
+        sxfile.splitItem( 1, 2 )
+
+        self.assertEqual( sxfile.sxItems[0].data, '010203' )
+        self.assertEqual( sxfile.sxItems[1].data, '1112' )
+        self.assertEqual( sxfile.sxItems[2].data, '13' )
+        self.assertEqual( sxfile.sxItems[3].data, '212223' )
+
+        
+    def testSxFileMergeItem(self):
+        sxfile = SxFile()
+        sxfile.sxItems = [ 
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0126', '111213', 'FF' ),
+            SxItem( 'S1', '03', '0129', '212223', 'FF' ),
+            SxItem( 'S1', '03', '012C', '313233', 'FF' ),
+            SxItem( 'S1', '03', '012F', '414243', 'FF' ),
+        ]
+
+        sxfile.mergeItem( 1, 3 )
+
+        self.assertEqual( sxfile.sxItems[0].data, '010203' )
+        self.assertEqual( sxfile.sxItems[1].data, '111213212223313233' )
+        self.assertEqual( sxfile.sxItems[2].data, '414243' )
+
+        sxfile.sxItems = [ 
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0126', '111213', 'FF' ),
+            SxItem( 'S1', '03', '0123', '212223', 'FF' ),
+            SxItem( 'S1', '03', '0126', '313233', 'FF' ),
+            SxItem( 'S1', '03', '0129', '414243', 'FF' ),
+        ]
+
+        sxfile.mergeItem( 1, 3 )
+
+        self.assertEqual( sxfile.sxItems[0].data, '010203' )
+        self.assertEqual( sxfile.sxItems[1].data, '111213' )
+        self.assertEqual( sxfile.sxItems[2].data, '212223313233' )
+        self.assertEqual( sxfile.sxItems[3].data, '414243' )
+
+    def testSxFileLoadSave(self):
+        sxFile = SxFile()
+        fnames = ['../example1.s19', '../example2.s19', '../example3.s28', '../example4.s37', '../example5.s19']
+        for fname in fnames:
+            sxFile.fromFile(fname)
+            with open(fname) as f:
+                refOut = f.read().strip()
+            strOut = io.StringIO()
+            sxFile.toFileStream(strOut)
+            self.assertEqual(strOut.getvalue().strip(), refOut)
+            strOut.close()
+
+
 
 class TestAdjustAddressLength(unittest.TestCase):
 

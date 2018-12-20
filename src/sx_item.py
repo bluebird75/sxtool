@@ -315,6 +315,7 @@ class SxFile:
         self.sxItemFirst = SxItem('','','','','')
         self.sxItemLast  = SxItem('','','','','')
         self.sxItems = []           # type: List[SxItem]
+        self.sxItemsEx = []           # type: List[SxItem]
        
     def __repr__(self) -> str:
         s = ""  # type: str
@@ -327,12 +328,12 @@ class SxFile:
         return s
  
     def fromFile(self, fname: str) -> None:
-        self.clear()
         f = open(fname, 'r')    # type: TextIO
         self.fromFileStream(f, fname)
         f.close()
 
     def fromFileStream(self, fileStream: TextIO, fname:str) -> None:
+        self.clear()
         lineNb = 1
         line = fileStream.readline().strip()
         while len(line):
@@ -342,19 +343,23 @@ class SxFile:
             line = fileStream.readline().strip()
             lineNb += 1
 
+        self.sxItemsEx = self.sxItems[:]
+
         self.sxItemFirst = self.sxItems.pop(0)
         self.sxItemLast = self.sxItems.pop()
 
-
     def toFile(self, file_out:str) -> None:
-        """ Pretty print every item into file_out"""
         f = open(file_out, "w") # type: TextIO
-        if self.sxItemFirst:
-            print(self.sxItemFirst, file=f)
-        for item in self.sxItems:
-            print(item, file=f)
-        print(self.sxItemLast, file=f)
+        self.toFileStream(f)
         f.close()
+
+    def toFileStream(self, fileStreamOut: TextIO) -> None:
+        """ Pretty print every item into file_out"""
+        if self.sxItemFirst:
+            print(self.sxItemFirst, file=fileStreamOut)
+        for item in self.sxItems:
+            print(item, file=fileStreamOut)
+        print(self.sxItemLast, file=fileStreamOut)
 
     def updateDataRange(self, new_data:str, range:List[int]) -> None:
         '''Apply a data update on items at the index givein in range'''
