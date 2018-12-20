@@ -194,14 +194,11 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
 
     def editSelection(self, data:str) -> None:
         """Edit every row selected with data"""
-        for x in range(1, self.rowCount() - 1): # type:int
+        for x in range(0, self.rowCount()): # type:int
             if self.isRowSelected(x):
-                self.sxfile.sxItems[x - 1].updateData(data.upper())
+                self.sxfile.sxItemsEx[x].updateData(data.upper())
                 self.updateRow(x)
-        if self.isRowSelected(self.rowCount() - 1):
-            self.sxfile.sxItemLast.updateData(data.upper())
-            self.updateRow(self.rowCount() - 1)
-        self.sxfile.syncEx()
+        self.sxfile.syncFromEx()
 
     def deleteSelection(self) -> int:
         """Deleted the selected rows excluding first and last rows"""
@@ -210,16 +207,9 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         l.sort()
         self.clearSelection()
         self.removeRows(l)
-        #   if 0 in l :
-        #       l = l[1:]
-        #       del self.sxfile.sxItemFirst
-        #   last = len(self.sxfile.sxItems) + 1
-        #   if last in l :
-        #       l = l[:-1]
-        #       del self.sxfile.sxItemLast
         for x in l: # type: int
-            del self.sxfile.sxItems[x - 1]
-        self.sxfile.syncEx()
+            del self.sxfile.sxItemsEx[x]
+        self.sxfile.syncFromEx()
         return len(l)
 
     def pasteLines(self, pasting_mode:int, precise_mode:int) -> int:
