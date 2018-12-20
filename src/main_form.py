@@ -256,22 +256,18 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
                 self.dataTable.selectRow(x)
         self.statusBar().showMessage("%d lines selected" % self.dataTable.rowCount())
 
-    @ensureDataLinesAreSelected
     def slotConvertToS19(self) -> None:
         i = self.dataTable.convertTo('S19')
         self.statusBar().showMessage("Converted %d lines to format S19" % i)
 
-    @ensureDataLinesAreSelected
     def slotConvertToS28(self) -> None:
         i = self.dataTable.convertTo('S28')
         self.statusBar().showMessage("Converted %d lines to format S28" % i)
 
-    @ensureDataLinesAreSelected
     def slotConvertToS37(self) -> None:
         i = self.dataTable.convertTo('S37')
         self.statusBar().showMessage("Converted %d lines to format S37" % i)
 
-    @ensureAnyLinesAreSelected
     def slotInsertRow(self) -> None:
         default_format = str(self.dataTable.text(self.dataTable.rowCount() - 1, 0))
         default_format = default_format[0] + str(10 - int(default_format[1])) + default_format[1]

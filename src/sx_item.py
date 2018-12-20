@@ -317,10 +317,15 @@ class SxFile:
         self.sxItems = []           # type: List[SxItem]
         self.sxItemsEx = []           # type: List[SxItem]
 
-    def syncEx(self):
+    def syncEx(self) -> None:
         self.sxItemsEx = [ self.sxItemFirst ]
         self.sxItemsEx.extend( self.sxItems )
         self.sxItemsEx.append( self.sxItemLast )
+       
+    def syncFromEx(self) -> None:
+        self.sxItems = self.sxItemsEx[1:-1]
+        self.sxItemFirst = self.sxItemsEx[0]
+        self.sxItemLast  = self.sxItemsEx[-1]
        
     def __repr__(self) -> str:
         s = ""  # type: str

@@ -1,21 +1,26 @@
 
 Future:
+- add an icon
 - save recent files in a proper format and location
 - rewrite the dialog apply offset: add a spacer, the field is too large
 - rewrite the dialog for edit data, to avoid the help button and have proper dialog size
-- make the whole project pass with mypy --strict
 - Add function to recalculate checksum on the whole file
 - Add function to verify checksum on the file
-- S0 contains an address !
 - Edit Data should also work on first line
-- start address is editable
-- start address is zero but may contain data
 - should be able to edit address
 - Bug: Menu entry Edit / select all does not work, but CTRL+A works...
+- do not use Any
+- user proper type annotations for PyQt types
+- use enum for DataTable.ISTART
+- make the code PEP8 for the pleasure or the eye
 
 
 Done:
 =====
+* start address is editable
+* start address is zero but may contain data
+* S0 contains an address !
+* make the whole project pass with mypy --strict
 * remove help button in dialog (windows 10)
 * ensure that dialog are properly sized
 * which PyQt is needed and which Python

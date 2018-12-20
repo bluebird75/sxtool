@@ -135,7 +135,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.setText(row, 4, self.sxfile.sxItemsEx[row].checksum)
         self.sigDataModifiedChanged.emit(True)
 
-    def insertItems(self, pos: int, items: Any) -> None:
+    def insertItems(self, pos: int, items: List[SxItem]) -> None:
         """ Insert a list of /items/ in the table"""
         insert_start = 0    # type: int
         if pos == DataTable.ISTART:
@@ -155,8 +155,8 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
             self.statusBar().showMessage("Insertion aborted")
             return
         items.reverse()
-        for i in items:
-            self.sxfile.sxItems.insert(insert_start, i)
+        for item in items:
+            self.sxfile.sxItems.insert(insert_start, item)
         self.insertRows(insert_start + 1, len(items))
         for i in range(insert_start + 1,
                        insert_start + len(items) + 1, 1):
@@ -167,45 +167,30 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         """Copy the items corresponding to selection in a copy_list"""
         res = 0 # type: int
         self.copy_list = []
-        hasFirstItem = int(bool(self.sxfile.sxItemFirst))   # type: int
-        if self.isRowSelected(0):
-            res += 1
-            self.copy_list.append(self.sxfile.sxItemFirst)
-        for i in range(0, self.rowCount() - 1, 1):
+        for i in range(self.rowCount()):
             if self.isRowSelected(i):
                 res += 1
-                if i == 0 and hasFirstItem:
-                    self.copy_list.append(self.sxfile.sxItemFirst)
-                else:
-                    self.copy_list.append(self.sxfile.sxItems[i - hasFirstItem])
-        if self.isRowSelected(self.rowCount() - 1):
-            res += 1
-            self.copy_list.append(self.sxfile.sxItemLast)
+                self.copy_list.append(self.sxfile.sxItemsEx[i])
+        assert res == self.numRowsSelected()
         return res
 
     def convertTo(self, format: str) -> int:
         """Convert selected rows to a given format: S19, S28 or S37"""
         res = 0 # type: int
-        for x in range(1, self.rowCount() - 1): # type: int
+        for x in range(self.rowCount()): # type: int
             if self.isRowSelected(x):
                 res += 1
-                self.sxfile.sxItems[x - 1].convert(format)
+                self.sxfile.sxItemsEx[x].convert(format)
                 self.updateRow(x)
-        if self.isRowSelected(self.rowCount() - 1):
-            res += 1
-            self.sxfile.sxItemLast.convert(format)
-            self.updateRow(self.rowCount() - 1)
-        self.sxfile.syncEx()
+        self.sxfile.syncFromEx()
+        assert res == self.numRowsSelected()
         return res
 
     def editRow(self, row:int, data:str) -> None:
         """ Update the content of an item corresponding to 'row' with given data"""
-        if (row == self.rowCount() - 1):
-            self.sxfile.sxItemLast.updateData(data.upper())
-        else:
-            self.sxfile.sxItems[row - 1].updateData(data.upper())
+        self.sxfile.sxItemsEx[row].updateData(data.upper())
         self.updateRow(row)
-        self.sxfile.syncEx()
+        self.sxfile.syncFromEx()
 
     def editSelection(self, data:str) -> None:
         """Edit every row selected with data"""
@@ -373,7 +358,6 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
     def insertRows(self, pos:int, length:int) -> None:
         for i in range(pos, pos + length):
             self.insertRow(i)
-        self.sxfile.syncEx()
         self.sigDataModifiedChanged.emit(True)
 
 
