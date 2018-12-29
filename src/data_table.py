@@ -45,6 +45,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.initTable()
         self.file = ''  # type: str
         self.copy_list = [] # type: List[SxItem]
+        self.setSizeAdjustPolicy(1)
 
     def initTable(self) -> None:
         self.setHorizontalHeaderLabels(["Format", "Size", "Address", "Data", "Checksum"])
@@ -53,6 +54,9 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.horizontalHeader().setStretchLastSection(1)
         self.resizeColumnToContents(0)
         self.resizeColumnToContents(1)
+        self.resizeColumnToContents(2)
+        self.resizeColumnToContents(3)
+        self.resizeColumnToContents(4)
 
     def loadFile(self, fname : str) -> bool:
         self.file = fname
@@ -240,7 +244,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
                     last += 1
                 if precise_mode == DataTable.PREPLACE_SELONLY:
                     return x + 1
-                elif precise_mode == DataTable.PREPLACE_SELREPLACE:
+                elif precise_mode == DateTable.PREPLACE_SELREPLACE:
                     for i in range(last, self.rowCount() - 1, 1):
                         if x >= len(self.copy_list):
                             return x

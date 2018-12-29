@@ -118,6 +118,13 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
         self.dataTable.itemDoubleClicked.connect( self.slotEditRowData )
         self.dataTable.sigDataModifiedChanged.connect( self.slotFileModifiedChanged )
         self.statusBar().showMessage("File %s opened" % fname)
+        deskSize = qApp.desktop().availableGeometry(qApp.desktop().screen())
+        # only take 80% of the screen in best case
+        reasonableSize = int(deskSize.width()*0.8),int(deskSize.height()*0.8)
+        szHint = self.sizeHint()
+        # sizeHint needs a little margin to account for ... I don't know exactly what
+        goodSize = int(szHint.width()*1.1),int(szHint.height()*1.1)
+        self.resize(min(goodSize[0],reasonableSize[0]),min(goodSize[1],reasonableSize[1]))
         return True
 
     def slotInsert(self) -> None:
