@@ -49,14 +49,15 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
 
     def initTable(self) -> None:
         self.setHorizontalHeaderLabels(["Format", "Size", "Address", "Data", "Checksum"])
-        self.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        # self.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        # self.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        self.verticalHeader().hide()
         self.setColumnWidth(3, 300)
         self.horizontalHeader().setStretchLastSection(1)
-        self.resizeColumnToContents(0)
-        self.resizeColumnToContents(1)
-        self.resizeColumnToContents(2)
-        self.resizeColumnToContents(3)
-        self.resizeColumnToContents(4)
+        # self.horizontalHeader().setSectionResizeMode(3)
+        for i in range(5):
+            self.horizontalHeader().resizeSection(i,int(max(
+                self.sizeHintForColumn(i),self.horizontalHeader().sectionSizeHint(i))*1.1))
 
     def loadFile(self, fname : str) -> bool:
         self.file = fname

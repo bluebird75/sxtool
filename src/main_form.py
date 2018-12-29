@@ -123,7 +123,7 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
         reasonableSize = int(deskSize.width()*0.8),int(deskSize.height()*0.8)
         szHint = self.sizeHint()
         # sizeHint needs a little margin to account for ... I don't know exactly what
-        goodSize = int(szHint.width()*1.1),int(szHint.height()*1.1)
+        goodSize = int(szHint.width()*1.1),int(szHint.height()*1,1)
         self.resize(min(goodSize[0],reasonableSize[0]),min(goodSize[1],reasonableSize[1]))
         return True
 
