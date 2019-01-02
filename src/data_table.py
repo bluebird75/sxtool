@@ -245,7 +245,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
                     last += 1
                 if precise_mode == DataTable.PREPLACE_SELONLY:
                     return x + 1
-                elif precise_mode == DateTable.PREPLACE_SELREPLACE:
+                elif precise_mode == DataTable.PREPLACE_SELREPLACE:
                     for i in range(last, self.rowCount() - 1, 1):
                         if x >= len(self.copy_list):
                             return x
