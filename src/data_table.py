@@ -302,9 +302,9 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         """Apply an offset on address of every selected row"""
         rows = self.rowSelectedListWithoutFirstAndLast()    # type: List[int]
         for i in rows:
-            self.sxfile.sxItems[i - 1].applyOffset(offset)
+            self.sxfile.sxItemsEx[i].applyOffset(offset)
             self.updateRow(i)
-        self.sxfile.syncEx()
+        self.sxfile.syncFromEx()
 
     def applyNewRowSize(self, newRowSize:int, selectedRowStart:int, selectedRowEnd:int) -> None:
         """Adjust the size of the rows is the range (selectedRowStart,
