@@ -282,11 +282,6 @@ class SxItem:
     def __repr__(self) -> str:
         return self.format + self.data_quantity + self.address + self.data + self.checksum
 
-    def toOneString(self) -> str:
-        s = "%s %s %s %s %s" % (
-            str(self.format), str(self.data_quantity), str(self.address), str(self.data), str(self.checksum) )  # type: str
-        return s
-
     def xorData(self, pattern:str) -> None:
         self.data = xor(self.data, pattern) # type: str
         self.updateChecksum()
@@ -330,11 +325,11 @@ class SxFile:
     def __repr__(self) -> str:
         s = ""  # type: str
         if self.sxItemFirst == None: s += 'None\n'
-        else: s += self.sxItemFirst.toOneString() + "\n"
+        else: s += repr(self.sxItemFirst) + "\n"
         for item in self.sxItems:   # type: SxItem
-            s += item.toOneString() + "\n"
+            s += repr(item) + "\n"
         if self.sxItemLast == None: s += 'None\n'
-        else: s += self.sxItemLast.toOneString() + "\n"
+        else: s += repr(self.sxItemLast)+ "\n"
         return s
  
     def fromFile(self, fname: str) -> None:
@@ -369,13 +364,17 @@ class SxFile:
             print(item, file=fileStreamOut)
 
     def updateDataRange(self, new_data:str, range:List[int]) -> None:
-        '''Apply a data update on items at the index givein in range'''
-        for item in self.sxItems[range[0]:range[1]]:
+        '''Apply a data update on items at the index given in range. 
+        Index counts from S1 line (excludes S0)
+        Last index is not included in the range'''
+        for item in self.sxItemsEx[range[0]+1:range[1]+1]:
             item.updateData(new_data)
-        self.syncEx()
+        self.syncFromEx()
 
     def convertRange(self, new_format:str, range:List[int]) -> None:
-        '''Applye a convert on items at the index givein in range'''
+        '''Apply a convert on items at the index given in range.
+        Index counts from S1 line (excludes S0)
+        Last index is not included in the range'''
         for item in self.sxItems[range[0]:range[1]]:
             item.convert(new_format)
         self.syncEx()

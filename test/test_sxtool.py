@@ -508,6 +508,34 @@ S106012F414243FF
 ''' )
 
 
+    def testConvertRange(self):
+        sxfile = SxFile()
+        sin = '\n'.join( [
+            'S004000088FF',
+            'S1' '06' '0123' '010203' 'FF',
+            'S1' '06' '0126' '111213' 'FF',
+            'S1' '06' '0129' '212223' 'FF',
+            'S1' '06' '012C' '313233' 'FF',
+            'S1' '06' '012F' '414243' 'FF'
+        ] )
+        sxfile.fromFileStream( io.StringIO(sin), 'stream' )
+        self.assertEqual(str(sxfile), '''S004000088FF
+S1060123010203FF
+S1060126111213FF
+S1060129212223FF
+S106012C313233FF
+S106012F414243FF
+''' )
+
+        sxfile.convertRange('S28', (1,4))
+        self.assertEqual(str(sxfile), '''S004000088FF
+S1060123010203FF
+S2070001261112139B
+S20700012921222368
+S20700012C31323335
+S106012F414243FF
+''' )
+
 
 
 class TestAdjustAddressLength(unittest.TestCase):
