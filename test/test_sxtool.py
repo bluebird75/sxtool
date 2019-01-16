@@ -11,8 +11,8 @@ from src.form_insert_row_value import FormInsertRowValue
 
 s = 'S1130000285F245F2212226A000424290008237C2A'
 
-class TestSxItem( unittest.TestCase ) :
 
+class TestUtils( unittest.TestCase ) :
     def testStr2hex(self):
         self.assertEqual( str2hex(''), [])
         self.assertEqual( str2hex(None), [])
@@ -67,6 +67,42 @@ class TestSxItem( unittest.TestCase ) :
         testToHexLenSingle("11", "2211", 2)
         testToHexLenSingle("11", "222211", 2)
 
+    def testXor(self):
+        self.assertEqual( xor('0F', '1E'), '11')
+        self.assertEqual( xor('1F',  'E'), 'FF')
+        self.assertRaises( ValueError, xor, 'F', '1F')
+
+
+
+class TestSxItem( unittest.TestCase ) :
+
+    def testSxItemCreationError( self ):
+        self.assertRaises( ValueError, SxItem, 'SX', '13', '0000', '285F245F2212226A000424290008237C', 'FF' )
+
+    def testFormatAddress( self ):
+        self.assertEqual( SxItem.formatAddress(0x1234, 'S0'), '1234' )
+        self.assertEqual( SxItem.formatAddress(0x34, 'S0'), '0034' )
+
+        self.assertEqual( SxItem.formatAddress(0x1234, 'S5'), '1234' )
+        self.assertEqual( SxItem.formatAddress(0x34, 'S5'), '34' )
+
+        self.assertEqual( SxItem.formatAddress(0x1234, 'S1'), '1234' )
+        self.assertEqual( SxItem.formatAddress(0x34, 'S1'), '0034' )
+
+        self.assertEqual( SxItem.formatAddress(0x1234, 'S9'), '1234' )
+        self.assertEqual( SxItem.formatAddress(0x34, 'S9'), '0034' )
+
+        self.assertEqual( SxItem.formatAddress(0x1234, 'S2'), '001234' )
+        self.assertEqual( SxItem.formatAddress(0x34, 'S2'), '000034' )
+
+        self.assertEqual( SxItem.formatAddress(0x1234, 'S8'), '001234' )
+        self.assertEqual( SxItem.formatAddress(0x34, 'S8'), '000034' )
+
+        self.assertEqual( SxItem.formatAddress(0x1234, 'S3'), '00001234' )
+        self.assertEqual( SxItem.formatAddress(0x34, 'S3'), '00000034' )
+
+        self.assertEqual( SxItem.formatAddress(0x1234, 'S7'), '00001234' )
+        self.assertEqual( SxItem.formatAddress(0x34, 'S7'), '00000034' )
 
     def testChecksum( self ):
         sx = SxItem( 'S1', '13', '0000', '285F245F2212226A000424290008237C', 'FF' )
@@ -210,7 +246,6 @@ class TestSxItem( unittest.TestCase ) :
         ref_s19 = 'S1130000285F245F2212226A000424290008237C2A'
         sx = SxItem('','','','','')
         sx.setContent( ref_s19 )
-        # print sx.toOneString()
         sx.updateChecksum()
         self.assertEqual( sx.format, 'S1' )
         self.assertEqual( sx.data_quantity, '13' )
@@ -229,6 +264,8 @@ class TestSxItem( unittest.TestCase ) :
         self.assertEqual( sx.format, 'S3' )
         self.assertEqual( sx.data_quantity, '15' )
         self.assertEqual( sx.checksum, '28' )
+
+        self.assertRaises( SxItemBadFileFormat, sx.setContent, 'SX1234' )
 
     def testSplit( self ):
         sdata = 'S1090123112233445566FF'
@@ -352,6 +389,7 @@ class TestSxItem( unittest.TestCase ) :
         self.assertEqual(sxfile.sxItems[3].data, '249D33')
         self.assertEqual(sxfile.sxItems[4].data, '54ED43')
 
+
 class TestSxFile(unittest.TestCase):
 
     def testDeleteEmptySxFile(self):
@@ -427,6 +465,48 @@ S90300000F
             sxFile.toFileStream(strOut)
             self.assertEqual(strOut.getvalue().strip(), refOut)
             strOut.close()
+
+    def testSxFileRepr(self):
+        sxfile = SxFile()
+        sxfile.sxItems = [ 
+            SxItem( 'S1', '03', '0123', '010203', 'FF' ),
+            SxItem( 'S1', '03', '0126', '111213', 'FF' ),
+        ]
+        self.assertEqual(str(sxfile), '''
+S1030123010203FF
+S1030126111213FF
+
+''')
+
+    def testUpdateDataRange(self):
+        sxfile = SxFile()
+        sin = '\n'.join( [
+            'S004000088FF',
+            'S1' '06' '0123' '010203' 'FF',
+            'S1' '06' '0126' '111213' 'FF',
+            'S1' '06' '0129' '212223' 'FF',
+            'S1' '06' '012C' '313233' 'FF',
+            'S1' '06' '012F' '414243' 'FF'
+        ] )
+        sxfile.fromFileStream( io.StringIO(sin), 'stream' )
+
+        self.assertEqual(str(sxfile), '''S004000088FF
+S1060123010203FF
+S1060126111213FF
+S1060129212223FF
+S106012C313233FF
+S106012F414243FF
+''' )
+
+        sxfile.updateDataRange('AABB', (1,4))
+        self.assertEqual(str(sxfile), '''S004000088FF
+S1060123010203FF
+S1050126AABB6E
+S1050129AABB6B
+S105012CAABB68
+S106012F414243FF
+''' )
+
 
 
 
