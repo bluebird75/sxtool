@@ -20,6 +20,7 @@ class TestWithGui(unittest.TestCase):
         cls.saveExceptHook = sys.excepthook
         sys.excepthook = myExceptHook
         cls.app = QApplication([])
+        cls.maxDiff = None
 
     @classmethod
     def tearDownClass(cls):
@@ -31,7 +32,27 @@ class TestWithGui(unittest.TestCase):
         w = MainForm(file=None)
         self.assertEqual( len(w.dataTable.sxfile), 0 )
         w.loadFile( 'example3.s28')
-        self.assertEqual( len(w.dataTable.sxfile), 6 )
+        sxf = w.dataTable.sxfile
+        self.assertEqual( len(sxf), 6 )
+        self.assertEqual( str(sxf.sxItemFirst), 'S0030000FF' )
+        self.assertEqual( str(sxf.sxItemLast),  'S90300000F' )
+        self.assertEqual( str(sxf[-1]), 'S21000B0306F207265616420746869733FCD' )
+        self.assertEqual( str(sxf[0]), 'S21400B000576F77212044696420796F7520726561D7' )
+
+
+    def XtestInsertFile(self):
+        w = MainForm(file='example3.s28')
+        sxf = w.dataTable.sxfile
+        self.assertEqual( str(sxf), '''S0 03 0000 FF
+S2 14 00B000 576F77212044696420796F7520726561 D7
+S2 14 00B010 6C6C7920676F207468726F7567682061 42
+S2 14 00B020 6C20746861742074726F75626C652074 2D
+S2 10 00B030 6F207265616420746869733F CD
+S9 03 0000 0F''' )
+
+
+
+
 
     def testLineEdit(self):
         le = QLineEdit()
