@@ -20,6 +20,8 @@ from src.utils import ItemHistoryMenu, ItemHistoryStringList
 
 from src.const import VERSION, ABOUT_INFO
 
+SX_FILES_PATTERNS = "SX files (*.s19 *.s28 *.s37 *.sx *.s3)"
+
 def ensureAnyLinesAreSelected(f: Callable[['MainForm'], None]) -> Callable[['MainForm'], None]:
     @wraps(f)
     def wrapper(self: 'MainForm') -> None:
@@ -93,7 +95,7 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
     def slotOpen(self) -> None:
         self.statusBar().showMessage("Opening file ...")
         # noinspection PyCallByClass,PyCallByClass
-        fname, selectedFilter = QFileDialog.getOpenFileName(self, "Choose file", '', "SX files (*.s19 *.s28 *.s37 *.sx *.s3)" )  # type: str, str
+        fname, selectedFilter = QFileDialog.getOpenFileName(self, "Choose file", '', SX_FILES_PATTERNS)  # type: str, str
         if not fname :
             self.statusBar().showMessage("Loading aborted.")
         else:
@@ -129,8 +131,7 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
 
     def slotInsert(self) -> None:
         self.statusBar().showMessage("Inserting file ...")
-        fname, filterName = QFileDialog.getOpenFileName(self, "Insert file", self.lastDir[0], 
-            "SX files (*.s19 *.s28 *.s37 *.sx *.s3)" )  # type: str, str
+        fname, filterName = QFileDialog.getOpenFileName(self, "Insert file", self.lastDir[0], SX_FILES_PATTERNS ) # type: str, str
         if not fname or len(fname) == 0:
             self.statusBar().showMessage("Insertion aborted.")
             return
@@ -161,43 +162,35 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
             self.statusBar().showMessage("Insertion aborted")
             
 
-    def slotSave(self) -> None:
+    def slotSave(self) -> bool:
         self.statusBar().showMessage("Saving...")
         if not self.dataTable:
             QMessageBox.critical(None, "Internal Error o_O", "An internal error occured.")
-            return
+            return False
         try:
             self.dataTable.sxfile.toFile( self.dataTable.file )
         except Exception as e:
             QMessageBox.critical(None, "Error !", repr(e))
-            return
+            return False
         self.statusBar().showMessage("File %s successfully saved !" % self.dataTable.file)
         self.setProgramTitle( self.dataTable.file, False )
+        return True
 
 
     def slotSaveAs(self) -> None:
         self.statusBar().showMessage("Saving as ...")
         if not self.dataTable:
-                QMessageBox.critical(None, "Internal Error o_O", "An internal error occured.")
-                return
-        fname,filterName = QFileDialog.getSaveFileName(self, "Save file as", self.lastDir[0])   # type: str, str
-        if not fname : return
-        self.dirHistory.addItemToHistory(os.path.split(fname)[0])
-        self.dirHistory.save()
-        try:
-            f = open(fname, "w")    # type: TextIO
-        except Exception as e:
-            QMessageBox.critical(None, "Error !", repr(e))
+            QMessageBox.critical(None, "Internal Error o_O", "An internal error occured.")
             return
-        for x in range (self.dataTable.rowCount()):
-            s = ""      # type: str
-            for y in range(5):
-                s += str(self.dataTable.text(x, y))
-            print(s, file=f)
-        f.close()
-        self.statusBar().showMessage("File %s successfully saved !" % fname)
+        fname, filterName = QFileDialog.getSaveFileName(self, "Save file as", self.lastDir[0], SX_FILES_PATTERNS ) # type: str, str
+        if not fname : return
+        prevName = self.dataTable.file
         self.dataTable.file = fname
-        self.setProgramTitle(fname, False)
+        if self.slotSave():
+            self.dirHistory.addItemToHistory(os.path.split(fname)[0])
+            self.dirHistory.save()
+        else:
+            self.dataTable.file = prevName
 
     @ensureDataLinesAreSelected
     def slotCopy(self) -> None:

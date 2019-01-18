@@ -44,13 +44,16 @@ class TestWithGui(unittest.TestCase):
     def testInsertFile(self):
         w = MainForm(file='example3.s28')
         sxf = w.dataTable.sxfile
-        self.assertEqual( str(sxf), '''S0030000FF
-S21400B000576F77212044696420796F7520726561D7
-S21400B0106C6C7920676F207468726F756768206142
-S21400B0206C20746861742074726F75626C6520742D
-S21000B0306F207265616420746869733FCD
-S90300000F
-''' )
+        self.assertEqual( len(sxf), 6 )
+
+        # Refuse insertion
+        mockDialog = Mock(
+            exec_=lambda:QDialog.Rejected,
+            windowFlags=lambda:0,
+            radioStart=Mock(isChecked=lambda:True)
+        )
+        w.insertFname('example1.s19', mockDialog)
+        self.assertEqual( len(sxf), 6 )
 
         # Insert file is too interactive, it may only be tested
         mockDialog = Mock(
@@ -84,7 +87,6 @@ S21400B0206C20746861742074726F75626C6520742D
 S21000B0306F207265616420746869733FCD
 S90300000F
 ''' )
-
 
 if __name__ == "__main__":
     unittest.main()
