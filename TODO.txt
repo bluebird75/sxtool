@@ -1,5 +1,6 @@
 
 Future:
+- search for address or data
 - add an icon
 - save recent files in a proper format and location
 - rewrite the dialog apply offset: add a spacer, the field is too large

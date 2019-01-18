@@ -336,6 +336,9 @@ class SxFile:
         if self.sxItemLast == None: s += 'None\n'
         else: s += self.sxItemLast.toOneString() + "\n"
         return s
+
+    def __len__(self) -> int:
+        return len(self.sxItemsEx)
  
     def fromFile(self, fname: str) -> None:
         f = open(fname, 'r')    # type: TextIO

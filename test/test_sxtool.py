@@ -8,6 +8,10 @@ import unittest, io, sys, os
 sys.path.append( os.path.join( os.path.dirname(__file__), '..' ) )
 from src.sx_item import *
 from src.form_insert_row_value import FormInsertRowValue
+from src.main_form import MainForm
+
+from PyQt5.QtWidgets import QApplication, QLineEdit
+from PyQt5.QtTest import QTest
 
 s = 'S1130000285F245F2212226A000424290008237C2A'
 
@@ -438,6 +442,33 @@ class TestAdjustAddressLength(unittest.TestCase):
         self.assertEqual( FormInsertRowValue.adjustAddressLength( FormInsertRowValue, '12345', 'S19'), '2345' )
         self.assertEqual( FormInsertRowValue.adjustAddressLength( FormInsertRowValue, '', 'S19'), '0000' )
 
+from sxtool import myExceptHook
+
+class TestWithGui(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        # to avoid crashes when Python exceptions are raised inside Qt slots
+        cls.saveExceptHook = sys.excepthook
+        sys.excepthook = myExceptHook
+        cls.app = QApplication([])
+
+    @classmethod
+    def tearDownClass(cls):
+        sys.excepthook = cls.saveExceptHook
+        # cls.app.exit()
+        # cls.app = None
+
+    def testLoadFile(self):
+        w = MainForm(file=None)
+        self.assertEqual( len(w.dataTable.sxfile), 0 )
+        w.loadFile( '../example3.s28')
+        self.assertEqual( len(w.dataTable.sxfile), 6 )
+
+    def testLineEdit(self):
+        le = QLineEdit()
+        QTest.keyClicks(le, "coucou")
+        self.assertEqual( le.text(), "coucou")
 
 
 if __name__ == "__main__":
