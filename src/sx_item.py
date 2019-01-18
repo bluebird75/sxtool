@@ -339,6 +339,9 @@ class SxFile:
 
     def __len__(self) -> int:
         return len(self.sxItemsEx)
+
+    def __getitem__(self, idx):
+        return self.sxItems[idx]
  
     def fromFile(self, fname: str) -> None:
         f = open(fname, 'r')    # type: TextIO
