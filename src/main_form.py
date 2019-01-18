@@ -136,29 +136,27 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
             return
         self.dirHistory.addItemToHistory( os.path.split(fname)[0])
         self.dirHistory.save()
-        sxtmp = None    # type: Optional[SxFile]
-        try:
-            sxtmp = SxFile()
-            sxtmp.fromFile(fname)
-            dialog = InsertDialog(self)
-            dialog.setWindowFlags(dialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-            pos = 0 # type: int
-            if dialog.exec_() == QDialog.Accepted:
-                if dialog.radioStart.isChecked():
-                    pos = DataTable.ISTART
-                elif dialog.radioBeforeCurrent.isChecked():
-                    pos = DataTable.IBEFORESEL
-                elif dialog.radioAfterCurrent.isChecked():
-                    pos = DataTable.IAFTERSEL
-                else:
-                    pos = DataTable.IEND
-                self.dataTable.insertItems(pos, sxtmp.sxItems)
-                self.statusBar().showMessage("File %s successfully inserted !" % str(fname))
+        self.insertFname(fname)
+
+    def insertFname(self, fname, mockDialog=None):
+        sxtmp = SxFile()
+        sxtmp.fromFile(fname)
+        dialog = mockDialog or InsertDialog(self) # trick to allow mocking the dialog
+        dialog.setWindowFlags(dialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        pos = 0 # type: int
+        if dialog.exec_() == QDialog.Accepted:
+            if dialog.radioStart.isChecked():
+                pos = DataTable.ISTART
+            elif dialog.radioBeforeCurrent.isChecked():
+                pos = DataTable.IBEFORESEL
+            elif dialog.radioAfterCurrent.isChecked():
+                pos = DataTable.IAFTERSEL
             else:
-                self.statusBar().showMessage("Insertion aborted")
-        finally:
-            # if sxtmp: del sxtmp
-            pass
+                pos = DataTable.IEND
+            self.dataTable.insertItems(pos, sxtmp.sxItems)
+            self.statusBar().showMessage("File %s successfully inserted !" % str(fname))
+        else:
+            self.statusBar().showMessage("Insertion aborted")
             
 
     def slotSave(self) -> None:

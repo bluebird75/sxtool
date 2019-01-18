@@ -4,8 +4,9 @@
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
 import unittest, io, sys, os
+from unittest.mock import Mock
 
-from PyQt5.QtWidgets import QApplication, QLineEdit
+from PyQt5.QtWidgets import QApplication, QDialog
 from PyQt5.QtTest import QTest
 
 from src.form_insert_row_value import FormInsertRowValue
@@ -40,24 +41,25 @@ class TestWithGui(unittest.TestCase):
         self.assertEqual( str(sxf[0]), 'S21400B000576F77212044696420796F7520726561D7' )
 
 
-    def XtestInsertFile(self):
+    def testInsertFile(self):
         w = MainForm(file='example3.s28')
         sxf = w.dataTable.sxfile
-        self.assertEqual( str(sxf), '''S0 03 0000 FF
-S2 14 00B000 576F77212044696420796F7520726561 D7
-S2 14 00B010 6C6C7920676F207468726F7567682061 42
-S2 14 00B020 6C20746861742074726F75626C652074 2D
-S2 10 00B030 6F207265616420746869733F CD
-S9 03 0000 0F''' )
+        self.assertEqual( str(sxf), '''S0030000FF
+S21400B000576F77212044696420796F7520726561D7
+S21400B0106C6C7920676F207468726F756768206142
+S21400B0206C20746861742074726F75626C6520742D
+S21000B0306F207265616420746869733FCD
+S90300000F
+''' )
 
-
-
-
-
-    def testLineEdit(self):
-        le = QLineEdit()
-        QTest.keyClicks(le, "coucou")
-        self.assertEqual( le.text(), "coucou")
+        # Insert file is too interactive, it may only be tested
+        mockDialog = Mock(
+            exec_=lambda:QDialog.Accepted,
+            windowFlags=lambda:0,
+            radioStart=Mock(isChecked=lambda:True)
+        )
+        w.insertFname('example1.s19', mockDialog)
+        self.assertEqual( len(sxf), 8 )
 
 
 if __name__ == "__main__":
