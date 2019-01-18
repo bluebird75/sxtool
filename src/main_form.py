@@ -93,7 +93,7 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
     def slotOpen(self) -> None:
         self.statusBar().showMessage("Opening file ...")
         # noinspection PyCallByClass,PyCallByClass
-        fname, selectedFilter = QFileDialog.getOpenFileName(self, "Choose file", '', "SX files (*.s19 *.s28 *.s37)" )  # type: str, str
+        fname, selectedFilter = QFileDialog.getOpenFileName(self, "Choose file", '', "SX files (*.s19 *.s28 *.s37 *.sx *.s3)" )  # type: str, str
         if not fname :
             self.statusBar().showMessage("Loading aborted.")
         else:
@@ -129,7 +129,8 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
 
     def slotInsert(self) -> None:
         self.statusBar().showMessage("Inserting file ...")
-        fname,filterName = QFileDialog.getOpenFileName(self, "Insert file", self.lastDir[0] ) # type: str, str
+        fname, filterName = QFileDialog.getOpenFileName(self, "Insert file", self.lastDir[0], 
+            "SX files (*.s19 *.s28 *.s37 *.sx *.s3)" )  # type: str, str
         if not fname or len(fname) == 0:
             self.statusBar().showMessage("Insertion aborted.")
             return
