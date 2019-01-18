@@ -139,6 +139,8 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
         self.insertFname(fname)
 
     def insertFname(self, fname, mockDialog=None):
+        '''fname: file name to insert.
+        mockDialog: not used by the application, used only for testing.'''
         sxtmp = SxFile()
         sxtmp.fromFile(fname)
         dialog = mockDialog or InsertDialog(self) # trick to allow mocking the dialog
@@ -162,19 +164,13 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
     def slotSave(self) -> None:
         self.statusBar().showMessage("Saving...")
         if not self.dataTable:
-                QMessageBox.critical(None, "Internal Error o_O", "An internal error occured.")
-                return
-        try:
-            f = open(self.dataTable.file, "w")  # type: TextIO
-        except Exception as e:
-            QMessageBox.critical(None, "Error !", str(e))
+            QMessageBox.critical(None, "Internal Error o_O", "An internal error occured.")
             return
-        for x in range (self.dataTable.rowCount()): # type: int
-            s = ""  # type: str
-            for y in range(5):  # type: int
-                s += self.dataTable.text(x, y)
-            print(s, file=f)
-        f.close()
+        try:
+            self.dataTable.sxfile.toFile( self.dataTable.file )
+        except Exception as e:
+            QMessageBox.critical(None, "Error !", repr(e))
+            return
         self.statusBar().showMessage("File %s successfully saved !" % self.dataTable.file)
         self.setProgramTitle( self.dataTable.file, False )
 
@@ -191,7 +187,7 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
         try:
             f = open(fname, "w")    # type: TextIO
         except Exception as e:
-            QMessageBox.critical(None, "Error !", str(e))
+            QMessageBox.critical(None, "Error !", repr(e))
             return
         for x in range (self.dataTable.rowCount()):
             s = ""      # type: str
