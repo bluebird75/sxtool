@@ -1,3 +1,6 @@
+See http://srecord.sourceforge.net/man/man5/srec_motorola.html
+https://en.wikipedia.org/wiki/SREC_%28file_format%29
+
 S + number  + length of remaining data (including address and checksum) + address + data + 1 byte checksum
 
 Shown below is a typical S−record format file.
@@ -29,7 +32,7 @@ The first S1 record is comprised as follows:
 
 The second and third S1 records each contain 0x13 (19) character pairs and are ended with checksums of 13 and 52, respectively. The fourth S1 record contains 07 character pairs and has a checksum of 92.
 
-The S5 record is comprised as follows:
+The S5 record is optional and comprised as follows:
     • S5 S−record type S5, indicating it is a count record indicating the number of S1 records
     • 03 Hexadecimal 03 (decimal 3), indicating that three character pairs follow.
     • 00 04 Hexadecimal 0004 (decimal 4), indicating that there are four data records previous to this record.
@@ -55,7 +58,7 @@ is to reside.
 S3 — A record containing code/data and the 4-byte address at which the code/data
 is to reside.
 
-S5 — A record containing the number of S1, S2, and S3 records transmitted in a particular
+S5 — An optional record containing the number of S1, S2, and S3 records transmitted in a particular
 block. This count appears in the 2-bytes address field. There is no code/data
 field.
 
