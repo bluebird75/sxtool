@@ -306,6 +306,14 @@ class SxFile:
     def __init__(self) -> None:
         self.clear()
 
+    def getFormat(self) -> str:
+        '''Return s19, s28, s37 or empty string if no data'''
+        if len(self.sxItemsEx) == 0:
+            return ''
+        lastFmtChar = int(self.sxItemsEx[-1].format[1])
+        fmt = 's%d%d' % ((10-lastFmtChar),lastFmtChar)
+        return fmt
+
     def clear(self) -> None:
         self.sxItemFirst = SxItem('','','','','')
         self.sxItemLast  = SxItem('','','','','')

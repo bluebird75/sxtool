@@ -466,6 +466,15 @@ S90300000F
             self.assertEqual(strOut.getvalue().strip(), refOut)
             strOut.close()
 
+    def testGetFormat(self):
+        sxFile = SxFile()
+        self.assertEqual( sxFile.getFormat(), '')
+        fnamesAndFmt = [('example1.s19','s19'), ('example2.s19','s19'), ('example3.s28','s28'), ('example4.s37','s37'), ('example5.s19','s19')]
+        for fname,fmt in fnamesAndFmt:
+            with self.subTest(fname):
+                sxFile.fromFile(fname)
+                self.assertEqual( sxFile.getFormat(), fmt)
+
     def testSxFileRepr(self):
         sxfile = SxFile()
         sxfile.sxItems = [ 
