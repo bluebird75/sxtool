@@ -139,7 +139,7 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
         self.dirHistory.save()
         self.insertFname(fname)
 
-    def insertFname(self, fname, mockDialog=None):
+    def insertFname(self, fname:str, mockDialog: Optional[QDialog]=None) -> None:
         '''fname: file name to insert.
         mockDialog: not used by the application, used only for testing.'''
         sxtmp = SxFile()
@@ -231,6 +231,7 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
         res = self.dataTable.pasteLines(pasting_mode, precise_mode) # type: int
         self.statusBar().showMessage("Pasted %d lines" % res)
 
+    @ensureDataLinesAreSelected
     def slotDelete(self) -> None:
         i = self.dataTable.numRowsSelected()    # type: int
         # noinspection PyTypeChecker
@@ -239,10 +240,6 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
             self.statusBar().showMessage("Deletion aborted")
             return
         j = self.dataTable.deleteSelection()
-        if j == 0:
-            QMessageBox.warning(self, "Row deletion impossible", "First and last line may not be deleted, aborting")
-        elif j < i:
-            QMessageBox.warning(self, "Row deletion adjusted", "First and last line may not be deleted, only %d lines were deleted" % j)
         self.statusBar().showMessage("%d lines deleted", j)
 
     def slotSelectAll(self) -> None:
