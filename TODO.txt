@@ -1,5 +1,10 @@
 
 Future:
+- verify file consistency when loading it
+- sxfile[] will access data only while sxfile.sxitemsex will access all items
+- make sxfile use a proper iterator
+- complain if file has no S0 or S9 record
+- undo/redo
 - search for address or data
 - add an icon
 - save recent files in a proper format and location

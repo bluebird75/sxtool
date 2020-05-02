@@ -99,6 +99,7 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
         if not fname :
             self.statusBar().showMessage("Loading aborted.")
         else:
+            # TODO: refactor to use pathlib
             lastSlash = fname.rfind('/')    # type: int
             self.dirHistory.addItemToHistory(fname[0:lastSlash])
             self.dirHistory.save()

@@ -111,6 +111,7 @@ S8040000000F
         self.assertEqual( len(sxf), 4 )
 
     # conversion to s19 s28 s37 is tested as part of datatable
+    # row insert tested as part of dataTable
 
 
 
