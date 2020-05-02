@@ -49,7 +49,7 @@ class ItemHistory(object) :
         item = item.strip(" \n\t")
         itemNode= dom.Element("item")
         text = self.tree.createTextNode(item)   # type: str
-        itemNode.appendChild(text)              # type: List[str
+        itemNode.appendChild(text)              # type: List[str]
         items = self.tree.getElementsByTagName("item")
         if len(items) >= self.maxSize :
             self.tree.firstChild.removeChild(items[-1])
