@@ -5,7 +5,7 @@
 
 import unittest, io, sys, os
 
-sys.path.append( os.path.join( os.path.dirname(__file__), '..' ) )
+from src.sx_file import SxFile
 from src.sx_item import *
 from src.form_insert_row_value import FormInsertRowValue
 
@@ -490,8 +490,4 @@ class TestAdjustAddressLength(unittest.TestCase):
         self.assertEqual( FormInsertRowValue.adjustAddressLength( FormInsertRowValue, '1', 'S19'), '0001' )
         self.assertEqual( FormInsertRowValue.adjustAddressLength( FormInsertRowValue, '12345', 'S19'), '2345' )
         self.assertEqual( FormInsertRowValue.adjustAddressLength( FormInsertRowValue, '', 'S19'), '0000' )
-
-if __name__ == "__main__":
-    unittest.main()
-    # main( testRunner = TextTestRunner( verbosity = 2 ) )
 

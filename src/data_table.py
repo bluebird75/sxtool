@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import QTableWidgetItem, QTableWidget, QAbstractItemView, Q
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont
 
-from src.sx_item import SxFile, SxItem, str2hexi
+from src.sx_item import SxItem, str2hexi
+from src.sx_file import SxFile
 from src.form_insert_row_value import FormInsertRowValue
 
 class DataItem(QTableWidgetItem): # type: ignore # PyQt and Mypy don't mix very well

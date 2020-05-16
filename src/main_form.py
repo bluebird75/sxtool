@@ -15,7 +15,7 @@ from src.form_insert_row_value import FormInsertRowValue
 from src.form_set_row_size import FormSetRowSize
 from src.form_split_item import FormSplitItem
 from src.xor_dialog import XorDialog
-from src.sx_item import SxFile
+from src.sx_file import SxFile
 from src.utils import ItemHistoryMenu, ItemHistoryStringList
 
 from src.const import VERSION, ABOUT_INFO

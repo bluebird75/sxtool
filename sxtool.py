@@ -12,7 +12,7 @@ from types import TracebackType
 from PyQt5.QtWidgets import QApplication
 
 from src.main_form import MainForm
-from src.sx_item import SxFile
+from src.sx_file import SxFile
 from src.const import ABOUT_INFO
 
 def main() -> None:
