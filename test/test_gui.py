@@ -1,15 +1,15 @@
-#!/usr/bin/env python
-
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
 import unittest, io, sys, os, tempfile
 from unittest.mock import Mock, patch
+from pathlib import Path
 
 from PyQt5.QtWidgets import QApplication, QDialog
 from PyQt5.QtCore import QItemSelectionModel, Qt
 from PyQt5.QtTest import QTest
 
+from test.test_const import *
 from src.form_insert_row_value import FormInsertRowValue
 from src import main_form
 from sxtool import myExceptHook
@@ -33,7 +33,7 @@ class TestWithGui(unittest.TestCase):
     def testLoadFile(self):
         w = main_form.MainForm(file=None)
         self.assertEqual( len(w.dataTable.sxfile), 0 )
-        w.loadFile( 'example3.s28')
+        w.loadFile(str(SX_EXAMPLE3))
         sxf = w.dataTable.sxfile
         self.assertEqual( len(sxf), 6 )
         self.assertEqual( str(sxf.sxItemFirst), 'S0030000FF' )
@@ -43,7 +43,7 @@ class TestWithGui(unittest.TestCase):
 
 
     def testInsertFile(self):
-        w = main_form.MainForm(file='example3.s28')
+        w = main_form.MainForm(file=str(SX_EXAMPLE3))
         sxf = w.dataTable.sxfile
         self.assertEqual( len(sxf), 6 )
 
@@ -53,7 +53,7 @@ class TestWithGui(unittest.TestCase):
             windowFlags=lambda:0,
             radioStart=Mock(isChecked=lambda:True)
         )
-        w.insertFname('example1.s19', mockDialog)
+        w.insertFname(str(SX_EXAMPLE1), mockDialog)
         self.assertEqual( len(sxf), 6 )
 
         # Insert file is too interactive, it may only be tested
@@ -62,11 +62,11 @@ class TestWithGui(unittest.TestCase):
             windowFlags=lambda:0,
             radioStart=Mock(isChecked=lambda:True)
         )
-        w.insertFname('example1.s19', mockDialog)
+        w.insertFname(str(SX_EXAMPLE1), mockDialog)
         self.assertEqual( len(sxf), 8 )
 
     def testSave(self):
-        w = main_form.MainForm(file='example3.s28')
+        w = main_form.MainForm(file=str(SX_EXAMPLE3))
         sxf = w.dataTable.sxfile
         self.assertEqual( str(sxf), '''S0030000FF
 S21400B000576F77212044696420796F7520726561D7
@@ -96,7 +96,7 @@ S8040000000F
 
     @patch.object(main_form.QMessageBox, 'question')
     def testDelete(self, mockQuestion):
-        w = main_form.MainForm(file='example3.s28')
+        w = main_form.MainForm(file=str(SX_EXAMPLE3))
         sxf = w.dataTable.sxfile
         self.assertEqual( len(sxf), 6 )
 

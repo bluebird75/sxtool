@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 

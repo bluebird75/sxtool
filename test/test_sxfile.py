@@ -3,6 +3,7 @@ import unittest
 
 from src.sx_file import SxFile
 from src.sx_item import SxItem
+from test.test_const import *
 
 
 class TestSxFile(unittest.TestCase):
@@ -71,9 +72,9 @@ S90300000F
 
     def testSxFileLoadSave(self):
         sxFile = SxFile()
-        fnames = ['example1.s19', 'example2.s19', 'example3.s28', 'example4.s37', 'example5.s19']
+        fnames = ALL_EXAMPLES
         for fname in fnames:
-            sxFile.fromFile(fname)
+            sxFile.fromFile(str(fname))
             with open(fname) as f:
                 refOut = f.read().strip()
             strOut = io.StringIO()
@@ -84,7 +85,13 @@ S90300000F
     def testGetFormat(self):
         sxFile = SxFile()
         self.assertEqual( sxFile.getFormat(), '')
-        fnamesAndFmt = [('example1.s19','s19'), ('example2.s19','s19'), ('example3.s28','s28'), ('example4.s37','s37'), ('example5.s19','s19')]
+        fnamesAndFmt = [
+            (SX_EXAMPLE1,'s19'), 
+            (SX_EXAMPLE2,'s19'), 
+            (SX_EXAMPLE3,'s28'), 
+            (SX_EXAMPLE4,'s37'), 
+            (SX_EXAMPLE5,'s19')
+        ]
         for fname,fmt in fnamesAndFmt:
             with self.subTest(fname):
                 sxFile.fromFile(fname)
