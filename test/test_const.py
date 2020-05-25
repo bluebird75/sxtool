@@ -1,6 +1,6 @@
 from pathlib import Path
 
-EXAMPLE_DIR = Path(__file__).parent / '..'
+EXAMPLE_DIR = Path(__file__).parent / '../examples'
 SX_EXAMPLE1 = EXAMPLE_DIR / 'example1.s19'
 SX_EXAMPLE2 = EXAMPLE_DIR / 'example2.s19'
 SX_EXAMPLE3 = EXAMPLE_DIR / 'example3.s28'
