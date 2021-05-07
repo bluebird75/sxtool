@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_XorDialog(object):
     def setupUi(self, XorDialog):
         XorDialog.setObjectName("XorDialog")
@@ -67,7 +68,7 @@ class Ui_XorDialog(object):
         sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
         self.buttonBox.setSizePolicy(sizePolicy)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout.addWidget(self.buttonBox, 3, 2, 1, 1)
 
@@ -82,4 +83,3 @@ class Ui_XorDialog(object):
         self.label_3.setText(_translate("XorDialog", "Mask:"))
         self.dataLabel.setText(_translate("XorDialog", "Data:"))
         self.resultLabel.setText(_translate("XorDialog", "Result:"))
-

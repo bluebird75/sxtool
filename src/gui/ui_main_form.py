@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainForm(object):
     def setupUi(self, MainForm):
         MainForm.setObjectName("MainForm")
@@ -282,4 +283,3 @@ class Ui_MainForm(object):
         self.recalculateChecksumAction.setShortcut(_translate("MainForm", "Ctrl+Shift+C"))
         self.verifyChecksumAction.setText(_translate("MainForm", "Verify Checksum"))
         self.verifyChecksumAction.setShortcut(_translate("MainForm", "Ctrl+Shift+V"))
-

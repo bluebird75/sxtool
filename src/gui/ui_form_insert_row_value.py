@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_FormInsertRowValue(object):
     def setupUi(self, FormInsertRowValue):
         FormInsertRowValue.setObjectName("FormInsertRowValue")
@@ -172,4 +173,3 @@ class Ui_FormInsertRowValue(object):
         self.lineEditData.setText(_translate("FormInsertRowValue", "00000000000000000000000000000000"))
         self.pushButtonOK.setText(_translate("FormInsertRowValue", "Ok"))
         self.pushButtonCancel.setText(_translate("FormInsertRowValue", "Cancel"))
-

@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_FormSplitItemBase(object):
     def setupUi(self, FormSplitItemBase):
         FormSplitItemBase.setObjectName("FormSplitItemBase")
@@ -49,7 +50,7 @@ class Ui_FormSplitItemBase(object):
         font = QtGui.QFont()
         font.setFamily("Courier New")
         self.textLabelDataLengthFirstRow.setFont(font)
-        self.textLabelDataLengthFirstRow.setAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignRight)
+        self.textLabelDataLengthFirstRow.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
         self.textLabelDataLengthFirstRow.setWordWrap(False)
         self.textLabelDataLengthFirstRow.setObjectName("textLabelDataLengthFirstRow")
         self.vboxlayout1.addWidget(self.textLabelDataLengthFirstRow)
@@ -73,7 +74,7 @@ class Ui_FormSplitItemBase(object):
         font = QtGui.QFont()
         font.setFamily("Courier New")
         self.textLabelDataLengthSecondRow.setFont(font)
-        self.textLabelDataLengthSecondRow.setAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignRight)
+        self.textLabelDataLengthSecondRow.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
         self.textLabelDataLengthSecondRow.setWordWrap(False)
         self.textLabelDataLengthSecondRow.setObjectName("textLabelDataLengthSecondRow")
         self.vboxlayout2.addWidget(self.textLabelDataLengthSecondRow)
@@ -115,4 +116,3 @@ class Ui_FormSplitItemBase(object):
         self.textLabelDataLengthSecondRow.setText(_translate("FormSplitItemBase", "Length: 2 (0x02)"))
         self.pushButtonOK.setText(_translate("FormSplitItemBase", "Ok"))
         self.pushButtonCancel.setText(_translate("FormSplitItemBase", "Cancel"))
-

@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_FormSetRowSizeBase(object):
     def setupUi(self, FormSetRowSizeBase):
         FormSetRowSizeBase.setObjectName("FormSetRowSizeBase")
@@ -49,7 +50,7 @@ class Ui_FormSetRowSizeBase(object):
         font = QtGui.QFont()
         font.setFamily("Courier New")
         self.textLabelDataLength.setFont(font)
-        self.textLabelDataLength.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.textLabelDataLength.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.textLabelDataLength.setWordWrap(False)
         self.textLabelDataLength.setObjectName("textLabelDataLength")
         self.vboxlayout1.addWidget(self.textLabelDataLength)
@@ -88,4 +89,3 @@ class Ui_FormSetRowSizeBase(object):
         self.textLabelDataLength.setText(_translate("FormSetRowSizeBase", "Length: 2 (0x02)"))
         self.pushButtonOK.setText(_translate("FormSetRowSizeBase", "Ok"))
         self.pushButtonCancel.setText(_translate("FormSetRowSizeBase", "Cancel"))
-
