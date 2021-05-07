@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QDialog, QWidget
 
 from src.gui.ui_form_set_row_size import Ui_FormSetRowSizeBase
 
+
 class FormSetRowSize(Ui_FormSetRowSizeBase, QDialog ): # type: ignore # PyQt and Mypy don't mix very well
     def __init__(self,
                 parent: Optional[QWidget] = None,

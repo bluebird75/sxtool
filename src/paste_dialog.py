@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QDialog, QWidget
 
 from src.gui.ui_paste_dialog import Ui_PasteDialog
 
+
 class PasteDialog(Ui_PasteDialog, QDialog):  # type: ignore # PyQt and Mypy don't mix very well
     def __init__(self,
                 parent: Optional[QWidget] = None,

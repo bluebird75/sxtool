@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_PasteDialog(object):
     def setupUi(self, PasteDialog):
         PasteDialog.setObjectName("PasteDialog")

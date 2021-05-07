@@ -1,14 +1,15 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
-from typing import Optional, Any
+from typing import Any, Optional
 
-from PyQt5.QtWidgets import QDialog
-from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtWidgets import QDialog
 
 from src.gui.ui_xor_dialog import Ui_XorDialog
 from src.sx_item import xor
+
 
 class XorDialog(Ui_XorDialog, QDialog): # type: ignore # Can not subclass QDialog, mypy does not deal well with PyQt
     

@@ -3,9 +3,9 @@
 
 import unittest
 
+from src.form_insert_row_value import FormInsertRowValue
 from src.sx_file import SxFile
 from src.sx_item import *
-from src.form_insert_row_value import FormInsertRowValue
 
 
 class TestSxItem( unittest.TestCase ) :

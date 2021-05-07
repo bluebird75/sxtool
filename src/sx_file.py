@@ -1,6 +1,7 @@
-from typing import TextIO, List
+from typing import List, TextIO
 
 from src.sx_item import SxItem, SxItemBadNewAddress
+
 
 class SxFile:
     # noinspection PyMissingTypeHints

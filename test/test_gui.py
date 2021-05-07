@@ -1,18 +1,23 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
-import unittest, io, sys, os, tempfile
-from unittest.mock import Mock, patch
+import io
+import os
+import sys
+import tempfile
+import unittest
 from pathlib import Path
+from test.test_const import *
+from unittest.mock import Mock, patch
 
-from PyQt5.QtWidgets import QApplication, QDialog
 from PyQt5.QtCore import QItemSelectionModel, Qt
 from PyQt5.QtTest import QTest
+from PyQt5.QtWidgets import QApplication, QDialog
 
-from test.test_const import *
-from src.form_insert_row_value import FormInsertRowValue
 from src import main_form
+from src.form_insert_row_value import FormInsertRowValue
 from sxtool import myExceptHook
+
 
 class TestWithGui(unittest.TestCase):
 

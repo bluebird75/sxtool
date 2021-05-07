@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_FormSetRowSizeBase(object):
     def setupUi(self, FormSetRowSizeBase):
         FormSetRowSizeBase.setObjectName("FormSetRowSizeBase")

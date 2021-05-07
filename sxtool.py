@@ -6,14 +6,15 @@
 import sys
 import traceback as tb_module
 from optparse import OptionParser
-from typing import List, Any, Callable, Optional, Type
 from types import TracebackType
+from typing import Any, Callable, List, Optional, Type
 
 from PyQt5.QtWidgets import QApplication
 
+from src.const import ABOUT_INFO
 from src.main_form import MainForm
 from src.sx_file import SxFile
-from src.const import ABOUT_INFO
+
 
 def main() -> None:
     if len(sys.argv) == 1 : 

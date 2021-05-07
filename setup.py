@@ -1,9 +1,12 @@
 
 # Always prefer setuptools over distutils
+import glob
+import os
+
 from setuptools import setup
-import os, glob
 
 from src.const import VERSION
+
 here = os.path.abspath(os.path.dirname(__file__))
 # Get the long description from the README file
 with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:

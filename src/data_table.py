@@ -1,15 +1,17 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
-from typing import Optional, List, Any, Tuple, Union
+from typing import Any, List, Optional, Tuple, Union
 
-from PyQt5.QtWidgets import QTableWidgetItem, QTableWidget, QAbstractItemView, QHeaderView, QMessageBox, QWidget
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import (QAbstractItemView, QHeaderView, QMessageBox,
+                             QTableWidget, QTableWidgetItem, QWidget)
 
-from src.sx_item import SxItem, str2hexi
-from src.sx_file import SxFile
 from src.form_insert_row_value import FormInsertRowValue
+from src.sx_file import SxFile
+from src.sx_item import SxItem, str2hexi
+
 
 class DataItem(QTableWidgetItem): # type: ignore # PyQt and Mypy don't mix very well
     def __init__(self, table: 'DataTable', text:str, data:bool) -> None:

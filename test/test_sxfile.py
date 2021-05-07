@@ -1,9 +1,9 @@
 import io
 import unittest
+from test.test_const import *
 
 from src.sx_file import SxFile
 from src.sx_item import SxItem
-from test.test_const import *
 
 
 class TestSxFile(unittest.TestCase):

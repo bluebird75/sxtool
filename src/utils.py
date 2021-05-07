@@ -1,12 +1,12 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 import os
-import xml.sax as sax
 import xml.dom.minidom as dom
+import xml.sax as sax
+from typing import Any, List
 
-from PyQt5.QtWidgets import QActionGroup, QAction
+from PyQt5.QtWidgets import QAction, QActionGroup
 
-from typing import List, Any
 
 class ItemHistory(object) :
     """ Class for storing the history of items added to an object, subclassing is needed """

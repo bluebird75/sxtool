@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QDialog, QWidget
 
 from src.gui.ui_form_split_item import Ui_FormSplitItemBase
 
+
 class FormSplitItem(Ui_FormSplitItemBase, QDialog):  # type: ignore # PyQt and Mypy don't mix very well
     def __init__(self,
                 parent: Optional[QWidget] = None,

@@ -1,8 +1,7 @@
 import unittest
-
-from test.test_sxitem import *
-from test.test_sxfile import *
 from test.test_gui import *
+from test.test_sxfile import *
+from test.test_sxitem import *
 from test.test_utils import *
 
 if __name__ == "__main__":

@@ -1,7 +1,8 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 
-from typing import Optional, List, Dict, Union, TextIO
+from typing import Dict, List, Optional, TextIO, Union
+
 
 def str2hex( s:Optional[str] ) -> List[int]:
     '''Convert a string containing hexadecimal values, with possible space and newlines, into a list of corresponding bytes

@@ -1,24 +1,25 @@
 # Copyright 2018 Philippe Fremy
 # This software is provided under the BSD 2 clause license; see LICENSE.txt file for more information
 import os
-from typing import List, Optional, TextIO, Any, Tuple, Callable
 from functools import wraps
+from typing import Any, Callable, List, Optional, TextIO, Tuple
 
-from PyQt5.QtWidgets import QDialog, QMainWindow, QMessageBox, qApp, QFileDialog, QWidget, QGridLayout, QInputDialog, QLineEdit
 from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QDialog, QFileDialog, QGridLayout, QInputDialog,
+                             QLineEdit, QMainWindow, QMessageBox, QWidget,
+                             qApp)
 
-from src.gui.ui_main_form import Ui_MainForm
+from src.const import ABOUT_INFO, VERSION
 from src.data_table import DataTable
-from src.insert_dialog import InsertDialog
-from src.paste_dialog import PasteDialog
 from src.form_insert_row_value import FormInsertRowValue
 from src.form_set_row_size import FormSetRowSize
 from src.form_split_item import FormSplitItem
-from src.xor_dialog import XorDialog
+from src.gui.ui_main_form import Ui_MainForm
+from src.insert_dialog import InsertDialog
+from src.paste_dialog import PasteDialog
 from src.sx_file import SxFile
 from src.utils import ItemHistoryMenu, ItemHistoryStringList
-
-from src.const import VERSION, ABOUT_INFO
+from src.xor_dialog import XorDialog
 
 SX_FILES_PATTERNS = "SX files (*.s19 *.s28 *.s37 *.sx *.s3)"
 

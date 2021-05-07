@@ -1,6 +1,6 @@
 import unittest
 
-from src.sx_item import str2hex, hex2str, str2hexi, toHexLen, xor
+from src.sx_item import hex2str, str2hex, str2hexi, toHexLen, xor
 
 s = 'S1130000285F245F2212226A000424290008237C2A'
 

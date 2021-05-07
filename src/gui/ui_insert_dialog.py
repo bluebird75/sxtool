@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_InsertDialog(object):
     def setupUi(self, InsertDialog):
         InsertDialog.setObjectName("InsertDialog")
