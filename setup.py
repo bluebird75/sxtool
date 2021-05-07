@@ -1,7 +1,8 @@
 
 # Always prefer setuptools over distutils
 from setuptools import setup
-import os, glob
+import os
+import glob
 
 from src.const import VERSION
 here = os.path.abspath(os.path.dirname(__file__))
@@ -11,7 +12,7 @@ with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 
 src_files = glob.glob('*.py')
 src_gui_files = glob.glob('gui/*.py')
-data_examples = glob.glob('example*.*') 
+data_examples = glob.glob('example*.*')
 data_ui = glob.glob('gui/*.ui')
 
 
@@ -19,15 +20,15 @@ setup(
     name='SxTool',
     version=VERSION,
     description='Tool to manipulate SX files (S-records) such as s19 s28 and s37 files',
-    long_description=long_description, 
+    long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/bluebird75/sxtool',
-    license = 'BSD',
+    license='BSD',
     author='Philippe Fremy',
     author_email='phil.fremy@free.fr',
 
     # For a list of valid classifiers, see https://pypi.org/classifiers/
-    classifiers=[ 
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
 
         'Intended Audience :: Developers',
@@ -50,15 +51,15 @@ setup(
 
     keywords='sxtool s19 s28 s37',
 
-    packages={ 
-        '.' : src_files, 
+    packages={
+        '.': src_files,
         'gui': src_gui_files,
     },
 
     # include_package_data=True,
     package_data={
-        '': [ 'generate_ui.bat', 'README.md', 'LICENSE.txt'],
-        'gui' : [ '*.ui' ],
+        '': ['generate_ui.bat', 'README.md', 'LICENSE.txt'],
+        'gui': ['*.ui'],
     },
 
     install_requires=['pyqt5>=5.8'],

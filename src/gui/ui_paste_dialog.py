@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_PasteDialog(object):
     def setupUi(self, PasteDialog):
         PasteDialog.setObjectName("PasteDialog")
@@ -78,12 +79,11 @@ class Ui_PasteDialog(object):
         self.buttonGroupReplace.setTitle(_translate("PasteDialog", "How do you want to replace lines ?"))
         self.radioSelectionOnly.setText(_translate("PasteDialog", "Selection only"))
         self.radioSelectionAndReplace.setText(_translate("PasteDialog", "If selection is too small, replace\n"
-"the lines after"))
+                                                         "the lines after"))
         self.radioSelectionAndAdd.setText(_translate("PasteDialog", "If selection is too small, \n"
-"add new lines"))
+                                                     "add new lines"))
         self.buttonGroupAdd.setTitle(_translate("PasteDialog", "Where do you want to add lines ?"))
         self.radioAfterSelection.setText(_translate("PasteDialog", "After selection"))
         self.radioBeforeSelection.setText(_translate("PasteDialog", "Before selection"))
         self.pushOk.setText(_translate("PasteDialog", "OK"))
         self.pushCancel.setText(_translate("PasteDialog", "Cancel"))
-

@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainForm(object):
     def setupUi(self, MainForm):
         MainForm.setObjectName("MainForm")
@@ -265,7 +266,10 @@ class Ui_MainForm(object):
         self.convertToS37Action.setToolTip(_translate("MainForm", "Convert selected lines to format S37"))
         self.convertToS37Action.setShortcut(_translate("MainForm", "Ctrl+3"))
         self.applyOffsetAction.setIconText(_translate("MainForm", "Apply offset on addresses"))
-        self.applyOffsetAction.setToolTip(_translate("MainForm", "Apply offset on addresses of lines selected"))
+        self.applyOffsetAction.setToolTip(
+            _translate(
+                "MainForm",
+                "Apply offset on addresses of lines selected"))
         self.applyOffsetAction.setShortcut(_translate("MainForm", "Ctrl+O"))
         self.helpAboutAction.setIconText(_translate("MainForm", "About"))
         self.splitRowAction.setIconText(_translate("MainForm", "Split Row"))
@@ -282,4 +286,3 @@ class Ui_MainForm(object):
         self.recalculateChecksumAction.setShortcut(_translate("MainForm", "Ctrl+Shift+C"))
         self.verifyChecksumAction.setText(_translate("MainForm", "Verify Checksum"))
         self.verifyChecksumAction.setShortcut(_translate("MainForm", "Ctrl+Shift+V"))
-
