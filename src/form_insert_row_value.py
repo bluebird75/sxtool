@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QDialog, QWidget
 from src.gui.ui_form_insert_row_value import Ui_FormInsertRowValue
 
 
-def formatToAddressLength(format:str) -> int:
+def formatToAddressLength(format: str) -> int:
     """Return the length -in characters- that an address must have,
     according to a format"""
     if format == 'S19':
@@ -22,15 +22,16 @@ def formatToAddressLength(format:str) -> int:
     else:
         raise ValueError("Invalid parameter in method formatToAddressLength: %s" % format)
 
+
 class FormInsertRowValue(Ui_FormInsertRowValue, QDialog):  # type: ignore # PyQt and Mypy don't mix very well
     def __init__(self,
-                default_format:str,
-                parent: Optional[QWidget] = None,
-                name:str = "FormInsertRowValue", 
-                modal:int = 0,
-                fl:int = 0):
+                 default_format: str,
+                 parent: Optional[QWidget] = None,
+                 name: str = "FormInsertRowValue",
+                 modal: int = 0,
+                 fl: int = 0):
         QDialog.__init__(self, parent)
-        self.setupUi(self)      # type: ignore # PyQt and Mypy don't mix very well
+        self.setupUi(self)  # type: ignore # PyQt and Mypy don't mix very well
         self.setModal(modal)
         self.setObjectName(name)
         self.nlines = 1
@@ -43,36 +44,36 @@ class FormInsertRowValue(Ui_FormInsertRowValue, QDialog):  # type: ignore # PyQt
         validator = QRegExpValidator(rx, self.lineEditData)
         self.lineEditData.setValidator(validator)
 
-        self.slotAutoFormatToggled( True )
+        self.slotAutoFormatToggled(True)
 
-        self.spinRowSize.valueChanged.connect( self.slotUpdateDataLength )
+        self.spinRowSize.valueChanged.connect(self.slotUpdateDataLength)
         self.spinRowSize.setValue(8)
-        self.slotUpdateDataLength( 8 )
+        self.slotUpdateDataLength(8)
 
-    def adjustAddressLength(self, address:str, format:str) -> str:
+    def adjustAddressLength(self, address: str, format: str) -> str:
         """Adjust a -valid- address length according to a format"""
-        length = formatToAddressLength(format)     # type: int
-        ret = ('0'*length + address)[-length:]
+        length = formatToAddressLength(format)  # type: int
+        ret = ('0' * length + address)[-length:]
         return ret
 
-    def slotUpdateAddressesLength(self, format:str) -> None:
+    def slotUpdateAddressesLength(self, format: str) -> None:
         newText = self.adjustAddressLength(self.lineAddrStart.text(), format)
         self.lineAddrStart.setText(newText)
         l = formatToAddressLength(format)
-        self.lineAddrStart.setMaxLength( l )
+        self.lineAddrStart.setMaxLength(l)
 
-    def slotUpdateLabelDataLength(self, value:str) -> None:
+    def slotUpdateLabelDataLength(self, value: str) -> None:
         length = len(value)
         self.textLabelDataLength.setText("Length: %d (0x%s)" % (length, hex(length)[2:].upper()))
 
-    def slotAutoFormatToggled(self, val:bool) -> None:
+    def slotAutoFormatToggled(self, val: bool) -> None:
         if val:
             index = self.comboBoxFormat.findText(self.default_format)
             if index == -1: return
             self.comboBoxFormat.setCurrentIndex(index)
             self.slotUpdateAddressesLength(self.comboBoxFormat.currentText())
 
-    def slotUpdateDataLength(self, newLength:int) -> None:
+    def slotUpdateDataLength(self, newLength: int) -> None:
         '''Update the datacontent field according to the new length specified'''
         if newLength <= 0:
             self.lineEditData.setText(00)
@@ -80,7 +81,4 @@ class FormInsertRowValue(Ui_FormInsertRowValue, QDialog):  # type: ignore # PyQt
             return
 
         data = self.lineEditData.text()
-        self.lineEditData.setMaxLength( newLength * 2)
-
-
-
+        self.lineEditData.setMaxLength(newLength * 2)

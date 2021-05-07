@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_InsertDialog(object):
     def setupUi(self, InsertDialog):
         InsertDialog.setObjectName("InsertDialog")
@@ -73,4 +74,3 @@ class Ui_InsertDialog(object):
         self.radioStart.setText(_translate("InsertDialog", "At the start of the file"))
         self.radioAfterCurrent.setText(_translate("InsertDialog", "After current selection"))
         self.radioEnd.setText(_translate("InsertDialog", "At the end of the file"))
-

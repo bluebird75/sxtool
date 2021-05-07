@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_FormInsertRowValue(object):
     def setupUi(self, FormInsertRowValue):
         FormInsertRowValue.setObjectName("FormInsertRowValue")
@@ -26,7 +27,8 @@ class Ui_FormInsertRowValue(object):
         self.spinNbLines.setMinimum(1)
         self.spinNbLines.setObjectName("spinNbLines")
         self.horizontalLayout_2.addWidget(self.spinNbLines)
-        spacerItem = QtWidgets.QSpacerItem(461, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(461, 20, QtWidgets.QSizePolicy.Expanding,
+                                           QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.verticalLayout_3.addWidget(self.groupFormat_2)
         self.groupFormat = QtWidgets.QGroupBox(FormInsertRowValue)
@@ -62,16 +64,20 @@ class Ui_FormInsertRowValue(object):
         self.radioPrevContinuity.setChecked(True)
         self.radioPrevContinuity.setObjectName("radioPrevContinuity")
         self.gridLayout.addWidget(self.radioPrevContinuity, 0, 0, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(163, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(163, 20, QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem1, 0, 1, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(162, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(162, 20, QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem2, 0, 2, 1, 1)
         self.radioNextContinuity = QtWidgets.QRadioButton(self.buttonGroupAddress)
         self.radioNextContinuity.setObjectName("radioNextContinuity")
         self.gridLayout.addWidget(self.radioNextContinuity, 1, 0, 1, 1)
-        spacerItem3 = QtWidgets.QSpacerItem(163, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(163, 20, QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem3, 1, 1, 1, 1)
-        spacerItem4 = QtWidgets.QSpacerItem(162, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4 = QtWidgets.QSpacerItem(162, 20, QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem4, 1, 2, 1, 1)
         self.radioExplicitAddr = QtWidgets.QRadioButton(self.buttonGroupAddress)
         self.radioExplicitAddr.setObjectName("radioExplicitAddr")
@@ -85,7 +91,8 @@ class Ui_FormInsertRowValue(object):
         self.lineAddrStart.setAlignment(QtCore.Qt.AlignRight)
         self.lineAddrStart.setObjectName("lineAddrStart")
         self.gridLayout.addWidget(self.lineAddrStart, 2, 1, 1, 1)
-        spacerItem5 = QtWidgets.QSpacerItem(162, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem5 = QtWidgets.QSpacerItem(162, 20, QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem5, 2, 2, 1, 1)
         self.verticalLayout_3.addWidget(self.buttonGroupAddress)
         self.groupData = QtWidgets.QGroupBox(FormInsertRowValue)
@@ -105,7 +112,8 @@ class Ui_FormInsertRowValue(object):
         self.spinRowSize.setProperty("value", 16)
         self.spinRowSize.setObjectName("spinRowSize")
         self.horizontalLayout_4.addWidget(self.spinRowSize)
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem6)
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
@@ -127,17 +135,20 @@ class Ui_FormInsertRowValue(object):
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setSpacing(6)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem7)
         self.pushButtonOK = QtWidgets.QPushButton(FormInsertRowValue)
         self.pushButtonOK.setObjectName("pushButtonOK")
         self.horizontalLayout_5.addWidget(self.pushButtonOK)
-        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem8)
         self.pushButtonCancel = QtWidgets.QPushButton(FormInsertRowValue)
         self.pushButtonCancel.setObjectName("pushButtonCancel")
         self.horizontalLayout_5.addWidget(self.pushButtonCancel)
-        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem9)
         self.verticalLayout_3.addLayout(self.horizontalLayout_5)
 
@@ -172,4 +183,3 @@ class Ui_FormInsertRowValue(object):
         self.lineEditData.setText(_translate("FormInsertRowValue", "00000000000000000000000000000000"))
         self.pushButtonOK.setText(_translate("FormInsertRowValue", "Ok"))
         self.pushButtonCancel.setText(_translate("FormInsertRowValue", "Cancel"))
-
