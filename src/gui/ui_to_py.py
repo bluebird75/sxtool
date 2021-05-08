@@ -11,12 +11,12 @@ import os
 
 filelist = os.listdir(w_dir)
 for file in filelist:
-    name = file[-3 : len(file)]
+    name = file[-3:len(file)]
     if name == ".ui":
         args = w_dir + "/" + file[:-3] + ".ui -o " + w_dir + "/" + file[:-3] + ".py"
-        print(args)
+        print( args )
         os.system("pyuic5.bat " + args)
-
+        
 print()
-print("--- Generation Complete ---")
+print( "--- Generation Complete ---" )
 input("--- Press a key ---")

@@ -8,7 +8,6 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
 class Ui_XorDialog(object):
     def setupUi(self, XorDialog):
         XorDialog.setObjectName("XorDialog")
@@ -16,9 +15,7 @@ class Ui_XorDialog(object):
         self.gridLayout = QtWidgets.QGridLayout(XorDialog)
         self.gridLayout.setObjectName("gridLayout")
         self.label_3 = QtWidgets.QLabel(XorDialog)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
@@ -55,9 +52,7 @@ class Ui_XorDialog(object):
         self.resultLineEdit.setObjectName("resultLineEdit")
         self.gridLayout.addWidget(self.resultLineEdit, 2, 1, 1, 2)
         self.statusLabel = QtWidgets.QLabel(XorDialog)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.statusLabel.sizePolicy().hasHeightForWidth())
@@ -66,17 +61,13 @@ class Ui_XorDialog(object):
         self.statusLabel.setObjectName("statusLabel")
         self.gridLayout.addWidget(self.statusLabel, 3, 0, 1, 2)
         self.buttonBox = QtWidgets.QDialogButtonBox(XorDialog)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
         self.buttonBox.setSizePolicy(sizePolicy)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(
-            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
-        )
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout.addWidget(self.buttonBox, 3, 2, 1, 1)
 
@@ -91,3 +82,4 @@ class Ui_XorDialog(object):
         self.label_3.setText(_translate("XorDialog", "Mask:"))
         self.dataLabel.setText(_translate("XorDialog", "Data:"))
         self.resultLabel.setText(_translate("XorDialog", "Result:"))
+
