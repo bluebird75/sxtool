@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_FormSplitItemBase(object):
     def setupUi(self, FormSplitItemBase):
         FormSplitItemBase.setObjectName("FormSplitItemBase")
@@ -27,7 +28,9 @@ class Ui_FormSplitItemBase(object):
         self.spinRowOffset.setProperty("value", 1)
         self.spinRowOffset.setObjectName("spinRowOffset")
         self.hboxlayout.addWidget(self.spinRowOffset)
-        spacerItem = QtWidgets.QSpacerItem(181, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            181, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.hboxlayout.addItem(spacerItem)
         self.vboxlayout.addLayout(self.hboxlayout)
         self.groupData = QtWidgets.QGroupBox(FormSplitItemBase)
@@ -49,7 +52,9 @@ class Ui_FormSplitItemBase(object):
         font = QtGui.QFont()
         font.setFamily("Courier New")
         self.textLabelDataLengthFirstRow.setFont(font)
-        self.textLabelDataLengthFirstRow.setAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignRight)
+        self.textLabelDataLengthFirstRow.setAlignment(
+            QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight
+        )
         self.textLabelDataLengthFirstRow.setWordWrap(False)
         self.textLabelDataLengthFirstRow.setObjectName("textLabelDataLengthFirstRow")
         self.vboxlayout1.addWidget(self.textLabelDataLengthFirstRow)
@@ -73,46 +78,63 @@ class Ui_FormSplitItemBase(object):
         font = QtGui.QFont()
         font.setFamily("Courier New")
         self.textLabelDataLengthSecondRow.setFont(font)
-        self.textLabelDataLengthSecondRow.setAlignment(QtCore.Qt.AlignVCenter|QtCore.Qt.AlignRight)
+        self.textLabelDataLengthSecondRow.setAlignment(
+            QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight
+        )
         self.textLabelDataLengthSecondRow.setWordWrap(False)
         self.textLabelDataLengthSecondRow.setObjectName("textLabelDataLengthSecondRow")
         self.vboxlayout2.addWidget(self.textLabelDataLengthSecondRow)
         self.vboxlayout.addWidget(self.groupData_2)
-        spacerItem1 = QtWidgets.QSpacerItem(31, 41, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            31, 41, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.vboxlayout.addItem(spacerItem1)
         self.hboxlayout1 = QtWidgets.QHBoxLayout()
         self.hboxlayout1.setSpacing(6)
         self.hboxlayout1.setObjectName("hboxlayout1")
-        spacerItem2 = QtWidgets.QSpacerItem(61, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            61, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.hboxlayout1.addItem(spacerItem2)
         self.pushButtonOK = QtWidgets.QPushButton(FormSplitItemBase)
         self.pushButtonOK.setObjectName("pushButtonOK")
         self.hboxlayout1.addWidget(self.pushButtonOK)
-        spacerItem3 = QtWidgets.QSpacerItem(61, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            61, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.hboxlayout1.addItem(spacerItem3)
         self.pushButtonCancel = QtWidgets.QPushButton(FormSplitItemBase)
         self.pushButtonCancel.setObjectName("pushButtonCancel")
         self.hboxlayout1.addWidget(self.pushButtonCancel)
-        spacerItem4 = QtWidgets.QSpacerItem(91, 31, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4 = QtWidgets.QSpacerItem(
+            91, 31, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.hboxlayout1.addItem(spacerItem4)
         self.vboxlayout.addLayout(self.hboxlayout1)
 
         self.retranslateUi(FormSplitItemBase)
-        self.spinRowOffset.valueChanged['int'].connect(FormSplitItemBase.slotNewRowOffset)
+        self.spinRowOffset.valueChanged["int"].connect(
+            FormSplitItemBase.slotNewRowOffset
+        )
         self.pushButtonOK.clicked.connect(FormSplitItemBase.accept)
         self.pushButtonCancel.clicked.connect(FormSplitItemBase.reject)
         QtCore.QMetaObject.connectSlotsByName(FormSplitItemBase)
 
     def retranslateUi(self, FormSplitItemBase):
         _translate = QtCore.QCoreApplication.translate
-        FormSplitItemBase.setWindowTitle(_translate("FormSplitItemBase", "Split Item Offset"))
+        FormSplitItemBase.setWindowTitle(
+            _translate("FormSplitItemBase", "Split Item Offset")
+        )
         self.textLabel1.setText(_translate("FormSplitItemBase", "Split Offset :"))
         self.groupData.setTitle(_translate("FormSplitItemBase", "First Row"))
         self.lineEditDataFirstRow.setText(_translate("FormSplitItemBase", "00"))
-        self.textLabelDataLengthFirstRow.setText(_translate("FormSplitItemBase", "Length: 2 (0x02)"))
+        self.textLabelDataLengthFirstRow.setText(
+            _translate("FormSplitItemBase", "Length: 2 (0x02)")
+        )
         self.groupData_2.setTitle(_translate("FormSplitItemBase", "Second Row"))
         self.lineEditDataSecondRow.setText(_translate("FormSplitItemBase", "00"))
-        self.textLabelDataLengthSecondRow.setText(_translate("FormSplitItemBase", "Length: 2 (0x02)"))
+        self.textLabelDataLengthSecondRow.setText(
+            _translate("FormSplitItemBase", "Length: 2 (0x02)")
+        )
         self.pushButtonOK.setText(_translate("FormSplitItemBase", "Ok"))
         self.pushButtonCancel.setText(_translate("FormSplitItemBase", "Cancel"))
-

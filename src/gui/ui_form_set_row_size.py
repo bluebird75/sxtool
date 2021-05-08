@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_FormSetRowSizeBase(object):
     def setupUi(self, FormSetRowSizeBase):
         FormSetRowSizeBase.setObjectName("FormSetRowSizeBase")
@@ -27,7 +28,9 @@ class Ui_FormSetRowSizeBase(object):
         self.spinRowSize.setMinimum(1)
         self.spinRowSize.setObjectName("spinRowSize")
         self.hboxlayout.addWidget(self.spinRowSize)
-        spacerItem = QtWidgets.QSpacerItem(181, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            181, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.hboxlayout.addItem(spacerItem)
         self.vboxlayout.addLayout(self.hboxlayout)
         self.groupData = QtWidgets.QGroupBox(FormSetRowSizeBase)
@@ -49,43 +52,56 @@ class Ui_FormSetRowSizeBase(object):
         font = QtGui.QFont()
         font.setFamily("Courier New")
         self.textLabelDataLength.setFont(font)
-        self.textLabelDataLength.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.textLabelDataLength.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
         self.textLabelDataLength.setWordWrap(False)
         self.textLabelDataLength.setObjectName("textLabelDataLength")
         self.vboxlayout1.addWidget(self.textLabelDataLength)
         self.vboxlayout.addWidget(self.groupData)
-        spacerItem1 = QtWidgets.QSpacerItem(31, 41, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            31, 41, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.vboxlayout.addItem(spacerItem1)
         self.hboxlayout1 = QtWidgets.QHBoxLayout()
         self.hboxlayout1.setSpacing(6)
         self.hboxlayout1.setObjectName("hboxlayout1")
-        spacerItem2 = QtWidgets.QSpacerItem(61, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(
+            61, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.hboxlayout1.addItem(spacerItem2)
         self.pushButtonOK = QtWidgets.QPushButton(FormSetRowSizeBase)
         self.pushButtonOK.setObjectName("pushButtonOK")
         self.hboxlayout1.addWidget(self.pushButtonOK)
-        spacerItem3 = QtWidgets.QSpacerItem(61, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(
+            61, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.hboxlayout1.addItem(spacerItem3)
         self.pushButtonCancel = QtWidgets.QPushButton(FormSetRowSizeBase)
         self.pushButtonCancel.setObjectName("pushButtonCancel")
         self.hboxlayout1.addWidget(self.pushButtonCancel)
-        spacerItem4 = QtWidgets.QSpacerItem(91, 31, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4 = QtWidgets.QSpacerItem(
+            91, 31, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.hboxlayout1.addItem(spacerItem4)
         self.vboxlayout.addLayout(self.hboxlayout1)
 
         self.retranslateUi(FormSetRowSizeBase)
-        self.spinRowSize.valueChanged['int'].connect(FormSetRowSizeBase.slotNewRowSize)
+        self.spinRowSize.valueChanged["int"].connect(FormSetRowSizeBase.slotNewRowSize)
         self.pushButtonOK.clicked.connect(FormSetRowSizeBase.accept)
         self.pushButtonCancel.clicked.connect(FormSetRowSizeBase.reject)
         QtCore.QMetaObject.connectSlotsByName(FormSetRowSizeBase)
 
     def retranslateUi(self, FormSetRowSizeBase):
         _translate = QtCore.QCoreApplication.translate
-        FormSetRowSizeBase.setWindowTitle(_translate("FormSetRowSizeBase", "Adjust Row Size"))
+        FormSetRowSizeBase.setWindowTitle(
+            _translate("FormSetRowSizeBase", "Adjust Row Size")
+        )
         self.textLabel1.setText(_translate("FormSetRowSizeBase", "New Row Size :"))
         self.groupData.setTitle(_translate("FormSetRowSizeBase", "Data"))
         self.lineEditData.setText(_translate("FormSetRowSizeBase", "00"))
-        self.textLabelDataLength.setText(_translate("FormSetRowSizeBase", "Length: 2 (0x02)"))
+        self.textLabelDataLength.setText(
+            _translate("FormSetRowSizeBase", "Length: 2 (0x02)")
+        )
         self.pushButtonOK.setText(_translate("FormSetRowSizeBase", "Ok"))
         self.pushButtonCancel.setText(_translate("FormSetRowSizeBase", "Cancel"))
-

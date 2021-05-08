@@ -8,11 +8,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_InsertDialog(object):
     def setupUi(self, InsertDialog):
         InsertDialog.setObjectName("InsertDialog")
         InsertDialog.resize(250, 180)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(InsertDialog.sizePolicy().hasHeightForWidth())
@@ -23,7 +26,9 @@ class Ui_InsertDialog(object):
         InsertDialog.setModal(True)
         self.OkButton = QtWidgets.QPushButton(InsertDialog)
         self.OkButton.setGeometry(QtCore.QRect(25, 145, 90, 30))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.OkButton.sizePolicy().hasHeightForWidth())
@@ -65,12 +70,19 @@ class Ui_InsertDialog(object):
 
     def retranslateUi(self, InsertDialog):
         _translate = QtCore.QCoreApplication.translate
-        InsertDialog.setWindowTitle(_translate("InsertDialog", "Emplacement of insertion ?"))
+        InsertDialog.setWindowTitle(
+            _translate("InsertDialog", "Emplacement of insertion ?")
+        )
         self.OkButton.setText(_translate("InsertDialog", "OK"))
         self.CancelButton.setText(_translate("InsertDialog", "Cancel"))
-        self.InsertGroup.setTitle(_translate("InsertDialog", "Where do you want to insert the file ?"))
-        self.radioBeforeCurrent.setText(_translate("InsertDialog", "Before current selection"))
+        self.InsertGroup.setTitle(
+            _translate("InsertDialog", "Where do you want to insert the file ?")
+        )
+        self.radioBeforeCurrent.setText(
+            _translate("InsertDialog", "Before current selection")
+        )
         self.radioStart.setText(_translate("InsertDialog", "At the start of the file"))
-        self.radioAfterCurrent.setText(_translate("InsertDialog", "After current selection"))
+        self.radioAfterCurrent.setText(
+            _translate("InsertDialog", "After current selection")
+        )
         self.radioEnd.setText(_translate("InsertDialog", "At the end of the file"))
-

@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_PasteDialog(object):
     def setupUi(self, PasteDialog):
         PasteDialog.setObjectName("PasteDialog")
@@ -65,25 +66,36 @@ class Ui_PasteDialog(object):
         self.retranslateUi(PasteDialog)
         self.pushOk.clicked.connect(PasteDialog.accept)
         self.pushCancel.clicked.connect(PasteDialog.reject)
-        self.radioAddLines.toggled['bool'].connect(self.buttonGroupAdd.setEnabled)
-        self.radioReplaceSelection.toggled['bool'].connect(self.buttonGroupReplace.setEnabled)
+        self.radioAddLines.toggled["bool"].connect(self.buttonGroupAdd.setEnabled)
+        self.radioReplaceSelection.toggled["bool"].connect(
+            self.buttonGroupReplace.setEnabled
+        )
         QtCore.QMetaObject.connectSlotsByName(PasteDialog)
 
     def retranslateUi(self, PasteDialog):
         _translate = QtCore.QCoreApplication.translate
         PasteDialog.setWindowTitle(_translate("PasteDialog", "Paste mode"))
         self.buttonGroupMain.setTitle(_translate("PasteDialog", "Pasting mode"))
-        self.radioReplaceSelection.setText(_translate("PasteDialog", "Replace selection"))
+        self.radioReplaceSelection.setText(
+            _translate("PasteDialog", "Replace selection")
+        )
         self.radioAddLines.setText(_translate("PasteDialog", "Add lines"))
-        self.buttonGroupReplace.setTitle(_translate("PasteDialog", "How do you want to replace lines ?"))
+        self.buttonGroupReplace.setTitle(
+            _translate("PasteDialog", "How do you want to replace lines ?")
+        )
         self.radioSelectionOnly.setText(_translate("PasteDialog", "Selection only"))
-        self.radioSelectionAndReplace.setText(_translate("PasteDialog", "If selection is too small, replace\n"
-"the lines after"))
-        self.radioSelectionAndAdd.setText(_translate("PasteDialog", "If selection is too small, \n"
-"add new lines"))
-        self.buttonGroupAdd.setTitle(_translate("PasteDialog", "Where do you want to add lines ?"))
+        self.radioSelectionAndReplace.setText(
+            _translate(
+                "PasteDialog", "If selection is too small, replace\n" "the lines after"
+            )
+        )
+        self.radioSelectionAndAdd.setText(
+            _translate("PasteDialog", "If selection is too small, \n" "add new lines")
+        )
+        self.buttonGroupAdd.setTitle(
+            _translate("PasteDialog", "Where do you want to add lines ?")
+        )
         self.radioAfterSelection.setText(_translate("PasteDialog", "After selection"))
         self.radioBeforeSelection.setText(_translate("PasteDialog", "Before selection"))
         self.pushOk.setText(_translate("PasteDialog", "OK"))
         self.pushCancel.setText(_translate("PasteDialog", "Cancel"))
-

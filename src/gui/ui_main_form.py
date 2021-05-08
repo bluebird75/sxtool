@@ -8,11 +8,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainForm(object):
     def setupUi(self, MainForm):
         MainForm.setObjectName("MainForm")
         MainForm.resize(686, 572)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainForm.sizePolicy().hasHeightForWidth())
@@ -202,7 +205,9 @@ class Ui_MainForm(object):
         self.xorRowAction.triggered.connect(MainForm.slotXorRow)
         self.flipBitsAction.triggered.connect(MainForm.slotFlipBits)
         self.verifyChecksumAction.triggered.connect(MainForm.slotVerifyChecksum)
-        self.recalculateChecksumAction.triggered.connect(MainForm.slotRecalculateChecksum)
+        self.recalculateChecksumAction.triggered.connect(
+            MainForm.slotRecalculateChecksum
+        )
         QtCore.QMetaObject.connectSlotsByName(MainForm)
 
     def retranslateUi(self, MainForm):
@@ -256,16 +261,26 @@ class Ui_MainForm(object):
         self.editDataAction.setIconText(_translate("MainForm", "Edit data"))
         self.editDataAction.setShortcut(_translate("MainForm", "Ctrl+E"))
         self.convertToS19Action.setIconText(_translate("MainForm", "convert to S19"))
-        self.convertToS19Action.setToolTip(_translate("MainForm", "Convert selected lines to format S19"))
+        self.convertToS19Action.setToolTip(
+            _translate("MainForm", "Convert selected lines to format S19")
+        )
         self.convertToS19Action.setShortcut(_translate("MainForm", "Ctrl+1"))
         self.convertToS28Action.setIconText(_translate("MainForm", "convert to S28"))
-        self.convertToS28Action.setToolTip(_translate("MainForm", "Convert selected lines to format S28"))
+        self.convertToS28Action.setToolTip(
+            _translate("MainForm", "Convert selected lines to format S28")
+        )
         self.convertToS28Action.setShortcut(_translate("MainForm", "Ctrl+Shift+2"))
         self.convertToS37Action.setIconText(_translate("MainForm", "convert to S37"))
-        self.convertToS37Action.setToolTip(_translate("MainForm", "Convert selected lines to format S37"))
+        self.convertToS37Action.setToolTip(
+            _translate("MainForm", "Convert selected lines to format S37")
+        )
         self.convertToS37Action.setShortcut(_translate("MainForm", "Ctrl+3"))
-        self.applyOffsetAction.setIconText(_translate("MainForm", "Apply offset on addresses"))
-        self.applyOffsetAction.setToolTip(_translate("MainForm", "Apply offset on addresses of lines selected"))
+        self.applyOffsetAction.setIconText(
+            _translate("MainForm", "Apply offset on addresses")
+        )
+        self.applyOffsetAction.setToolTip(
+            _translate("MainForm", "Apply offset on addresses of lines selected")
+        )
         self.applyOffsetAction.setShortcut(_translate("MainForm", "Ctrl+O"))
         self.helpAboutAction.setIconText(_translate("MainForm", "About"))
         self.splitRowAction.setIconText(_translate("MainForm", "Split Row"))
@@ -278,8 +293,11 @@ class Ui_MainForm(object):
         self.xorRowAction.setShortcut(_translate("MainForm", "Ctrl+X"))
         self.flipBitsAction.setText(_translate("MainForm", "Flip Bits"))
         self.flipBitsAction.setShortcut(_translate("MainForm", "Ctrl+F"))
-        self.recalculateChecksumAction.setText(_translate("MainForm", "Recalculate Checksum"))
-        self.recalculateChecksumAction.setShortcut(_translate("MainForm", "Ctrl+Shift+C"))
+        self.recalculateChecksumAction.setText(
+            _translate("MainForm", "Recalculate Checksum")
+        )
+        self.recalculateChecksumAction.setShortcut(
+            _translate("MainForm", "Ctrl+Shift+C")
+        )
         self.verifyChecksumAction.setText(_translate("MainForm", "Verify Checksum"))
         self.verifyChecksumAction.setShortcut(_translate("MainForm", "Ctrl+Shift+V"))
-
