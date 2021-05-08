@@ -4,9 +4,9 @@ python:
 
 # command to install dependencies
 install:
-- pip install mypy
+  - pip install mypy
 
 # command to run tests
-script: 
-# - python test\test_sxtool.py
-- mypy --strict sxtool.py
+script:
+  # - python test\test_sxtool.py
+  - mypy --strict sxtool.py
