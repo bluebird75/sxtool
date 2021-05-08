@@ -8,7 +8,7 @@ class SxFile:
         self.clear()
 
     def getFormat(self) -> str:
-        '''Return s19, s28, s37 or empty string if no data'''
+        """Return s19, s28, s37 or empty string if no data."""
         if len(self.sxItemsEx) == 0:
             return ''
         lastFmtChar = int(self.sxItemsEx[-1].format[1])
@@ -74,22 +74,28 @@ class SxFile:
         f.close()
 
     def toFileStream(self, fileStreamOut: TextIO) -> None:
-        """ Pretty print every item into file_out"""
+        """Pretty print every item into file_out."""
         for item in self.sxItemsEx:
             print(item, file=fileStreamOut)
 
     def updateDataRange(self, new_data:str, range:List[int]) -> None:
-        '''Apply a data update on items at the index given in range.
-        Index counts from S1 line (excludes S0)
-        Last index is not included in the range'''
+        """
+        Apply a data update on items at the index given in range.
+
+        Index counts from S1 line (excludes S0) Last index is not
+        included in the range
+        """
         for item in self.sxItemsEx[range[0]+1:range[1]+1]:
             item.updateData(new_data)
         self.syncFromEx()
 
     def convertRange(self, new_format:str, range:List[int]) -> None:
-        '''Apply a convert on items at the index given in range.
-        Index counts from S1 line (excludes S0)
-        Last index is not included in the range'''
+        """
+        Apply a convert on items at the index given in range.
+
+        Index counts from S1 line (excludes S0) Last index is not
+        included in the range
+        """
         for item in self.sxItems[range[0]:range[1]]:
             item.convert(new_format)
         self.syncEx()

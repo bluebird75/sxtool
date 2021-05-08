@@ -100,7 +100,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.sigDataModifiedChanged.emit(True)
 
     def rowSelectedList(self) -> List[int]:
-        """Return a list of all the row that are selected"""
+        """Return a list of all the row that are selected."""
         rows = []   # type: List[int]
         indexes = self.selectionModel().selectedRows()
         for index in indexes:
@@ -109,15 +109,13 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         return rows
 
     def rowSelectedListWithoutFirstAndLast(self) -> List[int]:
-        """Return a list of all the row that are selected"""
+        """Return a list of all the row that are selected."""
         rows = self.rowSelectedList()   # type: List[int]
         rows = [ x for x in rows if x not in [0, self.rowCount() - 1] ]
         return rows
 
     def isSelectionContinuus(self) -> bool:
-        """Return True if the selection is continuus, False
-        if there is no selection or if there are holes in the
-        selection"""
+        """Return True if the selection is continuus, False if there is no selection or if there are holes in the selection."""
         nbSwitch = 0    # type: int
         currentState = self.isRowSelected(0)    # type: bool
         for row in range(1, self.rowCount()):   # type: int
@@ -127,11 +125,11 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         return (nbSwitch == 2)
 
     def numRowsSelected(self) -> int:
-        """Return the number of selected rows"""
+        """Return the number of selected rows."""
         return len(self.selectionModel().selectedRows())
 
     def updateRow(self, row: int) -> None:
-        '''Refresh the display for the given row, reading the data again from object sxfile'''
+        """Refresh the display for the given row, reading the data again from object sxfile."""
         if row < 0 or row > self.rowCount():
             return
         self.setText(row, 0, self.sxfile.sxItemsEx[row].format)
@@ -142,7 +140,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.sigDataModifiedChanged.emit(True)
 
     def insertItems(self, pos: int, items: List[SxItem]) -> None:
-        """ Insert a list of /items/ in the table"""
+        """Insert a list of /items/ in the table."""
         insert_start = 0
         if pos == DataTable.ISTART:
             insert_start = 0
@@ -170,7 +168,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.sxfile.syncEx()
 
     def copyLines(self) -> int:
-        """Copy the items corresponding to selection in a copy_list"""
+        """Copy the items corresponding to selection in a copy_list."""
         res = 0 # type: int
         self.copy_list = []
         for i in range(self.rowCount()):
@@ -181,7 +179,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         return res
 
     def convertTo(self, format: str) -> int:
-        """Convert selected rows to a given format: S19, S28 or S37"""
+        """Convert selected rows to a given format: S19, S28 or S37."""
         res = 0 # type: int
         for x in range(self.rowCount()): # type: int
             if self.isRowSelected(x):
@@ -193,13 +191,13 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         return res
 
     def editRow(self, row:int, data:str) -> None:
-        """ Update the content of an item corresponding to 'row' with given data"""
+        """Update the content of an item corresponding to 'row' with given data."""
         self.sxfile.sxItemsEx[row].updateData(data.upper())
         self.updateRow(row)
         self.sxfile.syncFromEx()
 
     def editSelection(self, data:str) -> None:
-        """Edit every row selected with data"""
+        """Edit every row selected with data."""
         for x in range(0, self.rowCount()): # type:int
             if self.isRowSelected(x):
                 self.sxfile.sxItemsEx[x].updateData(data.upper())
@@ -207,7 +205,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.sxfile.syncFromEx()
 
     def deleteSelection(self) -> int:
-        """Deleted the selected rows excluding first and last rows"""
+        """Deleted the selected rows excluding first and last rows."""
         l = self.rowSelectedListWithoutFirstAndLast() # Type l: List[int]
         if not l: return 0
         l.sort()
@@ -219,7 +217,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         return len(l)
 
     def pasteLines(self, pasting_mode:int, precise_mode:int) -> int:
-        """Paste lines according to some options"""
+        """Paste lines according to some options."""
         pos = 0 # type: int
         if pasting_mode == DataTable.PADD:
             if precise_mode == DataTable.PADD_BEFORE:
@@ -265,8 +263,11 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
             return x
 
     def insertRowsWithData(self, dialog:FormInsertRowValue) -> None:
-        """Called after showing the "Insert Rows" dialog. Insert the actual
-        data in the view and in the sxfile."""
+        """
+        Called after showing the "Insert Rows" dialog.
+
+        Insert the actual data in the view and in the sxfile.
+        """
         start = min(self.rowSelectedList()) # int
         if start == 0:
             start = 1
@@ -300,7 +301,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.sxfile.syncEx()
 
     def applyOffsetOnAddresses(self, offset:Union[str,int]) -> None:
-        """Apply an offset on address of every selected row"""
+        """Apply an offset on address of every selected row."""
         rows = self.rowSelectedListWithoutFirstAndLast()    # type: List[int]
         for i in rows:
             self.sxfile.sxItemsEx[i].applyOffset(offset)
@@ -308,15 +309,18 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.sxfile.syncFromEx()
 
     def applyNewRowSize(self, newRowSize:int, selectedRowStart:int, selectedRowEnd:int) -> None:
-        """Adjust the size of the rows is the range (selectedRowStart,
-        selectedRowEnd) with selectedRowEnd included"""
+        """Adjust the size of the rows is the range (selectedRowStart, selectedRowEnd) with selectedRowEnd included."""
         self.sxfile.applyNewRowSize(newRowSize, selectedRowStart - 1, selectedRowEnd - 1)
         self.sxfile.syncEx()
         self.redisplayTable()
         self.sigDataModifiedChanged.emit(True)
 
     def splitRow(self, rowList:List[int], offset:int) -> None:
-        """Split all the rows in rowList. The row must be given in ascending order"""
+        """
+        Split all the rows in rowList.
+
+        The row must be given in ascending order
+        """
         rowOffset = 0   # type: int
         for row in rowList:
             # possible case:
@@ -333,8 +337,7 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
         self.sigDataModifiedChanged.emit(True)
 
     def mergeRow(self, rowStart:int, rowEnd:int) -> None:
-        """Merge the rows of the range (rowStart, rowEnd) (end included)
-        together."""
+        """Merge the rows of the range (rowStart, rowEnd) (end included) together."""
         self.sxfile.mergeItem(rowStart - 1, rowEnd - 1)
         self.sxfile.syncEx()
         self.redisplayTable()
@@ -375,11 +378,13 @@ class DataTable(QTableWidget): # type: ignore # PyQt and Mypy don't mix very wel
 
 
     def verifyChecksum(self, rows: List[int] ) -> List[ Tuple[int,str,str,str] ]:
-        '''Verify the checksum of the rows number given in argument.
+        """
+        Verify the checksum of the rows number given in argument.
 
         Returns a list of tuple of: row number with a wrong checksum, address, correct checksum, invalid checksum.
 
-        If all checksum are valid, returns an empty list.'''
+        If all checksum are valid, returns an empty list.
+        """
         ret = [] # type: List[Tuple[int,str,str,str]]
         for r in rows:
             item = self.sxfile.sxItems[r-1]

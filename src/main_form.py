@@ -278,7 +278,11 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
 
     @ensureDataLinesAreSelected
     def slotEditData(self) -> None:
-        '''Called when selecting menu item Edit Data. Multiple lines or no lines may be selected'''
+        """
+        Called when selecting menu item Edit Data.
+
+        Multiple lines or no lines may be selected
+        """
         text = "" # type: str
         if self.dataTable.numRowsSelected() == 1:
             text = self.dataTable.text(min(self.dataTable.rowSelectedList()), 3)
@@ -300,7 +304,11 @@ class MainForm(Ui_MainForm, QMainWindow): # type: ignore # PyQt and Mypy don't m
             self.statusBar().showMessage("Data updated !")
 
     def slotEditRowData(self, item:Any) -> None:
-        '''Called after double-click on a row. Always one row selected'''
+        """
+        Called after double-click on a row.
+
+        Always one row selected
+        """
         row = item.row()    # type: int
         item = self.dataTable.item(row, 3)
         val = QInputDialog.getText(

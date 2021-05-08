@@ -17,19 +17,21 @@ def str2hex( s:Optional[str] ) -> List[int]:
     return ret
 
 def hex2str( l:List[int] ) -> str:
-    '''Convert a list of bytes into a string of hexadecimal values, without space'''
+    """Convert a list of bytes into a string of hexadecimal values, without space."""
     errors = [ v for v in l if (v >= 0x100 or v < 0) ]  # type: List[int]
     if len(errors):
         raise ValueError('Somes values are not hex bytes: %s' % errors )
     return ''.join( [ '%02X' % v for v in l ])
 
 def xor( v:str, mask:str ) -> str:
-    '''Return v xor mask.
+    """
+    Return v xor mask.
 
     v: string of hex values
     mask: string of hex values
     if v and mask are of different length, they are left aligned
-    returns the xored hex string'''
+    returns the xored hex string
+    """
     norm_v = v.replace(' ', '') # type: str
     norm_mask = mask.replace(' ', '')   # type: str
     norm_mask = (norm_mask + '0' * len(norm_v))[:len(norm_v)]
@@ -48,7 +50,11 @@ def xor( v:str, mask:str ) -> str:
     return ''.join( ret_l )
 
 def str2hexi( v: str ) -> int:
-    '''Return the int value of the hex string. Works also with empty strings'''
+    """
+    Return the int value of the hex string.
+
+    Works also with empty strings
+    """
     if v == '':
         return 0
     return int(v, 16)
@@ -65,11 +71,10 @@ class SxItemBadFileFormat(SxItemException): pass
 class SxItemBadOffset(SxItemException): pass
 
 def toHexLen(number:Union[int,str], length:int) -> str:
-    """Return the number converted into hexadecimal, as a string of the length
-    passed in argument.
+    """
+    Return the number converted into hexadecimal, as a string of the length passed in argument.
 
-    toHexLen(0x1234, 6 ) --> '001234'
-    toHexLen('1234', 2 ) --> '34'
+    toHexLen(0x1234, 6 ) --> '001234' toHexLen('1234', 2 ) --> '34'
     """
     r=''    # type: str
     if type(number) == type(0.0):
@@ -98,7 +103,9 @@ def toHexLen(number:Union[int,str], length:int) -> str:
     return prefix + r
 
 class SxItem:
-    """ Design a single line in Sx files.
+    """
+    Design a single line in Sx files.
+
     All data (format, data_quantity, etc.) are stocked with a string
     format, in an hexadecimal form.
     """
@@ -115,7 +122,7 @@ class SxItem:
     }     # type: Dict[str,int]
     
     def __init__(self, format:str, data_qty:str, address:str, data:str, checksum:str):
-        '''Format is either: S0, S1, S2, S3, S5, S7, S8, S9'''
+        """Format is either: S0, S1, S2, S3, S5, S7, S8, S9."""
         if format not in self.format_corresp:
             raise ValueError('No such format: %s' % format)
         self.format = format            # type: str
@@ -128,13 +135,16 @@ class SxItem:
 
     @staticmethod
     def formatAddress( address:int, format:str) -> str:
-        '''Format an address integer according to the format S19, S28, S37.
-        Format should be either: S0, S1, S2, S3, S5, S7, S8, S9'''
+        """
+        Format an address integer according to the format S19, S28, S37.
+
+        Format should be either: S0, S1, S2, S3, S5, S7, S8, S9
+        """
         addrFormat = '%dX' % (SxItem.format_corresp[format]*2)
         return ('%0' + addrFormat) % address
 
     def setContent(self, content:str, lineNb:int = -1 ) -> None:
-        """Assign the item content with a line of sx file"""
+        """Assign the item content with a line of sx file."""
         self.format = content[0:2]
         if not (self.format in SxItem.format_corresp):
             raise SxItemBadFileFormat( "%s: eroneous file or bad format !" % self.format )
@@ -155,11 +165,11 @@ class SxItem:
         return len(self.data)//2
 
     def addressValue(self) -> int:
-        '''Integer value of the data address'''
+        """Integer value of the data address."""
         return str2hexi( self.address )
 
     def addressEndValue(self) -> int:
-        '''Integer value of the end data address'''
+        """Integer value of the end data address."""
         return self.addressValue() + self.dataLen()
 
     def calcChecksum(self) -> str:
@@ -173,7 +183,9 @@ class SxItem:
         return toHexLen(checksum, 2)      
         
     def updateChecksum(self) -> None:
-        """ Recalculate Checksum according to other values.
+        """
+        Recalculate Checksum according to other values.
+
         Called when a value has been changed
         """
         self.checksum = self.calcChecksum()
@@ -189,7 +201,7 @@ class SxItem:
         self.updateChecksum()
         
     def updateAddress(self, new_address:str) -> None:
-        """new_address must be a valid hexadecimal string"""
+        """new_address must be a valid hexadecimal string."""
         if len(new_address) / 2 > self.addr_sz:
             raise SxItemBadNewAddress( "Invalid address. Too int for format." )
         self.address = toHexLen(new_address, self.addr_sz*2)
@@ -232,9 +244,11 @@ class SxItem:
     }
 
     def convert(self, sx_format:str) -> None:
-        """Convert an SxItem to another format.
-        sx_format must be a string among: 'S19', 'S28' or 'S37'.
-        If not, an SxItemBadOutFormat is raised.
+        """
+        Convert an SxItem to another format.
+
+        sx_format must be a string among: 'S19', 'S28' or 'S37'. If not,
+        an SxItemBadOutFormat is raised.
         """
 
         if not (sx_format in ['S19', 'S28', 'S37']):
@@ -251,9 +265,12 @@ class SxItem:
         self.updateChecksum()
 
     def split( self, offset:int ) -> 'SxItem':
-        """Split the current SxItem into two sxItems, separation happens 
-        at offset. The current SxItem is modified and the new SxItem following
-        the current Item is returned."""
+        """
+        Split the current SxItem into two sxItems, separation happens at offset.
+
+        The current SxItem is modified and the new SxItem following the
+        current Item is returned.
+        """
         if offset >= self.dataLen() or offset <= 0:
             raise SxItemBadOffset( "Splitting is not possible at offset %d" % offset )
         sx2 = SxItem(self.format,'','','','')        
@@ -263,14 +280,20 @@ class SxItem:
         return sx2
 
     def mergePossible( self, other: 'SxItem' ) -> bool:
-        """Return true if merging sx with other is possible. The merge 
-        is possible of sx.address + len(sx.data) == other.address
+        """
+        Return true if merging sx with other is possible.
+
+        The merge is possible of sx.address + len(sx.data) ==
+        other.address
         """
         return self.addressValue() + self.dataLen() == other.addressValue()
 
     def merge( self, other: 'SxItem' ) -> None:
-        """Merge with another sxItem. If the merge is not possible, an
-        exception SxItemBadNewAddress is raised.
+        """
+        Merge with another sxItem.
+
+        If the merge is not possible, an exception SxItemBadNewAddress
+        is raised.
         """
         if not self.mergePossible( other ):
             raise SxItemBadNewAddress( "Can not merge address %s, data len %d with new address %s" % (self.address, self.dataLen(), other.address ) )
@@ -307,7 +330,7 @@ class SxFile:
         self.clear()
 
     def getFormat(self) -> str:
-        '''Return s19, s28, s37 or empty string if no data'''
+        """Return s19, s28, s37 or empty string if no data."""
         if len(self.sxItemsEx) == 0:
             return ''
         lastFmtChar = int(self.sxItemsEx[-1].format[1])
@@ -373,22 +396,28 @@ class SxFile:
         f.close()
 
     def toFileStream(self, fileStreamOut: TextIO) -> None:
-        """ Pretty print every item into file_out"""
+        """Pretty print every item into file_out."""
         for item in self.sxItemsEx:
             print(item, file=fileStreamOut)
 
     def updateDataRange(self, new_data:str, range:List[int]) -> None:
-        '''Apply a data update on items at the index given in range. 
-        Index counts from S1 line (excludes S0)
-        Last index is not included in the range'''
+        """
+        Apply a data update on items at the index given in range.
+
+        Index counts from S1 line (excludes S0) Last index is not
+        included in the range
+        """
         for item in self.sxItemsEx[range[0]+1:range[1]+1]:
             item.updateData(new_data)
         self.syncFromEx()
 
     def convertRange(self, new_format:str, range:List[int]) -> None:
-        '''Apply a convert on items at the index given in range.
-        Index counts from S1 line (excludes S0)
-        Last index is not included in the range'''
+        """
+        Apply a convert on items at the index given in range.
+
+        Index counts from S1 line (excludes S0) Last index is not
+        included in the range
+        """
         for item in self.sxItems[range[0]:range[1]]:
             item.convert(new_format)
         self.syncEx()

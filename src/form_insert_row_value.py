@@ -11,8 +11,7 @@ from src.gui.ui_form_insert_row_value import Ui_FormInsertRowValue
 
 
 def formatToAddressLength(format:str) -> int:
-    """Return the length -in characters- that an address must have,
-    according to a format"""
+    """Return the length -in characters- that an address must have, according to a format."""
     if format == 'S19':
         return 4
     elif format == 'S28':
@@ -50,7 +49,7 @@ class FormInsertRowValue(Ui_FormInsertRowValue, QDialog):  # type: ignore # PyQt
         self.slotUpdateDataLength( 8 )
 
     def adjustAddressLength(self, address:str, format:str) -> str:
-        """Adjust a -valid- address length according to a format"""
+        """Adjust a -valid- address length according to a format."""
         length = formatToAddressLength(format)     # type: int
         ret = ('0'*length + address)[-length:]
         return ret
@@ -73,7 +72,7 @@ class FormInsertRowValue(Ui_FormInsertRowValue, QDialog):  # type: ignore # PyQt
             self.slotUpdateAddressesLength(self.comboBoxFormat.currentText())
 
     def slotUpdateDataLength(self, newLength:int) -> None:
-        '''Update the datacontent field according to the new length specified'''
+        """Update the datacontent field according to the new length specified."""
         if newLength <= 0:
             self.lineEditData.setText(00)
             self.lineEditData.setMaxLength(2)

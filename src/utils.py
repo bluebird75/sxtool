@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import QActionGroup, QAction
 from typing import List, Any
 
 class ItemHistory(object) :
-    """ Class for storing the history of items added to an object, subclassing is needed """
+    """Class for storing the history of items added to an object, subclassing is needed."""
     
     def __init__(self, fileName : str, maxSize : int):
         self.fileName = fileName # type : str
@@ -70,7 +70,7 @@ class ItemHistory(object) :
         historyFile.close()
         
 class ItemHistoryStringList(ItemHistory):
-    """ Class for storing text items in a list """
+    """Class for storing text items in a list."""
     def __init__(self, stringList:List[str], fileName:str, maxSize:int ):
         ItemHistory.__init__(self, fileName, maxSize )
         self.stringList = stringList    # type: List[str]
@@ -88,7 +88,7 @@ class ItemHistoryStringList(ItemHistory):
     
     
 class ItemHistoryMenu(ItemHistory):
-    """ Class for storing the history of items added to a QMenu """
+    """Class for storing the history of items added to a QMenu."""
     
     def __init__(self, fileName:str, maxSize:int, menu:Any, callbackMethod:Any ):
         ItemHistory.__init__(self, fileName, maxSize )

@@ -54,7 +54,7 @@ def main() -> None:
         return
 
 def apply(files: List[str], operation: str, args: Optional[List[str]] = None, verbose : bool=False) -> None:
-    '''Apply the given operation on all files.'''
+    """Apply the given operation on all files."""
     if not operation : return
     for file in files : # type: str
         try:
