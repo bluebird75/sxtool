@@ -1,3 +1,4 @@
+[![Build Status](https://github.com/bluebird75/sxtool/actions/workflows/python-app.yml/badge.svg)](https://github.com/bluebird75/sxtool/actions/workflows/python-app.yml)
 
 SxTool 
 ======
