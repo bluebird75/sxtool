@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/bluebird75/sxtool.svg?branch=master)](https://travis-ci.org/bluebird75/sxtool)
 
 SxTool 
 ======
